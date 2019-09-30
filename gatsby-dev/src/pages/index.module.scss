@@ -1,0 +1,9 @@
+@import '../styles/base/colors';
+
+.test-row {
+	background-color: $primary;
+}
+
+.test-row > div:nth-child(odd) {
+	background-color: $secondary;
+}

@@ -17,3 +17,6 @@ In development environment wp-dev change theme to "Project Paradise"
 
 ## Enable Wordpress API routes
 Change permalinks to "Post name" in Settings -> Permalinks
+
+## Install npm packages in Gatsby (gatsby-dev)
+`npm install`

@@ -1,0 +1,116 @@
+@import './variables';
+
+// Bootstrap somposition
+// $xs: 0;
+// $sm: 576px;
+// $md: 768px;
+// $lg: 992px;
+// $xl: 1200px;
+
+// $sm-content-width: 540px;
+// $md-content-width: 720px;
+// $lg-content-width: 960px;
+// $xl-content-width: 1140px;
+
+// Vuetify composition
+$xs: 0;
+$sm: 600px;
+$md: 960px;
+$lg: 1264px;
+$xl: 1904px;
+
+$sm-content-width: 560px;
+$md-content-width: 910px;
+$lg-content-width: 1200px;
+$xl-content-width: 1820px;
+
+$breakpoints-min: (
+	'xs': $xs,
+	'sm': $sm,
+	'md': $md,
+	'lg': $lg,
+	'xl': $xl
+);
+
+$breakpoints-max: (
+	'xs': $sm - 1,
+	'sm': $md - 1,
+	'md': $lg - 1,
+	'lg': $xl - 1,
+	'xl': 99999px
+);
+
+$content-widths: (
+	$sm: $sm-content-width,
+	$md: $md-content-width,
+	$lg: $lg-content-width,
+	$xl: $xl-content-width
+);
+
+$grid-gutter: $init-size * 2;
+$grid-columns: 12;
+
+body {
+	margin: 0;
+}
+
+// Containers
+.container,
+.container-fluid {
+	box-sizing: border-box;
+	width: 100%;
+	padding-right: ($grid-gutter / 2);
+	padding-left: ($grid-gutter / 2);
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.container {
+	@each $breakpoint, $content-width in $content-widths {
+		@media (min-width: #{$breakpoint}) {
+			max-width: #{$content-width};
+		}
+	}
+}
+
+// Row
+.row {
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+	margin-right: -$grid-gutter / 2;
+	margin-left: -$grid-gutter / 2;
+	flex: 0 1 auto;
+	flex-wrap: wrap;
+}
+
+// Columns
+[class^='col-'],
+[class*=' col-'] {
+	position: relative;
+	box-sizing: border-box;
+	padding-right: $grid-gutter / 2;
+	padding-left: $grid-gutter / 2;
+	flex: 0 0 auto;
+}
+
+@each $breakpoint, $width in $breakpoints-min {
+	@media (min-width: $width) {
+		@for $i from 1 through $grid-columns {
+			.col-#{$breakpoint}-#{$i} {
+				width: percentage($i / $grid-columns);
+			}
+		}
+	}
+}
+
+// Offsets
+@each $breakpoint, $width in $breakpoints-min {
+	@media (min-width: $width) {
+		@for $i from 1 through $grid-columns {
+			.col-#{$breakpoint}-offset-#{$i} {
+				margin-left: percentage($i / $grid-columns);
+			}
+		}
+	}
+}

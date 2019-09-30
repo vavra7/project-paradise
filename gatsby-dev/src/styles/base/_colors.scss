@@ -1,0 +1,15 @@
+$primary: rgb(40, 179, 214);
+$secondary: rgb(231, 156, 16);
+$grey: grey;
+
+$colors: (
+	'primary': $primary,
+	'secondary': $secondary,
+	'grey': $grey
+);
+
+@each $color-name, $color in $colors {
+	.bg-#{$color-name} {
+		background-color: $color;
+	}
+}

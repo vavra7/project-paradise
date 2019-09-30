@@ -2,3 +2,7 @@ wp-dev/_wp-files/
 wp-dev/vendor/
 wp-test/_wp-files/
 
+gatsby-dev/public/
+gatsby-dev/node_modules/
+gatsby-dev/.cache/
+
