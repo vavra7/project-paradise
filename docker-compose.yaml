@@ -12,6 +12,7 @@ services:
       - "${DB_PORT}:3306"
     networks:
       - wp-dev
+      - wp-test
 
   wp-dev:
     image: wordpress:latest
@@ -48,8 +49,9 @@ services:
     ports:
       - "${WP_TEST_PORT}:80"
     networks:
-      - wp-dev
+      - wp-test
 networks:
   wp-dev:
+  wp-test:
 volumes:
   wp-db:
