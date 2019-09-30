@@ -1,3 +1,4 @@
-wp-dev/wp-src/
-wp-test/wp-src/
+wp-dev/_wp-src/
+wp-dev/vendor/
+wp-test/_wp-src/
 

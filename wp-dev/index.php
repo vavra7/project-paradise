@@ -18,7 +18,7 @@
 		echo '</pre>';
 	}
 
-	debug(parse_url('https://www.you.tube.com/watch?v=oAVhEPey_qA&t=11906s'));
+	debug(parse_url('https://www.youtube.com/watch?v=oAVhEPey_qA&t=11906s'));
 
 	?>
 
