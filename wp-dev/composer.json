@@ -1,0 +1,16 @@
+{
+	"name": "vavra/wp-gatsby-theme",
+	"authors": [
+		{
+			"name": "Tomáš Vavřinka",
+			"email": "email@tomasvavrinka.cz"
+		}
+	],
+	"minimum-stability": "stable",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Inc\\": "./inc"
+		}
+	}
+}
