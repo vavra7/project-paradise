@@ -1,0 +1,7 @@
+$text-align: right, center, left, justify;
+
+@each $option in $text-align {
+	.text-#{$option} {
+		text-align: $option;
+	}
+}
