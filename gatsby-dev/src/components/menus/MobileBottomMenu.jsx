@@ -37,7 +37,7 @@ const MobileBottomMenu = () => {
 				</li>
 
 				<li>
-					<Link to="/">
+					<Link to="test">
 						<FontAwesomeIcon icon={faEnvelope} />
 						<span>Kontakt</span>
 					</Link>

@@ -1,0 +1,32 @@
+.wrapper {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	padding: 	env(safe-area-inset-top, 0)
+						env(safe-area-inset-right, 0)
+						env(safe-area-inset-bottom, 0)
+						env(safe-area-inset-left, 0);
+}
+
+.head {
+	background: blue;
+	display: flex;
+	flex-shrink: 0;
+	height: 30px;
+}
+
+.body {
+	display: flex;
+	flex-grow: 1;
+	background: yellow;
+	overflow: auto;
+}
+
+.footer {
+	height: 45px;
+	display: flex;
+	flex-shrink: 0;
+	flex-grow: 0;
+	background: green;
+}
