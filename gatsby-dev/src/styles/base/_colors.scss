@@ -1,11 +1,15 @@
-$primary: rgb(40, 179, 214);
-$secondary: rgb(231, 156, 16);
-$grey: grey;
+$primary: #4267b2;
+$secondary: #eab926;
+$paragraph: #444;
+$line: #c8c8c8;
+$light-grey: #ECECEC;
 
 $colors: (
 	'primary': $primary,
 	'secondary': $secondary,
-	'grey': $grey
+	'paragraph': $paragraph,
+	'light-grey': $light-grey,
+	'line': $line
 );
 
 @each $color-name, $color in $colors {

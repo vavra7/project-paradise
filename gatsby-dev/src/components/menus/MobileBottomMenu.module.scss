@@ -1,4 +1,6 @@
-$font-size: 11px;
+@import '../../styles/base/colors';
+
+$font-size: 10px;
 
 ul.menu-wrapper {
 	margin: 0;
@@ -12,7 +14,6 @@ ul.menu-wrapper {
 
 	& li {
 		display: flex;
-		
 
 		& a {
 			display: flex;
@@ -20,7 +21,8 @@ ul.menu-wrapper {
 			align-items: center;
 			text-decoration: none;
 			padding: 8px 6px 4px 6px;
-			color: grey;
+			color: $paragraph;
+			font-weight: 400;
 
 			& svg {
 				font-size: 20px;

@@ -1,0 +1,11 @@
+$line-widths: (
+	2: 1px,
+	3: 2px
+);
+
+@each $width, $size in $line-widths {
+	.line-t-#{$width} {
+		border-top: $size solid $line;
+	}
+}
+

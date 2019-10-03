@@ -1,18 +1,3 @@
-@import './variables';
-
-// Bootstrap somposition
-// $xs: 0;
-// $sm: 576px;
-// $md: 768px;
-// $lg: 992px;
-// $xl: 1200px;
-
-// $sm-content-width: 540px;
-// $md-content-width: 720px;
-// $lg-content-width: 960px;
-// $xl-content-width: 1140px;
-
-// Vuetify composition
 $xs: 0;
 $sm: 600px;
 $md: 960px;
@@ -47,7 +32,7 @@ $content-widths: (
 	$xl: $xl-content-width
 );
 
-$grid-gutter: $init-size * 2;
+$grid-gutter: 1rem;
 $grid-columns: 12;
 
 body {

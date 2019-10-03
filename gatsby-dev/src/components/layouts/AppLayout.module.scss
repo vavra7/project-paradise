@@ -1,10 +1,12 @@
-.fixed-top-bar {
-	position: fixed;
-}
+$bottom-bar-height: 48px;
 
 .fixed-right-bar {
 	position: fixed;
 	right: 0;
+}
+
+.content-wrapper {
+	padding-bottom: $bottom-bar-height;
 }
 
 .fixed-bottom-bar {
@@ -15,6 +17,9 @@
 	padding: 	env(safe-area-inset-right, 0)
 						env(safe-area-inset-bottom, 0)
 						env(safe-area-inset-left, 0);
-
+	height: $bottom-bar-height;
 	background: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 }

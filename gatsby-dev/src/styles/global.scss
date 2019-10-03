@@ -1,4 +1,9 @@
+// Base
 @import './base/grid';
 @import './base/spacing';
 @import './base/colors';
 @import './base/typography';
+
+// Partials
+@import './partials/lines';
+@import './partials/shadow'
