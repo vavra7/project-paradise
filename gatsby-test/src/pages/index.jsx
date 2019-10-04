@@ -14,6 +14,12 @@ export default () => (
 		<div>
 			<Slider></Slider>
 		</div>
+		<div>FROM HERE</div>
+
+		<i className="icon"></i>
+
+
+		<div>TO HERE</div>
 
 		<hr />
 		<br />
