@@ -1,8 +1,6 @@
 import React from 'react';
 import scopedStyles from './MobileBottomMenu.module.scss';
 import { Link } from 'gatsby';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUmbrellaBeach, faShoppingCart, faUserFriends, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const MobileBottomMenu = () => {
 	return (
@@ -10,35 +8,35 @@ const MobileBottomMenu = () => {
 			<ul className={scopedStyles.menuWrapper}>
 				<li>
 					<Link to="/">
-						<FontAwesomeIcon icon={faHome} />
+						<i className="icon-home"></i>
 						<span>Domů</span>
 					</Link>
 				</li>
 
 				<li>
 					<Link to="/">
-						<FontAwesomeIcon icon={faUserFriends} />
+						<i className="icon-user-friends"></i>
 						<span>O nás</span>
 					</Link>
 				</li>
 
 				<li>
 					<Link to="/">
-						<FontAwesomeIcon icon={faUmbrellaBeach} />
+						<i className="icon-umbrella-beach"></i>
 						<span>Dovolené</span>
 					</Link>
 				</li>
 
 				<li>
 					<Link to="/">
-						<FontAwesomeIcon icon={faShoppingCart} />
+						<i className="icon-shopping-cart"></i>
 						<span>eShop</span>
 					</Link>
 				</li>
 
 				<li>
 					<Link to="test">
-						<FontAwesomeIcon icon={faEnvelope} />
+						<i className="icon-envelope"></i>
 						<span>Kontakt</span>
 					</Link>
 				</li>
