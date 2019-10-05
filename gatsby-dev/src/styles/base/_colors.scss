@@ -3,13 +3,15 @@ $secondary: #eab926;
 $paragraph: #444;
 $line: #c8c8c8;
 $light-grey: #ECECEC;
+$white: #FFF;
 
 $colors: (
 	'primary': $primary,
 	'secondary': $secondary,
 	'paragraph': $paragraph,
 	'light-grey': $light-grey,
-	'line': $line
+	'line': $line,
+	'white': $white
 );
 
 @each $color-name, $color in $colors {

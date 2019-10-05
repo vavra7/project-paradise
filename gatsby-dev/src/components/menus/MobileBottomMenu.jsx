@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 const MobileBottomMenu = () => {
 	return (
 		<nav id="mobile-bottom-menu">
-			<ul className={scopedStyles.menuWrapper}>
+			<ul className={`${scopedStyles.menuWrapper} d-flex jc-space-around`}>
 				<li>
 					<Link to="/">
 						<i className="icon-home"></i>
@@ -35,7 +35,7 @@ const MobileBottomMenu = () => {
 				</li>
 
 				<li>
-					<Link to="test">
+					<Link to="/">
 						<i className="icon-envelope"></i>
 						<span>Kontakt</span>
 					</Link>

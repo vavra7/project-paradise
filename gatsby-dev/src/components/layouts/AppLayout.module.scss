@@ -1,8 +1,23 @@
+@import '../../styles/partials/z-indexes';
+
 $bottom-bar-height: 48px;
 
 .fixed-right-bar {
-	position: fixed;
+	top: 0;
 	right: 0;
+	bottom: 0;
+	width: 80%;
+	z-index: $zi-fixed-right-bar;
+	pointer-events: none;
+
+	& .right-bar-handler-container {
+		background: rgba(0, 0, 255, 0.438);
+	}
+
+	& .right-bar-content-container {
+		pointer-events: auto;
+		background: rgba(255, 0, 0, 0.342);
+	}
 }
 
 .content-wrapper {
@@ -10,7 +25,6 @@ $bottom-bar-height: 48px;
 }
 
 .fixed-bottom-bar {
-	position: fixed;
 	right: 0;
 	bottom: 0;
 	left: 0;
@@ -18,8 +32,4 @@ $bottom-bar-height: 48px;
 						env(safe-area-inset-bottom, 0)
 						env(safe-area-inset-left, 0);
 	height: $bottom-bar-height;
-	background: white;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
 }
