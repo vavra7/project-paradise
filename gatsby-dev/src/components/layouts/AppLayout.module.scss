@@ -6,12 +6,17 @@ $bottom-bar-height: 48px;
 	top: 0;
 	right: 0;
 	bottom: 0;
-	width: 80%;
+	width: 85%;
 	z-index: $zi-fixed-right-bar;
 	pointer-events: none;
+	transform: translateX(100%);
 
 	& .right-bar-handler-container {
 		background: rgba(0, 0, 255, 0.438);
+		align-self: center;
+		height: 40%;
+		width: 20px;
+		transform: translateX(-100%);
 	}
 
 	& .right-bar-content-container {
