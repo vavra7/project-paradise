@@ -8,8 +8,7 @@ $bottom-bar-height: 48px;
 	bottom: 0;
 	width: 85%;
 	z-index: $zi-fixed-right-bar;
-	pointer-events: none;
-	transform: translateX(100%);
+	// transform: translateX(100%);
 
 	& .right-bar-handler-container {
 		background: rgba(0, 0, 255, 0.438);
@@ -20,7 +19,6 @@ $bottom-bar-height: 48px;
 	}
 
 	& .right-bar-content-container {
-		pointer-events: auto;
 		background: rgba(255, 0, 0, 0.342);
 	}
 }

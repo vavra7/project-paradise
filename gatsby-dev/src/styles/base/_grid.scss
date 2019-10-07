@@ -99,3 +99,22 @@ body {
 		}
 	}
 }
+
+// Hide
+@each $breakpoint, $width in $breakpoints-max {
+	@media (max-width: $width) {
+		.hide-#{$breakpoint}-down {
+			display: none;
+			visibility: hidden;
+		}
+	}
+}
+
+@each $breakpoint, $width in $breakpoints-min {
+	@media (min-width: $width) {
+		.hide-#{$breakpoint}-up {
+			display: none;
+			visibility: hidden;
+		}
+	}
+}
