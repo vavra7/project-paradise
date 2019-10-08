@@ -19,6 +19,7 @@ class AppLayout extends Component {
 		this.swipingRightBar = {
 			styler: null,
 			stylerXVal: null,
+			inProgress: false,
 			maxBoundary: null,
 			windowWidth: null
 		};
@@ -49,6 +50,8 @@ class AppLayout extends Component {
 		});
 
 		listen(this.elHandlerContainer.current, 'touchstart mousedown').start(() => {
+			this.swipingRightBar.inProgress = true;
+
 			const overDragPipe = v => {
 				if (v < 0) {
 					return calc.getValueFromProgress(0, v, 0.15);
@@ -68,6 +71,8 @@ class AppLayout extends Component {
 		});
 
 		listen(document, 'touchend mouseup').start(() => {
+			if (!this.swipingRightBar.inProgress) return;
+
 			const velocity = this.swipingRightBar.stylerXVal.getVelocity();
 			const progress = calc.getProgressFromValue(
 				0,
