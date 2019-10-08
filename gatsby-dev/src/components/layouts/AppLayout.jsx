@@ -89,7 +89,7 @@ class AppLayout extends Component {
 					min: 0,
 					max: this.swipingRightBar.maxBoundary,
 					from: this.swipingRightBar.stylerXVal.get(),
-					velocity: Math.max(Math.min(velocity, 2000), -2000),
+					velocity: Math.max(Math.min(velocity, 1500), -1500),
 					bounceStiffness: 400,
 					bounceDamping: 100000
 				})
