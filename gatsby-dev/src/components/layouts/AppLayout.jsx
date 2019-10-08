@@ -74,16 +74,27 @@ class AppLayout extends Component {
 				this.swipingRightBar.maxBoundary,
 				this.swipingRightBar.stylerXVal.get()
 			);
+			const boundariesPipe = v => {
+				if (v < 0) {
+					return 0;
+				} else if (this.swipingRightBar.maxBoundary < v) {
+					return this.swipingRightBar.maxBoundary;
+				} else {
+					return v;
+				}
+			};
 
 			if (velocity < -500 || 500 < velocity) {
 				inertia({
 					min: 0,
 					max: this.swipingRightBar.maxBoundary,
 					from: this.swipingRightBar.stylerXVal.get(),
-					velocity: velocity,
-					bounceStiffness: 5000,
+					velocity: Math.max(Math.min(velocity, 2000), -2000),
+					bounceStiffness: 400,
 					bounceDamping: 100000
-				}).start(this.swipingRightBar.stylerXVal);
+				})
+					.pipe(boundariesPipe)
+					.start(this.swipingRightBar.stylerXVal);
 			} else if (velocity !== 0) {
 				tween({
 					from: this.swipingRightBar.stylerXVal.get(),
