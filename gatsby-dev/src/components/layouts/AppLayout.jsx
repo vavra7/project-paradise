@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './AppLayout.module.scss';
-import { tween, easing, styler, listen, value, pointer, calc } from 'popmotion';
+import { tween, easing, styler, listen, value, pointer, calc, inertia } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 
-const DURATION = 300;
+const DURATION = 400;
 
 class AppLayout extends Component {
 	constructor(props) {
@@ -19,61 +19,17 @@ class AppLayout extends Component {
 		this.swipingRightBar = {
 			styler: null,
 			stylerXVal: null,
-			maxBoundary: null
+			maxBoundary: null,
+			windowWidth: null
 		};
 	}
 
 	onToggleRightBar() {
 		if (!this.state.openRightBar) {
-			this.openRightBar();
+			// this.openRightBar();
 		} else {
-			this.closeRightBar();
+			// this.closeRightBar();
 		}
-	}
-
-	openRightBar() {
-		tween({
-			from: {
-				x: `${this.getRightBarXPercentage()}%`
-			},
-			to: {
-				x: '0%'
-			},
-			duration: DURATION,
-			ease: easing.easeIn
-		}).start({
-			update: v => styler(this.elRightBar.current).set(v)
-		});
-
-		this.setState({ openRightBar: true });
-	}
-
-	closeRightBar() {
-		tween({
-			from: {
-				x: `${this.getRightBarXPercentage()}%`
-			},
-			to: {
-				x: '100%'
-			},
-			duration: DURATION,
-			ease: easing.easeIn
-		}).start({
-			update: v => styler(this.elRightBar.current).set(v)
-		});
-
-		this.setState({ openRightBar: false });
-	}
-
-	getRightBarXPercentage() {
-		return parseFloat(styler(this.elRightBar.current).get('x'));
-	}
-
-	getRightBarNewXPercentage(clientX, handlerOffset) {
-		const windowWidth = window.innerWidth;
-		const rightBarWidth = this.elRightBar.current.offsetWidth;
-
-		return Math.min(Math.max(((clientX - windowWidth + rightBarWidth + handlerOffset) / rightBarWidth) * 100, 0), 100);
 	}
 
 	initRightBar() {
@@ -81,21 +37,23 @@ class AppLayout extends Component {
 		this.swipingRightBar.stylerXVal = value(0, v => this.swipingRightBar.styler.set('x', v));
 		this.swipingRightBar.styler.set('x', this.elRightBar.current.offsetWidth);
 		this.swipingRightBar.maxBoundary = this.elRightBar.current.offsetWidth;
+		this.swipingRightBar.windowWidth = window.innerWidth;
 	}
 
 	componentDidMount() {
 		this.initRightBar();
 
 		listen(window, 'resize').start(() => {
+			if (this.swipingRightBar.windowWidth === window.innerWidth) return;
 			this.initRightBar();
 		});
 
 		listen(this.elHandlerContainer.current, 'touchstart mousedown').start(() => {
 			const overDragPipe = v => {
 				if (v < 0) {
-					return calc.getValueFromProgress(0, v, 0.1);
+					return calc.getValueFromProgress(0, v, 0.15);
 				} else if (this.swipingRightBar.maxBoundary < v) {
-					return calc.getValueFromProgress(this.swipingRightBar.maxBoundary, v, 0.1);
+					return calc.getValueFromProgress(this.swipingRightBar.maxBoundary, v, 0.15);
 				} else {
 					return v;
 				}
@@ -110,9 +68,37 @@ class AppLayout extends Component {
 		});
 
 		listen(document, 'touchend mouseup').start(() => {
-			console.log('end');
-			this.swipingRightBar.stylerXVal.stop();
-			console.log(this.swipingRightBar.styler.get('x'));
+			const velocity = this.swipingRightBar.stylerXVal.getVelocity();
+			const progress = calc.getProgressFromValue(
+				0,
+				this.swipingRightBar.maxBoundary,
+				this.swipingRightBar.stylerXVal.get()
+			);
+
+			if (velocity < -500 || 500 < velocity) {
+				inertia({
+					min: 0,
+					max: this.swipingRightBar.maxBoundary,
+					from: this.swipingRightBar.stylerXVal.get(),
+					velocity: velocity,
+					bounceStiffness: 5000,
+					bounceDamping: 100000
+				}).start(this.swipingRightBar.stylerXVal);
+			} else if (velocity !== 0) {
+				tween({
+					from: this.swipingRightBar.stylerXVal.get(),
+					to: velocity < 0 ? 0 : this.swipingRightBar.maxBoundary,
+					duration: DURATION,
+					ease: easing.linear
+				}).start(this.swipingRightBar.stylerXVal);
+			} else {
+				tween({
+					from: this.swipingRightBar.stylerXVal.get(),
+					to: progress < 0.5 ? 0 : this.swipingRightBar.maxBoundary,
+					duration: DURATION / 2,
+					ease: easing.easeIn
+				}).start(this.swipingRightBar.stylerXVal);
+			}
 		});
 	}
 
