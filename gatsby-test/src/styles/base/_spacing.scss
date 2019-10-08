@@ -11,10 +11,19 @@ $spacing-modifiers: (
 
 @each $space, $size in $spacing-modifiers {
 	.ma-#{$space} {
-		margin: #{$size};
+		margin: $size;
+	}
+
+	.mt-#{$space} {
+		margin-top: $size
 	}
 
 	.pa-#{$space} {
-		padding: #{$size};
+		padding: $size;
+	}
+
+	.px-#{$space} {
+		padding-left: $size;
+		padding-right: $size;
 	}
 }

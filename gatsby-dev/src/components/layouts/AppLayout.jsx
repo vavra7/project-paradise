@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './AppLayout.module.scss';
-import { tween, easing, styler, listen } from 'popmotion';
+import { tween, easing, styler, listen, value, pointer, calc } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
+
+const DURATION = 300;
 
 class AppLayout extends Component {
 	constructor(props) {
@@ -10,13 +12,14 @@ class AppLayout extends Component {
 		this.state = {
 			openRightBar: false
 		};
-		this.fixedRightBar = React.createRef();
-		this.rightBarHandlerContainer = React.createRef();
+		this.elRightBar = React.createRef();
+		this.elHandlerContainer = React.createRef();
 		this.onToggleRightBar = this.onToggleRightBar.bind(this);
 
 		this.swipingRightBar = {
-			inProgress: false,
-			handlerRightOffset: null
+			styler: null,
+			stylerXVal: null,
+			maxBoundary: null
 		};
 	}
 
@@ -36,10 +39,10 @@ class AppLayout extends Component {
 			to: {
 				x: '0%'
 			},
-			duration: 300,
+			duration: DURATION,
 			ease: easing.easeIn
 		}).start({
-			update: v => styler(this.fixedRightBar.current).set(v)
+			update: v => styler(this.elRightBar.current).set(v)
 		});
 
 		this.setState({ openRightBar: true });
@@ -53,72 +56,63 @@ class AppLayout extends Component {
 			to: {
 				x: '100%'
 			},
-			duration: 300,
+			duration: DURATION,
 			ease: easing.easeIn
 		}).start({
-			update: v => styler(this.fixedRightBar.current).set(v)
+			update: v => styler(this.elRightBar.current).set(v)
 		});
 
 		this.setState({ openRightBar: false });
 	}
 
 	getRightBarXPercentage() {
-		return parseFloat(styler(this.fixedRightBar.current).get('x'));
+		return parseFloat(styler(this.elRightBar.current).get('x'));
 	}
 
 	getRightBarNewXPercentage(clientX, handlerOffset) {
 		const windowWidth = window.innerWidth;
-		const rightBarWidth = this.fixedRightBar.current.offsetWidth;
+		const rightBarWidth = this.elRightBar.current.offsetWidth;
 
 		return Math.min(Math.max(((clientX - windowWidth + rightBarWidth + handlerOffset) / rightBarWidth) * 100, 0), 100);
 	}
 
+	initRightBar() {
+		this.swipingRightBar.styler = styler(this.elRightBar.current);
+		this.swipingRightBar.stylerXVal = value(0, v => this.swipingRightBar.styler.set('x', v));
+		this.swipingRightBar.styler.set('x', this.elRightBar.current.offsetWidth);
+		this.swipingRightBar.maxBoundary = this.elRightBar.current.offsetWidth;
+	}
+
 	componentDidMount() {
-		styler(this.fixedRightBar.current).set('x', '100%');
+		this.initRightBar();
 
-		listen(this.rightBarHandlerContainer.current, 'touchstart').start(e => {
-			const clientX = e.touches[0].clientX;
-			const windowWidth = window.innerWidth;
-			const rightBarWidth = this.fixedRightBar.current.offsetWidth;
-			const rightBarXPosition = (this.getRightBarXPercentage() * rightBarWidth) / 100 + windowWidth - rightBarWidth;
-
-			this.swipingRightBar.handlerRightOffset = parseInt(rightBarXPosition - clientX);
-			this.swipingRightBar.inProgress = true;
+		listen(window, 'resize').start(() => {
+			this.initRightBar();
 		});
 
-		listen(this.rightBarHandlerContainer.current, 'mousedown').start(e => {
-			this.swipingRightBar.handlerRightOffset = e.path[0].offsetWidth - e.offsetX;
-			this.swipingRightBar.inProgress = true;
+		listen(this.elHandlerContainer.current, 'touchstart mousedown').start(() => {
+			const overDragPipe = v => {
+				if (v < 0) {
+					return calc.getValueFromProgress(0, v, 0.1);
+				} else if (this.swipingRightBar.maxBoundary < v) {
+					return calc.getValueFromProgress(this.swipingRightBar.maxBoundary, v, 0.1);
+				} else {
+					return v;
+				}
+			};
+
+			pointer({ x: this.swipingRightBar.styler.get('x') })
+				.pipe(
+					({ x }) => x,
+					overDragPipe
+				)
+				.start(this.swipingRightBar.stylerXVal);
 		});
 
-		listen(this.rightBarHandlerContainer.current, 'touchmove').start(e => {
-			const newPercentage = this.getRightBarNewXPercentage(
-				e.touches[0].clientX,
-				this.swipingRightBar.handlerRightOffset
-			);
-
-			styler(this.fixedRightBar.current).set('x', `${newPercentage}%`);
-		});
-
-		listen(document, 'mousemove').start(e => {
-			if (!this.swipingRightBar.inProgress) return;
-
-			const newPercentage = this.getRightBarNewXPercentage(e.clientX, this.swipingRightBar.handlerRightOffset);
-			styler(this.fixedRightBar.current).set('x', `${newPercentage}%`);
-		});
-
-		listen(document, 'mouseup touchend').start(() => {
-			if (!this.swipingRightBar.inProgress) return;
-
-			const currentPercentage = this.getRightBarXPercentage();
-
-			if (100 > currentPercentage && currentPercentage >= 50) {
-				this.closeRightBar();
-			} else if (50 >= currentPercentage && currentPercentage > 0) {
-				this.openRightBar();
-			}
-
-			this.swipingRightBar.inProgress = false;
+		listen(document, 'touchend mouseup').start(() => {
+			console.log('end');
+			this.swipingRightBar.stylerXVal.stop();
+			console.log(this.swipingRightBar.styler.get('x'));
 		});
 	}
 
@@ -133,11 +127,8 @@ class AppLayout extends Component {
 					{this.props.children}
 				</div>
 
-				<div id="fixed-right-bar" ref={this.fixedRightBar} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
-					<div
-						ref={this.rightBarHandlerContainer}
-						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
-					></div>
+				<div id="fixed-right-bar" ref={this.elRightBar} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
+					<div ref={this.elHandlerContainer} className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}></div>
 
 					<div className={`${scopedStyles.rightBarContentContainer} fg-1`}></div>
 				</div>

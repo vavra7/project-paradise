@@ -1,2 +1,0 @@
-Použít "library.add" pro ikony z wordpressu pokud nějaké
-https://github.com/FortAwesome/react-fontawesome

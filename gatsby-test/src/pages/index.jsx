@@ -2,10 +2,13 @@ import React from 'react';
 import MainMenu from '../components/navigation/MainMenu';
 import scopedStyle from './index.module.scss';
 import Slider from '../components/slider/Slider';
+import { Link } from 'gatsby';
 
 export default () => (
 	<div>
 		<h1>Index Page</h1>
+
+		<Link to="inertia">Inertia</Link>
 
 		<div>
 			<MainMenu></MainMenu>
@@ -17,7 +20,6 @@ export default () => (
 		<div>FROM HERE</div>
 
 		<i className="icon"></i>
-
 
 		<div>TO HERE</div>
 
