@@ -8,4 +8,9 @@
 
 // Partials
 @import './partials/lines';
-@import './partials/shadow'
+@import './partials/shadow';
+
+html, body {
+	overscroll-behavior-x: none;
+	margin: 0;
+}
