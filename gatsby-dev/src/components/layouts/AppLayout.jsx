@@ -139,7 +139,7 @@ class AppLayout extends Component {
 					id="fixed-bottom-bar"
 					className={`${scopedStyles.fixedBottomBar} p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2 hide-md-up`}
 				>
-					<MobileBottomMenu />
+					{/* <MobileBottomMenu /> */}
 				</div>
 			</div>
 		);

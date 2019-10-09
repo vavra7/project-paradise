@@ -7,8 +7,20 @@ $bottom-bar-height: 48px;
 	right: 0;
 	bottom: 0;
 	width: 85%;
+	padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0);
 	z-index: $zi-fixed-right-bar;
 	transform: translateX(100%);
+
+	&::after {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		content: '';
+		width: 200px;
+		background: rgba(255, 230, 0, 0.315);
+		transform: translateX(100%);
+	}
 
 	& .right-bar-handler-container {
 		background: rgba(0, 0, 255, 0.438);
@@ -19,7 +31,7 @@ $bottom-bar-height: 48px;
 	}
 
 	& .right-bar-content-container {
-		background: rgba(255, 0, 0, 0.342);
+		background: rgba(0, 255, 0, 0.342);
 	}
 }
 
@@ -31,8 +43,6 @@ $bottom-bar-height: 48px;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	padding: 	env(safe-area-inset-right, 0)
-						env(safe-area-inset-bottom, 0)
-						env(safe-area-inset-left, 0);
+	padding: env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
 	height: $bottom-bar-height;
 }
