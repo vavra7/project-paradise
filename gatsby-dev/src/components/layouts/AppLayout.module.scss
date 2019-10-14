@@ -23,7 +23,7 @@ $bottom-bar-height: 48px;
 	}
 
 	& .right-bar-handler-container {
-		background: rgba(0, 0, 255, 0.438);
+		background: rgb(194, 194, 194);
 		align-self: center;
 		height: 40%;
 		width: 20px;
@@ -31,7 +31,8 @@ $bottom-bar-height: 48px;
 	}
 
 	& .right-bar-content-container {
-		background: rgba(0, 255, 0, 0.342);
+		overflow-y: auto;
+		background: grey;
 	}
 }
 
