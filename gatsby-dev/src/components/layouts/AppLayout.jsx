@@ -7,11 +7,14 @@ import MobileBottomMenu from '../menus/MobileBottomMenu';
 class AppLayout extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			inProgress: false,
+			opened: false
+		};
 		this.elRightBar = React.createRef();
-		// this.elHandlerContainer = React.createRef();
-		// this.onToggleRightBar = this.onToggleRightBar.bind(this);
+
 		this.startSwiping = this.startSwiping.bind(this);
+		this.finishSwiping = this.finishSwiping.bind(this);
 		this.test = this.test.bind(this);
 
 		this.lastWindowWidth = null;
@@ -19,8 +22,7 @@ class AppLayout extends Component {
 		// this.lastYTouch = null;
 
 		this.listeners = {
-			resize: null,
-			touchEnd: null
+			resize: null
 		};
 		this.rightBar = {
 			opened: false,
@@ -38,106 +40,15 @@ class AppLayout extends Component {
 		this.rightBar.swiping.stop();
 	}
 
-	// onToggleRightBar() {
-	// 	if (!this.state.openRightBar) {
-	// 		// this.openRightBar();
-	// 	} else {
-	// 		// this.closeRightBar();
-	// 	}
-	// }
-
-	// swipeRightBar() {
-	// 	console.log('swipeRightBar');
-	// 	this.rightBar.inProgress = true;
-
-	// 	const overDragPipe = v => {
-	// 		if (v < 0) {
-	// 			return calc.getValueFromProgress(0, v, 0.15);
-	// 		} else if (this.rightBar.maxBoundary < v) {
-	// 			return calc.getValueFromProgress(this.rightBar.maxBoundary, v, 0.15);
-	// 		} else {
-	// 			return v;
-	// 		}
-	// 	};
-
-	// 	this.rightBar.pointer = pointer({ x: this.rightBar.styler.get('x') })
-	// 		.pipe(
-	// 			({ x }) => x,
-	// 			overDragPipe
-	// 		)
-	// 		.start({
-	// 			update: v => this.rightBar.stylerXVal.update(v)
-	// 		});
-	// }
-
-	// afterSwipeRightBar() {
-	// 	if (!this.rightBar.inProgress) return;
-	// 	console.log(this.rightBar.stylerXVal.stop());
-
-	// 	const velocity = this.rightBar.stylerXVal.getVelocity();
-	// 	const progress = calc.getProgressFromValue(0, this.rightBar.maxBoundary, this.rightBar.stylerXVal.get());
-	// 	const boundariesPipe = v => {
-	// 		if (v < 0) {
-	// 			return 0;
-	// 		} else if (this.rightBar.maxBoundary < v) {
-	// 			return this.rightBar.maxBoundary;
-	// 		} else {
-	// 			return v;
-	// 		}
-	// 	};
-
-	// 	const getIsOpened = () => {
-	// 		if (this.rightBar.stylerXVal.get() <= 0) {
-	// 			return false;
-	// 		} else {
-	// 			return true;
-	// 		}
-	// 	};
-
-	// 	if (velocity < -600 || 600 < velocity) {
-	// 		inertia({
-	// 			min: 0,
-	// 			max: this.rightBar.maxBoundary,
-	// 			from: this.rightBar.stylerXVal.get(),
-	// 			velocity: Math.max(Math.min(velocity, 1600), -1600),
-	// 			bounceStiffness: 400,
-	// 			bounceDamping: 100000
-	// 		})
-	// 			.pipe(boundariesPipe)
-	// 			.start({
-	// 				update: v => this.rightBar.stylerXVal.update(v),
-	// 				complete: () => {
-	// 					this.rightBar.opened = getIsOpened();
-	// 					this.rightBar.inProgress = false;
-	// 				}
-	// 			});
-	// 	} else if (velocity !== 0) {
-	// 		tween({
-	// 			from: this.rightBar.stylerXVal.get(),
-	// 			to: velocity < 0 ? 0 : this.rightBar.maxBoundary,
-	// 			duration: DURATION,
-	// 			ease: easing.linear
-	// 		}).start({
-	// 			update: v => this.rightBar.stylerXVal.update(v),
-	// 			complete: () => {
-	// 				this.rightBar.opened = getIsOpened();
-	// 				this.rightBar.inProgress = false;
-	// 			}
-	// 		});
-	// 	} else {
-	// 		tween({
-	// 			from: this.rightBar.stylerXVal.get(),
-	// 			to: progress < 0.5 ? 0 : this.rightBar.maxBoundary,
-	// 			duration: DURATION / 2,
-	// 			ease: easing.easeIn
-	// 		}).start(this.rightBar.stylerXVal);
-	// 	}
-	// }
 	startSwiping() {
-		this.rightBar.inProgress = true;
-		this.rightBar.opened = true;
-
 		console.log('startSwiping');
+		this.rightBar.inProgress = true;
+		this.setState({ inProgress: true });
+		this.rightBar.opened = true;
+		this.setState({ opened: true });
+
+		if (this.rightBar.swiping) this.rightBar.swiping.stop();
+		if (this.rightBar.animation) this.rightBar.animation.stop();
 
 		const overDragPipe = v => {
 			if (v < 0) {
@@ -148,8 +59,6 @@ class AppLayout extends Component {
 				return v;
 			}
 		};
-
-		if (this.rightBar.swiping) this.rightBar.swiping.stop();
 
 		this.rightBar.swiping = pointer({ x: this.rightBar.styler.get('x') })
 			.pipe(
@@ -162,10 +71,9 @@ class AppLayout extends Component {
 	}
 
 	finishSwiping() {
+		console.log('finishSwiping');
 		if (!this.rightBar.inProgress && !this.rightBar.opened) return;
 		if (this.rightBar.swiping) this.rightBar.swiping.stop();
-
-		console.log('finishSwiping');
 
 		const velocity = this.rightBar.stylerXVal.getVelocity();
 
@@ -181,11 +89,12 @@ class AppLayout extends Component {
 			const from = this.rightBar.stylerXVal.get();
 			const to = velocity < 0 ? 0 : this.rightBar.maxBoundary;
 
-			this.animateTween(from, to, 400);
+			this.animateTween(from, to, 500);
 		}
 	}
 
 	animateInertia(velocity) {
+		console.log('animateInertia');
 		const boundariesPipe = v => {
 			if (v < 0) {
 				return 0;
@@ -202,7 +111,7 @@ class AppLayout extends Component {
 			min: 0,
 			max: this.rightBar.maxBoundary,
 			from: this.rightBar.stylerXVal.get(),
-			velocity: Math.max(Math.min(velocity, 1600), -1600),
+			velocity: Math.max(Math.min(velocity, 1700), -1700),
 			bounceStiffness: 400,
 			bounceDamping: 100000
 		})
@@ -211,12 +120,15 @@ class AppLayout extends Component {
 				update: v => this.rightBar.stylerXVal.update(v),
 				complete: () => {
 					this.rightBar.opened = !this.rightBar.styler.get('x');
+					this.setState({ opened: !this.rightBar.styler.get('x') });
 					this.rightBar.inProgress = false;
+					this.setState({ inProgress: false });
 				}
 			});
 	}
 
 	animateTween(from, to, duration) {
+		console.log('animateTween');
 		if (this.rightBar.animation) this.rightBar.animation.stop();
 
 		this.rightBar.animation = tween({
@@ -228,7 +140,9 @@ class AppLayout extends Component {
 			update: v => this.rightBar.stylerXVal.update(v),
 			complete: () => {
 				this.rightBar.opened = !this.rightBar.styler.get('x');
+				this.setState({ opened: !this.rightBar.styler.get('x') });
 				this.rightBar.inProgress = false;
+				this.setState({ inProgress: false });
 			}
 		});
 	}
@@ -287,17 +201,20 @@ class AppLayout extends Component {
 		// 	this.swipeRightBar();
 		// });
 
-		this.listeners.touchEnd = listen(document, 'touchend mouseup').start(() => {
-			this.finishSwiping();
-		});
+		// this.listeners.touchEnd = listen(document, 'touchend mouseup').start(() => {
+		// 	this.finishSwiping();
+		// });
 	}
 
 	componentWillUnmount() {}
 
 	render() {
 		return (
-			<div id="app-layout">
+			<div id="app-layout" onMouseUp={this.finishSwiping} onTouchEnd={this.finishSwiping}>
 				<i className="icon-bars p-fixed ma-3" onClick={this.test}></i>
+
+				<div>inProgress: {this.state.inProgress.toString()}</div>
+				<div>opened: {this.state.opened.toString()}</div>
 
 				<div id="app-layout-content-wrapper" className={scopedStyles.contentWrapper}>
 					{this.props.children}
