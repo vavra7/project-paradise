@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { inertia, styler, listen, pointer, value, calc } from 'popmotion';
+import { inertia, styler, listen, pointer, value, calc, chain, tween, spring, action } from 'popmotion';
 import scopedStyles from './inertia.module.scss';
-import { motion } from "framer-motion"
 
 class Inertia extends Component {
 	constructor() {
@@ -10,6 +9,7 @@ class Inertia extends Component {
 		this.playground = React.createRef();
 		this.square = React.createRef();
 		this.test = this.test.bind(this);
+		this.testTwo = this.testTwo.bind(this);
 		this.inertia = null;
 		this.pokus = null;
 
@@ -18,22 +18,51 @@ class Inertia extends Component {
 	}
 
 	test() {
-		console.log(this.squareStylerX);
-		// this.squareStylerX.stop();
+		// console.log(this.squareStylerX);
+		const foo = action(({ update }) => {
+			let i = 0;
+			setInterval(() => update(i++), 50);
+		});
+
+		foo.start({
+			update: v => console.log(v)
+		});
+
+		// spring({
+		// 	from: 300,
+		// 	to: 500
+		// }).start(this.squareStylerX);
+	}
+
+	testTwo() {
+		// console.log('testTwo');
+
+		const myFce = (arg = 'nic') => {
+			console.log('myFce fired with arg:', arg);
+		};
+
+		chain(
+			action(action1 => {
+				// console.log('action1', action1);
+				myFce.subToSquare = this.squareStylerX.subscribe(myFce);
+				// console.log(myFce);
+				// console.log(myFce.subToSquare);
+				action1.complete();
+			}),
+			tween({
+				from: 0,
+				to: 500
+			}),
+			tween({
+				from: 500,
+				to: 0
+			})
+		).start(this.squareStylerX);
 	}
 
 	componentDidMount() {
 		this.squareStyler = styler(this.square.current);
-		// this.squareStylerX = value(0, v => this.squareStyler.set('x', v));
 		this.squareStylerX = value(0, v => this.squareStyler.set('x', v));
-
-		this.squareStylerX.subscribe({
-			// update: v => console.log(v),
-			complete: () => {
-				console.log('COMPLETED');
-				this.squareStylerX.stop();
-			}
-		});
 
 		listen(this.square.current, 'touchstart mousedown').start(() => {
 			const maxBoundary = this.playground.current.offsetWidth - this.square.current.offsetWidth;
@@ -59,17 +88,17 @@ class Inertia extends Component {
 				.start(this.squareStylerX);
 		});
 
-		listen(document, 'touchend mouseup').start(() => {
-			const maxBoundary = this.playground.current.offsetWidth - this.square.current.offsetWidth;
-			console.log(this.squareStylerX.getVelocity());
+		// listen(document, 'touchend mouseup').start(() => {
+		// 	const maxBoundary = this.playground.current.offsetWidth - this.square.current.offsetWidth;
+		// 	console.log('velocity', this.squareStylerX.getVelocity());
 
-			this.inertia = inertia({
-				min: 0,
-				max: maxBoundary,
-				from: this.squareStyler.get('x'),
-				velocity: this.squareStylerX.getVelocity()
-			}).start(this.squareStylerX);
-		});
+		// 	this.inertia = inertia({
+		// 		min: 0,
+		// 		max: maxBoundary,
+		// 		from: this.squareStyler.get('x'),
+		// 		velocity: this.squareStylerX.getVelocity()
+		// 	}).start(this.squareStylerX);
+		// });
 	}
 
 	render() {
@@ -87,6 +116,8 @@ class Inertia extends Component {
 					</div>
 
 					<button onClick={this.test}>test</button>
+
+					<button onClick={this.testTwo}>test2</button>
 				</div>
 			</div>
 		);
