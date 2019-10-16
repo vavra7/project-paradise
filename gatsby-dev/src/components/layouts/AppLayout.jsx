@@ -12,6 +12,7 @@ class AppLayout extends Component {
 		};
 		this.startSwiping = this.startSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
+		this.windowHeight = window.innerHeight;
 		this.rightBar = {
 			ref: React.createRef(),
 			styler: null,
@@ -184,8 +185,6 @@ class AppLayout extends Component {
 	}
 
 	render() {
-		const windowHeight = window.innerHeight;
-
 		return (
 			<div id="app-layout">
 				<div id="app-layout-content-wrapper" className={scopedStyles.contentWrapper}>
@@ -195,7 +194,7 @@ class AppLayout extends Component {
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
-						style={{ bottom: windowHeight / 2 }}
+						style={{ bottom: this.windowHeight / 2 }}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
 					></div>
