@@ -12,11 +12,17 @@ class AppLayout extends Component {
 			opened: false
 		};
 		this.startSwiping = this.startSwiping.bind(this);
+		this.bottomBarToggler = this.bottomBarToggler.bind(this);
 		this.rightBar = {
 			ref: React.createRef(),
 			styler: null,
 			stylerX: null,
 			subscriber: null
+		};
+		this.bottomBar = {
+			ref: React.createRef(),
+			styler: null,
+			stylerY: null
 		};
 		this.listeners = {
 			touchEnd: null
@@ -25,19 +31,25 @@ class AppLayout extends Component {
 
 	componentDidMount() {
 		this.rightBar.styler = styler(this.rightBar.ref.current);
-		this.rightBar.stylerX = value(0, v => this.rightBar.styler.set('x', v));
-		this.rightBar.styler.set('x', this.rightBar.ref.current.offsetWidth);
-		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.test);
-
-		console.log(this.rightBar.stylerX);
+		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
+		this.bottomBar.styler = styler(this.bottomBar.ref.current);
+		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
+		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
 
 		this.listeners.touchEnd = listen(document, 'touchend mouseup').start(() => {
 			this.finishSwipe();
 		});
+
+		console.log(this.listeners.touchEnd);
 	}
 
-	test(v) {
-		console.log(v);
+	bottomBarToggler(rightBarX) {
+		const maxBoundary = this.bottomBar.ref.current.offsetHeight + 50;
+		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * 0.4;
+
+		if (maxBoundary < v || v < 0) return;
+
+		this.bottomBar.stylerY.update(v);
 	}
 
 	startSwiping() {
@@ -143,7 +155,6 @@ class AppLayout extends Component {
 
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div
-						ref={this.elHandlerContainer}
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
@@ -184,6 +195,7 @@ class AppLayout extends Component {
 
 				<div
 					id="fixed-bottom-bar"
+					ref={this.bottomBar.ref}
 					className={`${scopedStyles.fixedBottomBar} p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2 hide-md-up`}
 				>
 					<MobileBottomMenu />
