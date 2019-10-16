@@ -8,7 +8,8 @@ class AppLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			opened: false
+			opened: false,
+			workaroundWindowHeight: 0
 		};
 		this.startSwiping = this.startSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
@@ -46,6 +47,8 @@ class AppLayout extends Component {
 		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
 			this.finishSwipe();
 		});
+
+		this.setState({ workaroundWindowHeight: window.innerHeight });
 	}
 
 	bottomBarToggler(rightBarX) {
@@ -193,7 +196,7 @@ class AppLayout extends Component {
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
-						style={{ bottom: window.innerHeight / 2 }}
+						style={{ bottom: this.state.workaroundWindowHeight / 2 }}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
 					></div>
