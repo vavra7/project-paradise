@@ -8,7 +8,6 @@ class AppLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			inProgress: false,
 			opened: false
 		};
 		this.startSwiping = this.startSwiping.bind(this);
@@ -17,15 +16,23 @@ class AppLayout extends Component {
 			ref: React.createRef(),
 			styler: null,
 			stylerX: null,
-			subscriber: null
+			subscriber: null,
+			inProgress: false
 		};
 		this.bottomBar = {
 			ref: React.createRef(),
 			styler: null,
 			stylerY: null
 		};
+		this.swipeDirection = {
+			evaluationFinished: false,
+			x: null,
+			y: null
+		};
 		this.listeners = {
-			touchEnd: null
+			swipeEnd: null,
+			directionSwipeStart: null,
+			directionSwipeMove: null
 		};
 	}
 
@@ -36,11 +43,9 @@ class AppLayout extends Component {
 		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
 		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
 
-		this.listeners.touchEnd = listen(document, 'touchend mouseup').start(() => {
+		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
 			this.finishSwipe();
 		});
-
-		console.log(this.listeners.touchEnd);
 	}
 
 	bottomBarToggler(rightBarX) {
@@ -53,7 +58,8 @@ class AppLayout extends Component {
 	}
 
 	startSwiping() {
-		this.setState({ inProgress: true, opened: true });
+		this.setState({ opened: true });
+		this.rightBar.inProgress = true;
 
 		const overDragPipe = v => {
 			if (v < 0) {
@@ -76,7 +82,7 @@ class AppLayout extends Component {
 	}
 
 	finishSwipe() {
-		if (!this.state.inProgress) return;
+		if (!this.rightBar.inProgress) return;
 		const velocity = this.rightBar.stylerX.getVelocity();
 
 		if (velocity === 0) {
@@ -108,7 +114,8 @@ class AppLayout extends Component {
 				ease: easing.linear
 			}),
 			action(action => {
-				this.setState({ inProgress: false, opened: to === 0 ? true : false });
+				this.setState({ opened: to === 0 ? true : false });
+				this.rightBar.inProgress = false;
 				action.complete();
 			})
 		).start(this.rightBar.stylerX);
@@ -130,25 +137,55 @@ class AppLayout extends Component {
 					this.setState({ opened: true });
 					this.rightBar.stylerX.update(0);
 				}
-				this.setState({ inProgress: false });
+				this.rightBar.inProgress = false;
 				action.complete();
 			})
 		).start(this.rightBar.stylerX);
 	}
 
+	onOpen() {
+		document.body.style.overflowY = 'hidden';
+
+		if (this.listeners.directionSwipeStart) this.listeners.directionSwipeStart.stop();
+		this.listeners.directionSwipeStart = listen(document, 'touchstart').start(e => {
+			this.swipeDirection.x = e.touches[0].clientX;
+			this.swipeDirection.y = e.touches[0].clientY;
+			this.swipeDirection.evaluationFinished = false;
+		});
+
+		if (this.listeners.directionSwipeMove) this.listeners.directionSwipeMove.stop();
+		this.listeners.directionSwipeMove = listen(document, 'touchmove').start(e => {
+			if (this.swipeDirection.evaluationFinished) return;
+			const xDiff = Math.abs(this.swipeDirection.x - e.touches[0].clientX);
+			const yDiff = Math.abs(this.swipeDirection.y - e.touches[0].clientY);
+			this.swipeDirection.evaluationFinished = true;
+
+			if (xDiff * 0.65 > yDiff) this.startSwiping();
+		});
+	}
+
+	onClose() {
+		document.body.style.overflowY = 'auto';
+
+		if (this.listeners.directionSwipeStart) this.listeners.directionSwipeStart.stop();
+		if (this.listeners.directionSwipeMove) this.listeners.directionSwipeMove.stop();
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (!prevState.opened && this.state.opened) this.onOpen();
+		if (prevState.opened && !this.state.opened) this.onClose();
+	}
+
 	componentWillUnmount() {
 		if (this.rightBar.subscriber) this.rightBar.subscriber.unsubscribe();
-		// TODO: STOP LISTENERS
+		Object.keys(this.listeners).forEach(listener => {
+			if (this.listeners[listener]) this.listeners[listener].stop();
+		});
 	}
 
 	render() {
 		return (
 			<div id="app-layout">
-				<i className="icon-bars p-fixed ma-3"></i>
-
-				<div>inProgress: {this.state.inProgress.toString()}</div>
-				<div>opened: {this.state.opened.toString()}</div>
-
 				<div id="app-layout-content-wrapper" className={scopedStyles.contentWrapper}>
 					{this.props.children}
 				</div>
@@ -156,6 +193,7 @@ class AppLayout extends Component {
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
+						style={{ bottom: window.innerHeight / 2 }}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
 					></div>
