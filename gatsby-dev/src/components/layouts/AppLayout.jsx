@@ -192,9 +192,10 @@ class AppLayout extends Component {
 
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div
-						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
+						className={`${scopedStyles.rightBarHandlerContainer} p-fixed`}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
+						style={{bottom: 100}}
 					></div>
 
 					<div className={`${scopedStyles.rightBarContentContainer} fg-1 pa-2`}>
