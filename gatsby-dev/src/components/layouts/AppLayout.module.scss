@@ -26,8 +26,6 @@ $bottom-bar-height: 48px;
 		background: rgb(194, 194, 194);
 		height: 40%;
 		width: 20px;
-		padding: env(safe-area-inset-bottom, 0);
-		bottom: 100px;
 		transform: translateX(-100%);
 	}
 
