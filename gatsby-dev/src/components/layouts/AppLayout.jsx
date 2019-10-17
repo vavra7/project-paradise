@@ -9,8 +9,8 @@ class AppLayout extends Component {
 		super(props);
 		this.state = {
 			opened: false,
-			windowWidth: 0,
-			windowHeight: 0
+			windowWidth: null,
+			windowHeight: null
 		};
 		this.startSwiping = this.startSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
