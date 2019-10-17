@@ -195,7 +195,7 @@ class AppLayout extends Component {
 						className={`${scopedStyles.rightBarHandlerContainer} p-fixed`}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
-						style={{top: 100}}
+						// style={{top: 100}}
 					></div>
 
 					<div className={`${scopedStyles.rightBarContentContainer} fg-1 pa-2`}>
