@@ -9,8 +9,8 @@ class AppLayout extends Component {
 		super(props);
 		this.state = {
 			opened: false,
-			windowWidth: 375,
-			windowHeight: 667
+			windowWidth: null,
+			windowHeight: null
 		};
 		this.startSwiping = this.startSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
@@ -20,6 +20,11 @@ class AppLayout extends Component {
 			stylerX: null,
 			subscriber: null,
 			inProgress: false
+		};
+		this.handler = {
+			ref: React.createRef(),
+			styler: null,
+			stylerOpacity: null
 		};
 		this.bottomBar = {
 			ref: React.createRef(),
@@ -42,12 +47,19 @@ class AppLayout extends Component {
 	componentDidMount() {
 		this.rightBar.styler = styler(this.rightBar.ref.current);
 		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
+
+		this.handler.styler = styler(this.handler.ref.current);
+		this.handler.stylerOpacity = value(0, v => this.handler.styler.set('opacity', v));
+
 		this.bottomBar.styler = styler(this.bottomBar.ref.current);
 		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
+
 		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
 
 		this.setState({ windowWidth: window.innerWidth });
 		this.setState({ windowHeight: window.innerHeight });
+
+		this.handlerShowIn();
 
 		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
 			this.finishSwipe();
@@ -62,6 +74,17 @@ class AppLayout extends Component {
 				this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
 			}
 		});
+	}
+
+	handlerShowIn() {
+		setTimeout(() => {
+			tween({
+				from: 0,
+				to: 1,
+				duration: 400,
+				ease: easing.linear
+			}).start(this.handler.stylerOpacity);
+		}, 500);
 	}
 
 	bottomBarToggler(rightBarX) {
@@ -208,6 +231,7 @@ class AppLayout extends Component {
 
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div
+						ref={this.handler.ref}
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
