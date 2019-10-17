@@ -8,7 +8,9 @@ class AppLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			opened: false
+			opened: false,
+			windowWidth: 0,
+			windowHeight: 0
 		};
 		this.startSwiping = this.startSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
@@ -32,7 +34,8 @@ class AppLayout extends Component {
 		this.listeners = {
 			swipeEnd: null,
 			directionSwipeStart: null,
-			directionSwipeMove: null
+			directionSwipeMove: null,
+			resizeFix: null
 		};
 	}
 
@@ -43,8 +46,21 @@ class AppLayout extends Component {
 		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
 		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
 
+		this.setState({ windowWidth: window.innerWidth });
+		this.setState({ windowHeight: window.innerHeight });
+
 		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
 			this.finishSwipe();
+		});
+
+		this.listeners.resizeFix = listen(window, 'resize').start(() => {
+			if (Math.abs(this.state.windowHeight - window.innerHeight) > 100)
+				this.setState({ windowHeight: window.innerHeight });
+
+			if (this.state.windowWidth !== window.innerWidth) {
+				this.setState({ windowWidth: window.innerWidth });
+				this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
+			}
 		});
 	}
 
@@ -195,6 +211,7 @@ class AppLayout extends Component {
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
+						style={{ top: this.state.windowHeight / 2 }}
 					></div>
 
 					<div className={`${scopedStyles.rightBarContentContainer} fg-1 pa-2`}>
