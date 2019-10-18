@@ -1,0 +1,29 @@
+$WIDTH_HEIGHT: 40px;
+$PHASE_DURATION: 180;
+
+.ripple {
+	background: rgba(146, 146, 146, 0.15);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: $WIDTH_HEIGHT;
+	width: $WIDTH_HEIGHT;
+	transform: translate(-50%, -50%) scale(1);
+	border-radius: 50%;
+	pointer-events: none;
+	opacity: 1;
+	transition: transform $PHASE_DURATION * 1ms linear, opacity $PHASE_DURATION * 1ms linear;
+}
+
+.ripple-in {
+	transform: translate(-50%, -50%) scale(2.5);
+}
+
+.ripple-out {
+	transform: translate(-50%, -50%) scale(4);
+	opacity: 0;
+}
+
+:export {
+	PHASE_DURATION: $PHASE_DURATION;
+}

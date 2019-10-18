@@ -22,7 +22,15 @@ $flex-direction-list: (column, row);
 	}
 }
 
-$justify-content-list: (flex-start, flex-end, space-around);
+$align-items-list: (center);
+
+@each $align-items in $align-items-list {
+	.ai-#{$align-items} {
+		align-items: $align-items;
+	}
+}
+
+$justify-content-list: (flex-start, center, flex-end, space-around);
 
 @each $justify-content in $justify-content-list {
 	.jc-#{$justify-content} {

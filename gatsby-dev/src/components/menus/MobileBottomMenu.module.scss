@@ -9,10 +9,15 @@ ul.menu-wrapper {
 
 	& li {
 		display: flex;
+		width: 80px;
+		justify-content: center;
+		border-radius: 25px;
+		overflow: hidden;
 
 		& a {
 			display: flex;
 			flex-direction: column;
+			flex-grow: 1;
 			align-items: center;
 			text-decoration: none;
 			padding: 8px 6px 4px 6px;

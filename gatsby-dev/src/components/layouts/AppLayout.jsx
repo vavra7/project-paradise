@@ -5,6 +5,10 @@ import { pointer, styler, value, chain, action, calc, listen, inertia, tween, ea
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 
 class AppLayout extends Component {
+	static propTypes = {
+		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -282,9 +286,5 @@ class AppLayout extends Component {
 		);
 	}
 }
-
-AppLayout.propTypes = {
-	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired
-};
 
 export default AppLayout;
