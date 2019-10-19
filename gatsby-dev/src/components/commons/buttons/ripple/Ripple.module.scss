@@ -3,7 +3,7 @@ $PHASE_DURATION: 180;
 
 .ripple {
 	background: rgba(146, 146, 146, 0.15);
-	position: absolute;
+	position: relative;
 	top: 50%;
 	left: 50%;
 	height: $WIDTH_HEIGHT;
