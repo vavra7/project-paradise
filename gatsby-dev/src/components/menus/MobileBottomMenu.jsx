@@ -10,7 +10,7 @@ class MobileBottomMenu extends Component {
 				<ul className={`${scopedStyles.menuWrapper} d-flex jc-space-around`}>
 					<li>
 						<FlatButton>
-							<Link to="">
+							<Link to="/">
 								<i className="icon-home"></i>
 								<span>Domů</span>
 							</Link>

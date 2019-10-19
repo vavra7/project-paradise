@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './FlatButton.module.scss';
 import Ripple from './ripple/Ripple';
+import { styler } from 'popmotion';
 
 class FlatButton extends Component {
 	static propTypes = {
@@ -16,8 +17,8 @@ class FlatButton extends Component {
 
 	addRipple(e) {
 		const newRipple = {
-			top: e.pageY - Math.round(e.currentTarget.getBoundingClientRect().top),
-			left: e.pageX - Math.round(e.currentTarget.getBoundingClientRect().left),
+			top: e.clientY - Math.round(e.currentTarget.getBoundingClientRect().top),
+			left: e.clientX - Math.round(e.currentTarget.getBoundingClientRect().left),
 			id: Math.random().toString()
 		};
 
