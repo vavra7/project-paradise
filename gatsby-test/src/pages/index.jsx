@@ -8,7 +8,8 @@ export default () => (
 	<div>
 		<h1>Index Page</h1>
 
-		<Link to="inertia">Inertia</Link>
+		<Link to="inertia">Inertia</Link><br/>
+		<Link to="ripple-page">ripple</Link>
 
 		<div>
 			<MainMenu></MainMenu>

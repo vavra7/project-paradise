@@ -187,7 +187,9 @@ class AppLayout extends Component {
 	}
 
 	onOpen() {
+		document.documentElement.style.overflowY = 'hidden';
 		document.body.style.overflowY = 'hidden';
+		// console.log(HTMLElement);
 
 		if (this.listeners.directionSwipeStart) this.listeners.directionSwipeStart.stop();
 		this.listeners.directionSwipeStart = listen(document, 'touchstart').start(e => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import scopedStyles from './animation.module.scss';
-import { inertia, styler, listen, pointer, value, calc } from 'popmotion';
+import { inertia, styler, listen, value } from 'popmotion';
 
 class animation extends Component {
 	constructor() {

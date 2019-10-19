@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { inertia, styler, listen, pointer, value, calc, chain, tween, spring, action } from 'popmotion';
+import { styler, listen, pointer, value, calc, chain, tween, action } from 'popmotion';
 import scopedStyles from './inertia.module.scss';
 
 class Inertia extends Component {
@@ -12,9 +12,6 @@ class Inertia extends Component {
 		this.testTwo = this.testTwo.bind(this);
 		this.inertia = null;
 		this.pokus = null;
-
-		const squareStyler = null;
-		const squareStylerX = null;
 	}
 
 	test() {
