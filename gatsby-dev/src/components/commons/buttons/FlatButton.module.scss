@@ -1,8 +1,6 @@
 .flat-button {
 	position: relative;
-	// border-radius: 25px;
 	overflow: hidden;
-	user-select: none;
-
 	-webkit-mask-image: -webkit-radial-gradient(white, black);
+	user-select: none;
 }

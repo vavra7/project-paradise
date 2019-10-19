@@ -6,12 +6,7 @@ import Ripple from './ripple/Ripple';
 class FlatButton extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element, PropTypes.string])
-			.isRequired,
-		borderRadius: PropTypes.number
-	};
-
-	static defaultProps = {
-		borderRadius: 0
+			.isRequired
 	};
 
 	constructor(props) {
@@ -35,11 +30,7 @@ class FlatButton extends Component {
 
 	render() {
 		return (
-			<div
-				className={`${scopedStyles.flatButton} d-flex fg-1 ai-center jc-center`}
-				onClick={e => this.addRipple(e)}
-				style={{ borderRadius: `${this.props.borderRadius}px` }}
-			>
+			<div className={`${scopedStyles.flatButton} d-flex fg-1 ai-center jc-center`} onClick={e => this.addRipple(e)}>
 				{this.state.ripples.map(({ top, left, id }) => (
 					<Ripple top={top} left={left} key={id} removeRipple={() => this.onRemoveRipple(id)} />
 				))}

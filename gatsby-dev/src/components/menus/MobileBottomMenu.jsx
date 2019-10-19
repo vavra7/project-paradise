@@ -9,7 +9,7 @@ class MobileBottomMenu extends Component {
 			<nav id="mobile-bottom-menu">
 				<ul className={`${scopedStyles.menuWrapper} d-flex jc-space-around`}>
 					<li>
-						<FlatButton borderRadius={25}>
+						<FlatButton>
 							<Link to="/">
 								<i className="icon-home"></i>
 								<span>Domů</span>
@@ -18,7 +18,7 @@ class MobileBottomMenu extends Component {
 					</li>
 
 					<li>
-						<FlatButton borderRadius={25}>
+						<FlatButton>
 							<Link to="/">
 								<i className="icon-user-friends"></i>
 								<span>O nás</span>
@@ -26,7 +26,7 @@ class MobileBottomMenu extends Component {
 						</FlatButton>
 					</li>
 					<li>
-						<FlatButton borderRadius={25}>
+						<FlatButton>
 							<Link to="/">
 								<i className="icon-umbrella-beach"></i>
 								<span>Dovolené</span>
@@ -35,7 +35,7 @@ class MobileBottomMenu extends Component {
 					</li>
 
 					<li>
-						<FlatButton borderRadius={25}>
+						<FlatButton>
 							<Link to="/">
 								<i className="icon-shopping-cart"></i>
 								<span>eShop</span>
@@ -44,7 +44,7 @@ class MobileBottomMenu extends Component {
 					</li>
 
 					<li>
-						<FlatButton borderRadius={25}>
+						<FlatButton>
 							<Link to="/">
 								<i className="icon-envelope"></i>
 								<span>Kontakt</span>
