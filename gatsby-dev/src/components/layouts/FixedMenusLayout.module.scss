@@ -33,7 +33,7 @@ $bottom-bar-height: 48px;
 
 	& .right-bar-content-container {
 		overflow-y: auto;
-		-webkit-overflow-scroll: touch;
+		-webkit-overflow-scrolling: touch;
 		background: rgb(128, 128, 128);
 	}
 }
