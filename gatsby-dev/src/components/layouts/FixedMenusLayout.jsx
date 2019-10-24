@@ -83,10 +83,15 @@ class FixedMenusLayout extends Component {
 			}
 		});
 
-		document.ontouchmove = function(event) {
-			event.preventDefault();
-			console.log('asldkfdj');
-		};
+		function preventDefault(e) {
+			e.preventDefault();
+		}
+
+		function disableScroll() {
+			document.body.addEventListener('touchmove', preventDefault, { passive: false });
+		}
+
+		disableScroll();
 	}
 
 	handlerShowIn() {
