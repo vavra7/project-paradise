@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import scopedStyles from './AppLayout.module.scss';
+import scopedStyles from './FixedMenusLayout.module.scss';
 import { pointer, styler, value, chain, action, calc, listen, inertia, tween, easing } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
+import { connect } from 'react-redux';
+import { open } from '../../actions/openActions';
 
-class AppLayout extends Component {
+class FixedMenusLayout extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired
 	};
@@ -46,6 +48,8 @@ class AppLayout extends Component {
 			directionSwipeMove: null,
 			resizeFix: null
 		};
+
+		this.props.open();
 	}
 
 	componentDidMount() {
@@ -228,8 +232,8 @@ class AppLayout extends Component {
 
 	render() {
 		return (
-			<div id="app-layout">
-				<div id="app-layout-content-wrapper" className={scopedStyles.contentWrapper}>
+			<div id="fixed-menus-layout">
+				<div id="fixed-menus-content-wrapper" className={scopedStyles.contentWrapper}>
 					{this.props.children}
 				</div>
 
@@ -287,4 +291,7 @@ class AppLayout extends Component {
 	}
 }
 
-export default AppLayout;
+export default connect(
+	null,
+	{ open }
+)(FixedMenusLayout);

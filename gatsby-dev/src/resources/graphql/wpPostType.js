@@ -1,7 +1,7 @@
-const { TYPE } = require('../type')
+const { TYPES } = require('../types')
 
 module.exports = {
-	name: TYPE.WP_POST,
+	name: TYPES.WP_POST,
 	fields: {
 		id: {
 			type: 'ID!'

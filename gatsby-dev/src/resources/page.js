@@ -1,4 +1,4 @@
-const { TYPE } = require('./type');
+const { TYPES } = require('./types');
 const { createAllWpPages } = require('./utils');
 
 const URL_DIRECTORY = {
@@ -11,7 +11,7 @@ const TEMPLATE_PATH = {
 };
 
 module.exports = {
-	[TYPE.WP_PAGE]: async dispatch => {
+	[TYPES.WP_PAGE]: async dispatch => {
 		const queryResult = await dispatch.graphql(`
 			query {
 				allWpPage {
@@ -32,7 +32,7 @@ module.exports = {
 			templatePath: TEMPLATE_PATH.WP_PAGE
 		});
 	},
-	[TYPE.WP_POST]: async dispatch => {
+	[TYPES.WP_POST]: async dispatch => {
 		const queryResult = await dispatch.graphql(`
 			query {
 				allWpPost {

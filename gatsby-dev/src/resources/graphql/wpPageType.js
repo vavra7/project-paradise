@@ -1,7 +1,7 @@
-const { TYPE } = require('../type');
+const { TYPES } = require('../types');
 
 module.exports = {
-	name: TYPE.WP_PAGE,
+	name: TYPES.WP_PAGE,
 	fields: {
 		id: {
 			type: 'ID!'

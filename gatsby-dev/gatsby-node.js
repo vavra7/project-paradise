@@ -1,9 +1,9 @@
-const { TYPE } = require('./src/resources/type');
+const { TYPES } = require('./src/resources/types');
 const { asyncForEach } = require('./src/resources/utils');
 const node = require('./src/resources/node');
 const page = require('./src/resources/page');
 
-const types = Object.values(TYPE);
+const types = Object.values(TYPES);
 
 module.exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, schema }) => {
 	const dispatch = {

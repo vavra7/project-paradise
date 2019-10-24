@@ -1,4 +1,4 @@
-const { TYPE } = require('./type');
+const { TYPES } = require('./types');
 const { fetchAllWpData, fetchWpData, prepareAllWpData, createAllNodes, createGraphqlType } = require('./utils');
 const { GRAPHQL } = require('./graphql');
 
@@ -9,19 +9,19 @@ const ENDPOINT = {
 };
 
 module.exports = {
-	[TYPE.WP_PAGE]: async dispatch => {
+	[TYPES.WP_PAGE]: async dispatch => {
 		const data = await fetchAllWpData(ENDPOINT.WP_PAGE);
 		const nodeData = prepareAllWpData(dispatch, data);
 		createAllNodes(dispatch, nodeData);
 		createGraphqlType(dispatch, GRAPHQL.WP_PAGE);
 	},
-	[TYPE.WP_POST]: async dispatch => {
+	[TYPES.WP_POST]: async dispatch => {
 		const data = await fetchAllWpData(ENDPOINT.WP_POST);
 		const nodeData = prepareAllWpData(dispatch, data);
 		createAllNodes(dispatch, nodeData);
 		createGraphqlType(dispatch, GRAPHQL.WP_POST);
 	},
-	[TYPE.WP_MENU]: async dispatch => {
+	[TYPES.WP_MENU]: async dispatch => {
 		const data = await fetchWpData(ENDPOINT.WP_MENU);
 		const nodeData = prepareAllWpData(dispatch, data);
 		createAllNodes(dispatch, nodeData);

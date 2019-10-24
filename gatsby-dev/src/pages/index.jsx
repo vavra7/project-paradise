@@ -1,8 +1,7 @@
 import React from 'react';
-import AppLayout from '../components/layouts/AppLayout';
 
 export default () => (
-	<AppLayout>
+	<div>
 		<div className="pa-3">
 			<h1 className="title-3">Title 3</h1>
 			<p>
@@ -39,5 +38,5 @@ export default () => (
 				accusantium enim molestias illum doloremque tenetur!
 			</p>
 		</div>
-	</AppLayout>
+	</div>
 );

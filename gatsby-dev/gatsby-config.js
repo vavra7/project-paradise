@@ -1,6 +1,6 @@
 module.exports = {
 	siteMetadata: {
-		name: 'Gatsby Frontend'
+		name: 'Gatsby Project Paradise'
 	},
 	plugins: [`gatsby-plugin-sass`]
 };

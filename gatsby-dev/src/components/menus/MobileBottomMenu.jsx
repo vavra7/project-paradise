@@ -16,10 +16,9 @@ class MobileBottomMenu extends Component {
 							</Link>
 						</FlatButton>
 					</li>
-
 					<li>
 						<FlatButton>
-							<Link to="/">
+							<Link to="/test">
 								<i className="icon-user-friends"></i>
 								<span>O nás</span>
 							</Link>
