@@ -83,7 +83,7 @@ class FixedMenusLayout extends Component {
 			}
 		});
 
-		document.documentElement.style.position = 'fixed';
+		// document.documentElement.style.position = 'fixed';
 
 		// function preventDefault(e) {
 		// 	e.preventDefault();
