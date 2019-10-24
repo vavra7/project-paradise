@@ -9,6 +9,7 @@ $bottom-bar-height: 48px;
 	width: 85%;
 	padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0);
 	z-index: $zi-fixed-right-bar;
+	-webkit-overflow-scroll: touch;
 	transform: translateX(100%);
 
 	&::after {
