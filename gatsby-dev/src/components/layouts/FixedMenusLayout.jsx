@@ -49,7 +49,7 @@ class FixedMenusLayout extends Component {
 			resizeFix: null
 		};
 
-		this.props.open();
+		// this.props.open();
 	}
 
 	componentDidMount() {
@@ -82,6 +82,11 @@ class FixedMenusLayout extends Component {
 				this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
 			}
 		});
+
+		document.ontouchmove = function(event) {
+			event.preventDefault();
+			console.log('asldkfdj');
+		};
 	}
 
 	handlerShowIn() {
