@@ -4,7 +4,7 @@ import windowWidth from './windowWidth';
 import { combineReducers } from 'redux';
 
 const reducers = combineReducers({
-	appRoot: appRootReducer,
+	app: appRootReducer,
 	mobileMenuOpenState: mobileMenuOpen,
 	windowWidth
 });

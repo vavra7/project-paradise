@@ -1,4 +1,5 @@
 export const TYPES = {
-	OPEN: 'OPEN',
-	CLOSE: 'CLOSE'
+	APP: {
+		WIDTH: 'WIDTH'
+	}
 };
