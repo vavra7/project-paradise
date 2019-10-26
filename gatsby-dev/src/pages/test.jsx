@@ -1,12 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { appWidth } from '../actions/appRootActions';
+import { appWidthHeight } from '../actions/appRootActions';
 
 const Test = () => {
-	const width = useSelector(state => state.app.width);
+	const app = useSelector(state => state.app);
 	const dispatch = useDispatch();
-
-	typeof document !== 'undefined' && document.addEventListener('click', e => dispatch(appWidth(e.screenX)));
 
 	return (
 		<div>
@@ -19,11 +17,10 @@ const Test = () => {
 				</p>
 			</div>
 
-			<div>width: {width}</div>
+			<pre>{JSON.stringify(app, null, 2)}</pre>
 
 			<div>
-				{/* <button onClick={() => console.log(appWidth())}>console.log</button> */}
-				<button onClick={() => dispatch(appWidth(654))}>dispatch</button>
+				<button onClick={() => dispatch(appWidthHeight(654))}>dispatch</button>
 			</div>
 		</div>
 	);

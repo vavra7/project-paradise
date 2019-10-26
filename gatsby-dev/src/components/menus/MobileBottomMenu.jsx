@@ -26,7 +26,7 @@ class MobileBottomMenu extends Component {
 					</li>
 					<li>
 						<FlatButton>
-							<Link to="/">
+							<Link to="/test2">
 								<i className="icon-umbrella-beach"></i>
 								<span>Dovolené</span>
 							</Link>

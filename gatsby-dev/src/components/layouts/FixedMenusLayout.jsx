@@ -4,7 +4,6 @@ import scopedStyles from './FixedMenusLayout.module.scss';
 import { pointer, styler, value, chain, action, calc, listen, inertia, tween, easing } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 import { connect } from 'react-redux';
-import { open } from '../../actions/openActions';
 
 class FixedMenusLayout extends Component {
 	static propTypes = {
@@ -48,8 +47,6 @@ class FixedMenusLayout extends Component {
 			directionSwipeMove: null,
 			resizeFix: null
 		};
-
-		// this.props.open();
 	}
 
 	componentDidMount() {
@@ -305,5 +302,5 @@ class FixedMenusLayout extends Component {
 
 export default connect(
 	null,
-	{ open }
+	null
 )(FixedMenusLayout);

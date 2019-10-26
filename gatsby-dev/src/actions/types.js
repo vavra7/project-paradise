@@ -1,5 +1,5 @@
 export const TYPES = {
 	APP: {
-		WIDTH: 'WIDTH'
+		WIDTH_HEIGHT: 'WIDTH_HEIGHT',
 	}
 };
