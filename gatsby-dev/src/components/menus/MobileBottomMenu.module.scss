@@ -9,8 +9,7 @@ ul.menu-wrapper {
 	list-style: none;
 
 	& li {
-		background: rgba(0, 0, 255, 0.541);
-		width: 80px;
+		width: 79px;
 		height: $bottom-bar-height;
 		display: flex;
 		border-radius: 25px;
@@ -21,6 +20,7 @@ ul.menu-wrapper {
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
+			height: 100%;
 			align-items: center;
 			justify-content: space-evenly;
 			text-decoration: none;
