@@ -6,7 +6,7 @@ const Test = () => {
 	const width = useSelector(state => state.app.width);
 	const dispatch = useDispatch();
 
-	document.addEventListener('click', e => dispatch(appWidth(e.screenX)));
+	typeof document !== 'undefined' && document.addEventListener('click', e => dispatch(appWidth(e.screenX)));
 
 	return (
 		<div>
