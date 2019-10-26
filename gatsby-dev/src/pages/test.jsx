@@ -20,7 +20,7 @@ const Test = () => {
 			<pre>{JSON.stringify(app, null, 2)}</pre>
 
 			<div>
-				<button onClick={() => dispatch(appWidthHeight(654))}>dispatch</button>
+				<button onClick={() => dispatch(appWidthHeight(654, 56456))}>dispatch</button>
 			</div>
 		</div>
 	);

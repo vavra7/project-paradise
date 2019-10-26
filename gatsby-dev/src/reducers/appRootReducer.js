@@ -1,6 +1,8 @@
 import { TYPES } from '../actions/types';
+import { isMobile } from '../services/appRootServices';
 
 const initialState = {
+	isMobile: typeof window !== 'undefined' && isMobile(),
 	width: typeof window !== 'undefined' ? window.innerWidth : 0,
 	height: typeof window !== 'undefined' ? window.innerHeight : 0
 };
