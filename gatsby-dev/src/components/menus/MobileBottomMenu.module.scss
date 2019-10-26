@@ -1,4 +1,5 @@
 @import '../../styles/base/colors';
+@import '../layouts/FixedMenusLayout.module.scss';
 
 $font-size: 10px;
 
@@ -8,11 +9,10 @@ ul.menu-wrapper {
 	list-style: none;
 
 	& li {
-background: rgba(0, 0, 255, 0.541);
-
-		display: flex;
+		background: rgba(0, 0, 255, 0.541);
 		width: 80px;
-		justify-content: center;
+		height: $bottom-bar-height;
+		display: flex;
 		border-radius: 25px;
 		overflow: hidden;
 		-webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -22,14 +22,13 @@ background: rgba(0, 0, 255, 0.541);
 			flex-direction: column;
 			flex-grow: 1;
 			align-items: center;
+			justify-content: space-evenly;
 			text-decoration: none;
-			padding: 8px 6px 4px 6px;
 			color: $paragraph;
 			font-weight: 400;
 
 			& i {
 				font-size: 20px;
-				margin-bottom: 4px;
 			}
 
 			& span {

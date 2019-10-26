@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import scopedStyles from './FlatButton.module.scss';
-import Ripple from './ripple/Ripple';
+import scopedStyles from './RippleEffect.module.scss';
+import Ripple from './Ripple';
 
-class FlatButton extends Component {
+class RippleEffect extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element, PropTypes.string])
 			.isRequired
@@ -30,7 +30,7 @@ class FlatButton extends Component {
 
 	render() {
 		return (
-			<div className={`${scopedStyles.flatButton} d-flex fg-1 ai-center jc-center`} onClick={e => this.addRipple(e)}>
+			<div className={`${scopedStyles.rippleEffect} d-flex fg-1 ai-center jc-center`} onClick={e => this.addRipple(e)}>
 				{this.state.ripples.map(({ top, left, id }) => (
 					<Ripple top={top} left={left} key={id} removeRipple={() => this.onRemoveRipple(id)} />
 				))}
@@ -41,4 +41,4 @@ class FlatButton extends Component {
 	}
 }
 
-export default FlatButton;
+export default RippleEffect;
