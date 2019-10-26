@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { appWidthHeight } from '../actions/appRootActions';
+import FlatButton from '../components/commons/buttons/FlatButton'
 
 const Test = () => {
 	const app = useSelector(state => state.app);
@@ -21,6 +22,7 @@ const Test = () => {
 
 			<div>
 				<button onClick={() => dispatch(appWidthHeight(654, 56456))}>dispatch</button>
+				<FlatButton>test button</FlatButton>
 			</div>
 		</div>
 	);
