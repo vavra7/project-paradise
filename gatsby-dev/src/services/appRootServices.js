@@ -22,33 +22,45 @@ const isMobile = () => {
 /**
  * https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
  */
-const detectBrowser = () => {
+const detectDesktopBrowser = () => {
 	// Opera 8.0+
-	let isOpera = (!!window.opr && !!window.opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+	const isOpera = (!!window.opr && !!window.opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
 	// Firefox 1.0+
-	let isFirefox = typeof InstallTrigger !== 'undefined';
+	const isFirefox = typeof InstallTrigger !== 'undefined';
 
 	// Safari 3.0+ "[object HTMLElementConstructor]"
-	let isSafari =
+	const isSafari =
 		/constructor/i.test(window.HTMLElement) ||
 		(function(p) {
 			return p.toString() === '[object SafariRemoteNotification]';
 		})(!window['safari'] || (typeof window.safari !== 'undefined' && window.safari.pushNotification));
 
 	// Internet Explorer 6-11
-	let isIE = /*@cc_on!@*/ false || !!document.documentMode;
+	const isIE = /*@cc_on!@*/ false || !!document.documentMode;
 
 	// Edge 20+
-	let isEdge = !isIE && !!window.StyleMedia;
+	const isEdge = !isIE && !!window.StyleMedia;
 
 	// Chrome 1 - 71
-	let isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+	const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
 	// Blink engine detection
-	let isBlink = (isChrome || isOpera) && !!window.CSS;
+	const isBlink = (isChrome || isOpera) && !!window.CSS;
 
 	return { isFirefox, isChrome, isSafari, isOpera, isIE, isEdge, isBlink };
 };
 
-export { isMobile, detectBrowser };
+/**
+ * https://stackoverflow.com/questions/3007480/determine-if-user-navigated-from-mobile-safari
+ */
+const detectMobileBrowser = () => {
+	const ua = window.navigator.userAgent;
+	const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+	const webkit = !!ua.match(/WebKit/i);
+	const isSafari = iOS && webkit && !ua.match(/CriOS/i);
+
+	return { isSafari };
+};
+
+export { isMobile, detectDesktopBrowser, detectMobileBrowser };

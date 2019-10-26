@@ -1,9 +1,12 @@
 import { TYPES } from '../actions/types';
-import { isMobile, detectBrowser } from '../services/appRootServices';
+import { isMobile, detectDesktopBrowser, detectMobileBrowser } from '../services/appRootServices';
 
 const initialState = {
 	isMobile: typeof window !== 'undefined' && isMobile(),
-	browser: typeof window !== 'undefined' && detectBrowser(),
+	browser: {
+		desktop: typeof window !== 'undefined' && detectDesktopBrowser(),
+		mobile: typeof window !== 'undefined' && detectMobileBrowser()
+	},
 	width: typeof window !== 'undefined' ? window.innerWidth : 0,
 	height: typeof window !== 'undefined' ? window.innerHeight : 0
 };
