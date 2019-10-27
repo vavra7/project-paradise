@@ -36,15 +36,8 @@ class FixedMenusLayout extends Component {
 			styler: null,
 			stylerY: null
 		};
-		this.swipeDirection = {
-			evaluationFinished: false,
-			x: null,
-			y: null
-		};
 		this.listeners = {
 			swipeEnd: null,
-			directionSwipeStart: null,
-			directionSwipeMove: null,
 			resizeFix: null
 		};
 	}
@@ -201,23 +194,6 @@ class FixedMenusLayout extends Component {
 
 	onOpen() {
 		document.body.style.overflowY = 'hidden';
-
-		if (this.listeners.directionSwipeStart) this.listeners.directionSwipeStart.stop();
-		this.listeners.directionSwipeStart = listen(document, 'touchstart').start(e => {
-			this.swipeDirection.x = e.touches[0].clientX;
-			this.swipeDirection.y = e.touches[0].clientY;
-			this.swipeDirection.evaluationFinished = false;
-		});
-
-		if (this.listeners.directionSwipeMove) this.listeners.directionSwipeMove.stop();
-		this.listeners.directionSwipeMove = listen(document, 'touchmove').start(e => {
-			if (this.swipeDirection.evaluationFinished) return;
-			const xDiff = Math.abs(this.swipeDirection.x - e.touches[0].clientX);
-			const yDiff = Math.abs(this.swipeDirection.y - e.touches[0].clientY);
-			this.swipeDirection.evaluationFinished = true;
-
-			if (xDiff * 0.65 > yDiff) this.startSwiping();
-		});
 	}
 
 	onClose() {
@@ -230,6 +206,14 @@ class FixedMenusLayout extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		if (!prevState.opened && this.state.opened) this.onOpen();
 		if (prevState.opened && !this.state.opened) this.onClose();
+
+		if (
+			prevProps.swipeAxisX !== this.props.swipeAxisX &&
+			this.props.swipeAxisX &&
+			this.state.opened &&
+			!this.rightBar.inProgress
+		)
+			this.startSwiping();
 	}
 
 	componentWillUnmount() {
@@ -300,7 +284,11 @@ class FixedMenusLayout extends Component {
 	}
 }
 
+const mapStateToprops = state => ({
+	swipeAxisX: state.app.swipeAxis.x
+});
+
 export default connect(
-	null,
+	mapStateToprops,
 	null
 )(FixedMenusLayout);
