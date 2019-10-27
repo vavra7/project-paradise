@@ -1,11 +1,8 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { appWidthHeight } from '../actions/appRootActions';
-import RippleEffect from '../components/commons/buttons/ripple/RippleEffect';
+import { useSelector } from 'react-redux';
 
 const Test = () => {
 	const app = useSelector(state => state.app);
-	const dispatch = useDispatch();
 
 	return (
 		<div>
@@ -21,8 +18,7 @@ const Test = () => {
 			<pre>{JSON.stringify(app, null, 2)}</pre>
 
 			<div>
-				<button onClick={() => dispatch(appWidthHeight(654, 56456))}>dispatch</button>
-				<RippleEffect>test button</RippleEffect>
+				<button style={{ height: 100, width: 200 }}>tst</button>
 			</div>
 		</div>
 	);

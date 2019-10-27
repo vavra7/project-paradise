@@ -6,7 +6,7 @@ import { listen } from 'popmotion';
 export class AppRootHandler extends Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.listeners = {};
 		this.swipeAxis = {
 			evaluationFinished: false,
@@ -38,6 +38,7 @@ export class AppRootHandler extends Component {
 	}
 
 	swipeAxisReset() {
+		if (!this.props.swipeAxis.x && !this.props.swipeAxis.y) return;
 		this.props.appSwipeAxis(false, false);
 	}
 
@@ -70,12 +71,16 @@ export class AppRootHandler extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+	swipeAxis: state.app.swipeAxis
+});
+
 const mapDispatchToProps = {
 	appWidthHeight,
 	appSwipeAxis
 };
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(AppRootHandler);

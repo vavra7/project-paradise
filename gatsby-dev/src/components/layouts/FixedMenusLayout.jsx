@@ -280,13 +280,13 @@ class FixedMenusLayout extends Component {
 	}
 }
 
-const mapStateToprops = state => ({
+const mapStateToProps = state => ({
 	swipeAxisX: state.app.swipeAxis.x,
 	windowWidth: state.app.width,
 	windowHeight: state.app.height
 });
 
 export default connect(
-	mapStateToprops,
+	mapStateToProps,
 	null
 )(FixedMenusLayout);
