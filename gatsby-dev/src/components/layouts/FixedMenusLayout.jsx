@@ -4,6 +4,7 @@ import scopedStyles from './FixedMenusLayout.module.scss';
 import { pointer, styler, value, chain, action, calc, listen, inertia, tween, easing } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 import { connect } from 'react-redux';
+import { rightBarSetProgress } from '../../actions/fixedMenusActions';
 
 class FixedMenusLayout extends Component {
 	static propTypes = {
@@ -13,19 +14,17 @@ class FixedMenusLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			opened: false,
 			handlerTopPosition: 0
 		};
 
-		this.startSwiping = this.startSwiping.bind(this);
+		this.startManualSwiping = this.startManualSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
 
 		this.rightBar = {
 			ref: React.createRef(),
 			styler: null,
 			stylerX: null,
-			subscriber: null,
-			inProgress: false
+			subscriber: null
 		};
 		this.handler = {
 			ref: React.createRef(),
@@ -60,9 +59,10 @@ class FixedMenusLayout extends Component {
 		this.bottomBar.stylerY.update(v);
 	}
 
-	startSwiping() {
-		this.setState({ opened: true });
-		this.rightBar.inProgress = true;
+	startManualSwiping() {
+		if (this.props.rightBarProgress.manual) return;
+
+		this.props.rightBarSetProgress(true, false, false, true);
 
 		const overDragPipe = v => {
 			if (v < 0) {
@@ -84,8 +84,9 @@ class FixedMenusLayout extends Component {
 			.start(this.rightBar.stylerX);
 	}
 
-	finishSwipe() {
-		if (!this.rightBar.inProgress) return;
+	finishManualSwipe() {
+		if (!this.props.rightBarProgress.manual || this.props.rightBarProgress.auto) return;
+
 		const velocity = this.rightBar.stylerX.getVelocity();
 
 		if (velocity === 0) {
@@ -109,6 +110,14 @@ class FixedMenusLayout extends Component {
 	}
 
 	animateTween(from, to, duration) {
+		if (!this.props.rightBarProgress.manual) return;
+
+		if (!to) {
+			this.props.rightBarSetProgress(false, true, true, true);
+		} else {
+			this.props.rightBarSetProgress(false, true, false, true);
+		}
+
 		chain(
 			tween({
 				from: from,
@@ -117,14 +126,26 @@ class FixedMenusLayout extends Component {
 				ease: easing.linear
 			}),
 			action(action => {
-				this.setState({ opened: to === 0 ? true : false });
-				this.rightBar.inProgress = false;
+				if (!to) {
+					this.props.rightBarSetProgress(false, false, false, true);
+				} else {
+					this.props.rightBarSetProgress(false, false, false, false);
+				}
+
 				action.complete();
 			})
 		).start(this.rightBar.stylerX);
 	}
 
 	animateInertia(velocity) {
+		if (!this.props.rightBarProgress.manual) return;
+
+		if (velocity > 0) {
+			this.props.rightBarSetProgress(false, true, false, true);
+		} else {
+			this.props.rightBarSetProgress(false, true, true, true);
+		}
+
 		chain(
 			inertia({
 				min: 0,
@@ -134,28 +155,24 @@ class FixedMenusLayout extends Component {
 			}).while(v => 0 <= v && v <= this.rightBar.ref.current.offsetWidth),
 			action(action => {
 				if (velocity > 0) {
-					this.setState({ opened: false });
 					this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
+					this.props.rightBarSetProgress(false, false, false, false);
 				} else {
-					this.setState({ opened: true });
 					this.rightBar.stylerX.update(0);
+					this.props.rightBarSetProgress(false, false, false, true);
 				}
-				this.rightBar.inProgress = false;
 				action.complete();
 			})
 		).start(this.rightBar.stylerX);
 	}
 
-	onOpen() {
-		document.body.style.overflowY = 'hidden';
-	}
+	// onOpen() {
+	// 	document.body.style.overflowY = 'hidden';
+	// }
 
-	onClose() {
-		document.body.style.overflowY = 'auto';
-
-		if (this.listeners.directionSwipeStart) this.listeners.directionSwipeStart.stop();
-		if (this.listeners.directionSwipeMove) this.listeners.directionSwipeMove.stop();
-	}
+	// onClose() {
+	// 	document.body.style.overflowY = 'auto';
+	// }
 
 	handlerPosition() {
 		if (Math.abs(this.state.handlerTopPosition - this.props.windowHeight / 2) > 70)
@@ -182,7 +199,7 @@ class FixedMenusLayout extends Component {
 		this.handlerShowIn();
 
 		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
-			this.finishSwipe();
+			this.finishManualSwipe();
 		});
 
 		// document.documentElement.style.position = 'fixed';
@@ -198,16 +215,14 @@ class FixedMenusLayout extends Component {
 		// disableScroll();
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (!prevState.opened && this.state.opened) this.onOpen();
+	componentDidUpdate(prevProps) {
 		if (
-			prevProps.swipeAxisX !== this.props.swipeAxisX &&
+			!prevProps.swipeAxisX &&
 			this.props.swipeAxisX &&
-			this.state.opened &&
-			!this.rightBar.inProgress
+			this.props.rightBarProgress.open &&
+			!this.props.rightBarProgress.manual
 		)
-			this.startSwiping();
-		if (prevState.opened && !this.state.opened) this.onClose();
+			this.startManualSwiping();
 		if (prevProps.windowHeight !== this.props.windowHeight) this.handlerPosition();
 		if (prevProps.windowWidth !== this.props.windowWidth) this.rightBarPosition();
 	}
@@ -230,8 +245,8 @@ class FixedMenusLayout extends Component {
 					<div
 						ref={this.handler.ref}
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
-						onMouseDown={this.startSwiping}
-						onTouchStart={this.startSwiping}
+						onMouseDown={this.startManualSwiping}
+						onTouchStart={this.startManualSwiping}
 						style={{ top: this.state.handlerTopPosition }}
 					></div>
 
@@ -283,10 +298,15 @@ class FixedMenusLayout extends Component {
 const mapStateToProps = state => ({
 	swipeAxisX: state.app.swipeAxis.x,
 	windowWidth: state.app.width,
-	windowHeight: state.app.height
+	windowHeight: state.app.height,
+	rightBarProgress: state.fixedMenus.rightBarProgress
 });
+
+const mapDispatchToProps = {
+	rightBarSetProgress
+};
 
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(FixedMenusLayout);
