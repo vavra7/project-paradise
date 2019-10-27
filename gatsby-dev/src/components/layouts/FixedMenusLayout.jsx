@@ -14,7 +14,7 @@ class FixedMenusLayout extends Component {
 		super(props);
 		this.state = {
 			opened: false,
-			handlerTopPosition: this.props.windowHeight / 2
+			handlerTopPosition: 0
 		};
 
 		this.startSwiping = this.startSwiping.bind(this);
@@ -158,7 +158,7 @@ class FixedMenusLayout extends Component {
 	}
 
 	handlerPosition() {
-		if (Math.abs(this.state.handlerTopPosition - this.props.windowHeight / 2) > 80)
+		if (Math.abs(this.state.handlerTopPosition - this.props.windowHeight / 2) > 70)
 			this.setState({ handlerTopPosition: this.props.windowHeight / 2 });
 	}
 
@@ -178,9 +178,7 @@ class FixedMenusLayout extends Component {
 
 		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
 
-		this.setState({ windowWidth: window.innerWidth });
-		this.setState({ windowHeight: window.innerHeight });
-
+		this.handlerPosition();
 		this.handlerShowIn();
 
 		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
