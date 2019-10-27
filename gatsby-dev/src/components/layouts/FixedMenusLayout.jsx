@@ -14,11 +14,12 @@ class FixedMenusLayout extends Component {
 		super(props);
 		this.state = {
 			opened: false,
-			windowWidth: null,
-			windowHeight: null
+			handlerTopPosition: this.props.windowHeight / 2
 		};
+
 		this.startSwiping = this.startSwiping.bind(this);
 		this.bottomBarToggler = this.bottomBarToggler.bind(this);
+
 		this.rightBar = {
 			ref: React.createRef(),
 			styler: null,
@@ -36,54 +37,7 @@ class FixedMenusLayout extends Component {
 			styler: null,
 			stylerY: null
 		};
-		this.listeners = {
-			swipeEnd: null,
-			resizeFix: null
-		};
-	}
-
-	componentDidMount() {
-		this.rightBar.styler = styler(this.rightBar.ref.current);
-		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
-
-		this.handler.styler = styler(this.handler.ref.current);
-		this.handler.stylerOpacity = value(0, v => this.handler.styler.set('opacity', v));
-
-		this.bottomBar.styler = styler(this.bottomBar.ref.current);
-		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
-
-		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
-
-		this.setState({ windowWidth: window.innerWidth });
-		this.setState({ windowHeight: window.innerHeight });
-
-		this.handlerShowIn();
-
-		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
-			this.finishSwipe();
-		});
-
-		this.listeners.resizeFix = listen(window, 'resize').start(() => {
-			if (Math.abs(this.state.windowHeight - window.innerHeight) > 100)
-				this.setState({ windowHeight: window.innerHeight });
-
-			if (this.state.windowWidth !== window.innerWidth) {
-				this.setState({ windowWidth: window.innerWidth });
-				this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
-			}
-		});
-
-		// document.documentElement.style.position = 'fixed';
-
-		// function preventDefault(e) {
-		// 	e.preventDefault();
-		// }
-
-		// function disableScroll() {
-		// 	document.body.addEventListener('touchmove', preventDefault, { passive: false });
-		// }
-
-		// disableScroll();
+		this.listeners = {};
 	}
 
 	handlerShowIn() {
@@ -203,10 +157,51 @@ class FixedMenusLayout extends Component {
 		if (this.listeners.directionSwipeMove) this.listeners.directionSwipeMove.stop();
 	}
 
+	handlerPosition() {
+		if (Math.abs(this.state.handlerTopPosition - this.props.windowHeight / 2) > 80)
+			this.setState({ handlerTopPosition: this.props.windowHeight / 2 });
+	}
+
+	rightBarPosition() {
+		this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
+	}
+
+	componentDidMount() {
+		this.rightBar.styler = styler(this.rightBar.ref.current);
+		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
+
+		this.handler.styler = styler(this.handler.ref.current);
+		this.handler.stylerOpacity = value(0, v => this.handler.styler.set('opacity', v));
+
+		this.bottomBar.styler = styler(this.bottomBar.ref.current);
+		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
+
+		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bottomBarToggler);
+
+		this.setState({ windowWidth: window.innerWidth });
+		this.setState({ windowHeight: window.innerHeight });
+
+		this.handlerShowIn();
+
+		this.listeners.swipeEnd = listen(document, 'touchend mouseup').start(() => {
+			this.finishSwipe();
+		});
+
+		// document.documentElement.style.position = 'fixed';
+
+		// function preventDefault(e) {
+		// 	e.preventDefault();
+		// }
+
+		// function disableScroll() {
+		// 	document.body.addEventListener('touchmove', preventDefault, { passive: false });
+		// }
+
+		// disableScroll();
+	}
+
 	componentDidUpdate(prevProps, prevState) {
 		if (!prevState.opened && this.state.opened) this.onOpen();
-		if (prevState.opened && !this.state.opened) this.onClose();
-
 		if (
 			prevProps.swipeAxisX !== this.props.swipeAxisX &&
 			this.props.swipeAxisX &&
@@ -214,6 +209,9 @@ class FixedMenusLayout extends Component {
 			!this.rightBar.inProgress
 		)
 			this.startSwiping();
+		if (prevState.opened && !this.state.opened) this.onClose();
+		if (prevProps.windowHeight !== this.props.windowHeight) this.handlerPosition();
+		if (prevProps.windowWidth !== this.props.windowWidth) this.rightBarPosition();
 	}
 
 	componentWillUnmount() {
@@ -236,7 +234,7 @@ class FixedMenusLayout extends Component {
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
 						onMouseDown={this.startSwiping}
 						onTouchStart={this.startSwiping}
-						style={{ top: this.state.windowHeight / 2 }}
+						style={{ top: this.state.handlerTopPosition }}
 					></div>
 
 					<div className={`${scopedStyles.rightBarContentContainer} fg-1 pa-2`}>
@@ -285,7 +283,9 @@ class FixedMenusLayout extends Component {
 }
 
 const mapStateToprops = state => ({
-	swipeAxisX: state.app.swipeAxis.x
+	swipeAxisX: state.app.swipeAxis.x,
+	windowWidth: state.app.width,
+	windowHeight: state.app.height
 });
 
 export default connect(
