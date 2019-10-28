@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[6],{191:function(n,t,e){"use strict";e.r(t),e.d(t,"query",function(){return i}),e.d(t,"WpPost",function(){return o});var r=e(0),u=e.n(r),i="3306641767",o=function(n){return u.a.createElement("pre",null,JSON.stringify(n,null,2))};t.default=o}}]);
+//# sourceMappingURL=component---src-templates-wp-post-jsx-097cf0e8ec4bb6e1181c.js.map

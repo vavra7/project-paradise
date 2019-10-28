@@ -4,10 +4,6 @@ wp-dev/vendor/
 wp-test/_wp-files/
 
 
-gatsby-dev/public/
-gatsby-dev/node_modules/
-gatsby-dev/.cache/
-
-gatsby-test/public/
-gatsby-test/node_modules/
-gatsby-test/.cache/
+gatsby/public/
+gatsby/node_modules/
+gatsby/.cache/
