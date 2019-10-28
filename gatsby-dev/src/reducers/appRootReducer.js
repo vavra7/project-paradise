@@ -1,4 +1,4 @@
-import { TYPES } from '../actions/types';
+import { ACTIONS } from '../actions/types';
 import { isMobile, detectDesktopBrowser, detectMobileBrowser } from '../services/appRootServices';
 
 const initialState = {
@@ -17,9 +17,9 @@ const initialState = {
 
 const appRootReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case TYPES.APP.WIDTH_HEIGHT:
+		case ACTIONS.APP.WIDTH_HEIGHT:
 			return { ...state, ...{ width: action.payload.width, height: action.payload.height } };
-		case TYPES.APP.SWIPE_AXIS:
+		case ACTIONS.APP.SWIPE_AXIS:
 			return {
 				...state,
 				swipeAxis: {

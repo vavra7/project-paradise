@@ -1,28 +1,15 @@
-import { TYPES } from '../actions/types';
+import { ACTIONS } from '../actions/types';
 
 const initialState = {
-	rightBarProgress: {
-		manual: false,
-		auto: false,
-		directionOpen: false,
-		open: false
-	}
+	rightBarIsActive: false
 };
 
 const fixedMenusReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case TYPES.FIXED_MENUS.PROGRESS:
+		case ACTIONS.FIXED_MENUS.RIGHT_BAR_ACTIVE:
 			return {
 				...state,
-				rightBarProgress: {
-					...state.rightBarProgress,
-					...{
-						manual: action.payload.manual,
-						auto: action.payload.auto,
-						directionOpen: action.payload.directionOpen,
-						open: action.payload.open
-					}
-				}
+				rightBarIsActive: action.payload.active
 			};
 		default:
 			return state;

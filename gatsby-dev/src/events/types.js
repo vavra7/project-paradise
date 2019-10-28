@@ -1,0 +1,5 @@
+export const EVENTS = {
+	FIXED_MENUS: {
+		RIGHT_BAR_TOGGLE: 'RIGHT_BAR_TOGGLE'
+	}
+};
