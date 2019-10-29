@@ -9,6 +9,7 @@ import { eventEmitter } from '../../events';
 import { EVENTS } from '../../events/types';
 
 const TWEEN_DURATION = 250;
+const TB_BB_SPEED = 0.2;
 
 class FixedMenusLayout extends Component {
 	static propTypes = {
@@ -18,11 +19,11 @@ class FixedMenusLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			handlerTopPosition: 0
+			handlerTopPosition: 0,
+			scrollInProgress: false
 		};
 
 		this.rBStartManualSwipe = this.rBStartManualSwipe.bind(this);
-		this.bBToggle = this.bBToggle.bind(this);
 
 		this.prevPageYOffset = 0;
 		this.checkScrollTimeout = null;
@@ -30,7 +31,8 @@ class FixedMenusLayout extends Component {
 			ref: React.createRef(),
 			styler: null,
 			stylerY: null,
-			max: 0
+			max: 0,
+			onRightBar: true
 		};
 		this.rightBar = {
 			ref: React.createRef(),
@@ -80,9 +82,31 @@ class FixedMenusLayout extends Component {
 		}, 500);
 	}
 
-	bBToggle(rightBarX) {
+	tBOnRbProgress(rightBarX) {
+		if (!this.topBar.onRightBar) return;
+
+		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED + this.topBar.max;
+		if (0 < v) {
+			if (this.topBar.styler.get('y') !== 0) this.topBar.styler.set('y', 0);
+			return;
+		} else {
+			this.topBar.stylerY.update(v);
+		}
+	}
+
+	tBOnScroll() {
+		const diff = this.prevPageYOffset - window.pageYOffset;
+		const currentPosition = this.topBar.styler.get('y');
+		const progress = currentPosition + diff;
+
+		this.prevPageYOffset = window.pageYOffset;
+		if ((currentPosition === this.topBar.max && diff < 0) || (currentPosition === 0 && diff > 0)) return;
+		this.topBar.stylerY.update(Math.max(Math.min(progress, 0), this.topBar.max));
+	}
+
+	bBOnRbProgress(rightBarX) {
 		const maxBoundary = this.bottomBar.ref.current.offsetHeight + 50;
-		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * 0.4;
+		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED;
 
 		if (maxBoundary < v || v < 0) return;
 
@@ -200,22 +224,12 @@ class FixedMenusLayout extends Component {
 	}
 
 	tBRefresh() {
-		this.topBar.max = -this.topBar.ref.current.offsetHeight - 20;
-	}
-
-	tBOnScroll() {
-		const diff = this.prevPageYOffset - window.pageYOffset;
-		const currentPosition = this.topBar.styler.get('y');
-		const progress = currentPosition + diff;
-
-		this.prevPageYOffset = window.pageYOffset;
-		if ((currentPosition === this.topBar.max && diff < 0) || (currentPosition === 0 && diff > 0)) return;
-		this.topBar.stylerY.update(Math.max(Math.min(progress, 0), this.topBar.max));
+		this.topBar.max = -this.topBar.ref.current.offsetHeight - 5;
 	}
 
 	tBFinish() {
 		const currentPosition = this.topBar.styler.get('y');
-		if (0 <= currentPosition || currentPosition <= this.topBar.max) return;
+		if (0 <= currentPosition || currentPosition <= this.topBar.max || this.props.rightBarIsActive) return;
 
 		tween({
 			from: currentPosition,
@@ -238,7 +252,10 @@ class FixedMenusLayout extends Component {
 		this.bottomBar.styler = styler(this.bottomBar.ref.current);
 		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
 
-		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(this.bBToggle);
+		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(v => {
+			this.bBOnRbProgress(v);
+			this.tBOnRbProgress(v);
+		});
 
 		this.rBHandlerPosition();
 		this.rBHandlerShowIn();
@@ -248,9 +265,10 @@ class FixedMenusLayout extends Component {
 			this.tBOnScroll();
 
 			clearTimeout(this.checkScrollTimeout);
+			if (!this.state.scrollInProgress) this.setState({ scrollInProgress: true });
 			this.checkScrollTimeout = setTimeout(() => {
-				this.tBFinish();
-			}, 200);
+				this.setState({ scrollInProgress: false });
+			}, 70);
 		});
 
 		this.listeners.rBFinishManualSwipe = listen(document, 'touchend mouseup').start(() => {
@@ -270,7 +288,7 @@ class FixedMenusLayout extends Component {
 		// disableScroll();
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 		if (
 			!prevProps.swipeAxisX &&
 			this.props.swipeAxisX &&
@@ -282,6 +300,15 @@ class FixedMenusLayout extends Component {
 		if (prevProps.windowWidth !== this.props.windowWidth) {
 			this.tBRefresh();
 			this.rBPosition();
+		}
+		if (
+			(prevState.scrollInProgress && !this.state.scrollInProgress && !this.props.swipeInProgress) ||
+			(prevProps.swipeInProgress && !this.props.swipeInProgress && !this.state.scrollInProgress)
+		) {
+			this.tBFinish();
+		}
+		if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) {
+			this.topBar.onRightBar = this.topBar.styler.get('y') === this.topBar.max ? true : false;
 		}
 	}
 
@@ -357,6 +384,7 @@ class FixedMenusLayout extends Component {
 
 const mapStateToProps = state => ({
 	swipeAxisX: state.app.swipeAxis.x,
+	swipeInProgress: state.app.swipeAxis.inProgress,
 	windowWidth: state.app.width,
 	windowHeight: state.app.height,
 	rightBarIsActive: state.fixedMenus.rightBarIsActive

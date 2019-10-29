@@ -9,7 +9,8 @@ const initialState = {
 	},
 	swipeAxis: {
 		x: false,
-		y: false
+		y: false,
+		inProgress: false
 	},
 	width: typeof window !== 'undefined' ? window.innerWidth : 0,
 	height: typeof window !== 'undefined' ? window.innerHeight : 0
@@ -24,7 +25,7 @@ const appRootReducer = (state = initialState, action) => {
 				...state,
 				swipeAxis: {
 					...state.swipeAxis,
-					...{ x: action.payload.x, y: action.payload.y }
+					...{ x: action.payload.x, y: action.payload.y, inProgress: action.payload.inProgress }
 				}
 			};
 		default:

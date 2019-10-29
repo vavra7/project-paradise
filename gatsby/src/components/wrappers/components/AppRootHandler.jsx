@@ -33,13 +33,13 @@ export class AppRootHandler extends Component {
 		if (xDiff * 0.75 > yDiff) x = true;
 		if (yDiff * 0.75 > xDiff) y = true;
 
-		this.props.appSwipeAxis(x, y);
+		this.props.appSwipeAxis(x, y, true);
 		this.swipeAxis.evaluationFinished = true;
 	}
 
 	swipeAxisReset() {
-		if (!this.props.swipeAxis.x && !this.props.swipeAxis.y) return;
-		this.props.appSwipeAxis(false, false);
+		if (!this.props.swipeAxis.inProgress) return;
+		this.props.appSwipeAxis(false, false, false);
 	}
 
 	componentDidMount() {
