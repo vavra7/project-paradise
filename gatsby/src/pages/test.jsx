@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { eventEmitter } from '../events';
+import { event } from '../events';
 import { EVENTS } from '../events/types';
 
 const Test = () => {
@@ -20,10 +20,7 @@ const Test = () => {
 			<pre>{JSON.stringify(app, null, 2)}</pre>
 
 			<div>
-				<button
-					style={{ height: 100, width: 200 }}
-					onClick={() => eventEmitter.emit(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE)}
-				>
+				<button style={{ height: 100, width: 200 }} onClick={() => event.emit(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE)}>
 					test
 				</button>
 			</div>

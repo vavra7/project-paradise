@@ -1,6 +1,6 @@
 const eventEmitter = {
 	events: {},
-	subscribe: (eventName, callback) => {
+	listen: (eventName, callback) => {
 		if (!eventEmitter.events[eventName]) eventEmitter.events[eventName] = [];
 		eventEmitter.events[eventName].push(callback);
 	},
@@ -10,4 +10,4 @@ const eventEmitter = {
 	}
 };
 
-export { eventEmitter };
+export { eventEmitter as event };

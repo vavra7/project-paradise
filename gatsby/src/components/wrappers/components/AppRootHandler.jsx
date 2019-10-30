@@ -1,62 +1,171 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appWidthHeight, appSwipeAxis } from '../../../actions/appRootActions';
+import { appWidthHeight } from '../../../actions/appRootActions';
 import { listen } from 'popmotion';
+import { event } from '../../../events';
+import { EVENTS } from '../../../events/types';
+
+const SCROLL_CHECK_INTERVAL = 100;
 
 export class AppRootHandler extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			swipe: {
+				inProgress: false,
+				inProgressX: false,
+				inProgressY: false
+			},
+			scroll: {
+				inProgress: false
+			},
+			swipeScroll: {
+				inProgress: false
+			}
+		};
+
+		this.scrollTimeoutCheck = null;
+		this.lastTouch = {
+			x: null,
+			y: null
+		};
+		this.swipeEvaluationFinish = false;
 
 		this.listeners = {};
-		this.swipeAxis = {
-			evaluationFinished: false,
-			xStart: null,
-			yStart: null
+	}
+
+	touchStart(e) {
+		this.swipeEvaluationFinish = false;
+		this.lastTouch = {
+			x: Math.round(e.touches[0].clientX),
+			y: Math.round(e.touches[0].clientY)
 		};
 	}
 
-	swipeAxisStart(e) {
-		this.swipeAxis.xStart = Math.round(e.touches[0].clientX);
-		this.swipeAxis.yStart = Math.round(e.touches[0].clientY);
-		this.swipeAxis.evaluationFinished = false;
+	swipeStart(e) {
+		if (this.swipeEvaluationFinish) return;
+
+		const xDiff = Math.abs(this.lastTouch.x - Math.round(e.touches[0].clientX));
+		const yDiff = Math.abs(this.lastTouch.y - Math.round(e.touches[0].clientY));
+
+		let inProgressX = false;
+		let inProgressY = false;
+
+		if (xDiff * 0.75 > yDiff) inProgressX = true;
+		if (yDiff * 0.75 > xDiff) inProgressY = true;
+
+		this.setState({
+			swipe: {
+				...this.state.swipe,
+				...{
+					inProgress: true,
+					inProgressX,
+					inProgressY
+				}
+			}
+		});
+
+		if (inProgressX) event.emit(EVENTS.APP_ROOT.SWIPE_X_START);
+
+		this.swipeEvaluationFinish = true;
 	}
 
-	swipeAxisCalculate(e) {
-		if (this.swipeAxis.evaluationFinished) return;
+	swipeFinish() {
+		if (!this.state.swipe.inProgress && !this.state.swipe.inProgressX && !this.state.swipe.inProgressY) return;
 
-		const xDiff = Math.abs(this.swipeAxis.xStart - Math.round(e.touches[0].clientX));
-		const yDiff = Math.abs(this.swipeAxis.yStart - Math.round(e.touches[0].clientY));
-
-		let x = false;
-		let y = false;
-
-		if (xDiff * 0.75 > yDiff) x = true;
-		if (yDiff * 0.75 > xDiff) y = true;
-
-		this.props.appSwipeAxis(x, y, true);
-		this.swipeAxis.evaluationFinished = true;
+		this.setState({
+			swipe: {
+				...this.state.swipe,
+				...{
+					inProgress: false,
+					inProgressX: false,
+					inProgressY: false
+				}
+			}
+		});
 	}
 
-	swipeAxisReset() {
-		if (!this.props.swipeAxis.inProgress) return;
-		this.props.appSwipeAxis(false, false, false);
+	scrollUpdate() {
+		clearTimeout(this.scrollTimeoutCheck);
+
+		if (!this.state.scroll.inProgress)
+			this.setState({
+				scroll: {
+					...this.state.scroll,
+					...{ inProgress: true }
+				}
+			});
+
+		this.scrollTimeoutCheck = setTimeout(() => {
+			if (this.state.scroll.inProgress) {
+				this.setState({
+					scroll: {
+						...this.state.scroll,
+						...{ inProgress: false }
+					}
+				});
+
+				this.swipeScrollFinish();
+			}
+		}, SCROLL_CHECK_INTERVAL);
+	}
+
+	swipeScrollStart() {
+		if (this.state.swipeScroll.inProgress) return;
+
+		if (this.state.swipe.inProgress && this.state.scroll.inProgress)
+			this.setState({
+				swipeScroll: {
+					...this.state.swipeScroll,
+					...{ inProgress: true }
+				}
+			});
+	}
+
+	swipeScrollFinish() {
+		if (!this.state.swipeScroll.inProgress) return;
+
+		if (!this.state.scroll.inProgress && !this.state.swipe.inProgress) {
+			this.setState({
+				swipeScroll: {
+					...this.state.swipeScroll,
+					...{ inProgress: false }
+				}
+			});
+
+			event.emit(EVENTS.APP_ROOT.SWIPE_SCROLL_FINISH);
+		}
 	}
 
 	componentDidMount() {
-		this.listeners.resize = listen(window, 'resize').start(e => {
+		this.listeners.resize = listen(window, 'resize').start(() => {
 			this.props.appWidthHeight(window.innerWidth, window.innerHeight);
 		});
 
 		this.listeners.touchstart = listen(document, 'touchstart').start(e => {
-			this.swipeAxisStart(e);
+			this.touchStart(e);
 		});
 
 		this.listeners.touchmove = listen(document, 'touchmove').start(e => {
-			this.swipeAxisCalculate(e);
+			this.swipeStart(e);
+			this.swipeScrollStart();
 		});
 
 		this.listeners.touchend = listen(document, 'touchend').start(() => {
-			this.swipeAxisReset();
+			this.swipeFinish();
+			this.swipeScrollFinish();
+
+			event.emit(EVENTS.APP_ROOT.TOUCH_END);
+		});
+
+		this.listeners.mouseup = listen(document, 'mouseup').start(() => {
+			event.emit(EVENTS.APP_ROOT.MOUSE_UP);
+		});
+
+		this.listeners.scroll = listen(window, 'scroll').start(() => {
+			this.scrollUpdate();
+
+			event.emit(EVENTS.APP_ROOT.SCROLL_UPDATE);
 		});
 	}
 
@@ -71,16 +180,11 @@ export class AppRootHandler extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	swipeAxis: state.app.swipeAxis
-});
-
 const mapDispatchToProps = {
-	appWidthHeight,
-	appSwipeAxis
+	appWidthHeight
 };
 
 export default connect(
-	mapStateToProps,
+	null,
 	mapDispatchToProps
 )(AppRootHandler);

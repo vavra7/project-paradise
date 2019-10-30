@@ -5,7 +5,7 @@ import { pointer, styler, value, chain, action, calc, listen, inertia, tween, ea
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 import { connect } from 'react-redux';
 import { rightBarSetActive } from '../../actions/fixedMenusActions';
-import { eventEmitter } from '../../events';
+import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 
 const TWEEN_DURATION = 250;
@@ -19,11 +19,8 @@ class FixedMenusLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			handlerTopPosition: 0,
-			scrollInProgress: false
+			handlerTopPosition: 0
 		};
-
-		this.rBStartManualSwipe = this.rBStartManualSwipe.bind(this);
 
 		this.prevPageYOffset = 0;
 		this.checkScrollTimeout = null;
@@ -55,31 +52,39 @@ class FixedMenusLayout extends Component {
 			styler: null,
 			stylerY: null
 		};
-		this.listeners = {
-			rBFinishManualSwipe: null
-		};
 
-		eventEmitter.subscribe(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
+		event.listen(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
+		event.listen(EVENTS.APP_ROOT.SCROLL_UPDATE, () => this.tBOnScroll());
+		event.listen(EVENTS.APP_ROOT.SWIPE_SCROLL_FINISH, () => this.tBFinish());
+		event.listen(EVENTS.APP_ROOT.TOUCH_END, () => this.rBFinishManualSwipe());
+		event.listen(EVENTS.APP_ROOT.MOUSE_UP, () => this.rBFinishManualSwipe());
+		event.listen(EVENTS.APP_ROOT.SWIPE_X_START, () => {
+			if (this.props.rightBarIsActive) this.rBStartManualSwipe();
+		});
 	}
 
-	rBToggle() {
-		const from = this.rightBar.styler.get('x');
-		let to = 0;
+	/**
+	 * TOP BAR
+	 */
 
-		if (this.props.rightBarIsActive && this.rightBar.directionOpen) to = this.rightBar.ref.current.offsetWidth;
-
-		this.rBAnimateTween(from, to);
+	tBRefresh() {
+		this.topBar.max = -this.topBar.ref.current.offsetHeight - 2;
 	}
 
-	rBHandlerShowIn() {
-		setTimeout(() => {
-			tween({
-				from: 0,
-				to: 1,
-				duration: 400,
-				ease: easing.linear
-			}).start(this.handler.stylerOpacity);
-		}, 500);
+	tBFinish() {
+		const currentPosition = this.topBar.styler.get('y');
+		if (0 <= currentPosition || currentPosition <= this.topBar.max || this.props.rightBarIsActive) return;
+
+		tween({
+			from: currentPosition,
+			to: 0,
+			duration: TWEEN_DURATION,
+			ease: easing.linear
+		}).start(this.topBar.stylerY);
+	}
+
+	tbShouldOnRb() {
+		this.topBar.onRightBar = this.topBar.styler.get('y') === this.topBar.max ? true : false;
 	}
 
 	tBOnRbProgress(rightBarX) {
@@ -104,13 +109,28 @@ class FixedMenusLayout extends Component {
 		this.topBar.stylerY.update(Math.max(Math.min(progress, 0), this.topBar.max));
 	}
 
-	bBOnRbProgress(rightBarX) {
-		const maxBoundary = this.bottomBar.ref.current.offsetHeight + 50;
-		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED;
+	/**
+	 * RIGHT BAR
+	 */
 
-		if (maxBoundary < v || v < 0) return;
+	rBToggle() {
+		const from = this.rightBar.styler.get('x');
+		let to = 0;
 
-		this.bottomBar.stylerY.update(v);
+		if (this.props.rightBarIsActive && this.rightBar.directionOpen) to = this.rightBar.ref.current.offsetWidth;
+
+		this.rBAnimateTween(from, to);
+	}
+
+	rBHandlerShowIn() {
+		setTimeout(() => {
+			tween({
+				from: 0,
+				to: 1,
+				duration: 400,
+				ease: easing.linear
+			}).start(this.handler.stylerOpacity);
+		}, 500);
 	}
 
 	rBStartManualSwipe() {
@@ -223,20 +243,13 @@ class FixedMenusLayout extends Component {
 		this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
 	}
 
-	tBRefresh() {
-		this.topBar.max = -this.topBar.ref.current.offsetHeight - 5;
-	}
+	bBOnRbProgress(rightBarX) {
+		const maxBoundary = this.bottomBar.ref.current.offsetHeight + 50;
+		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED;
 
-	tBFinish() {
-		const currentPosition = this.topBar.styler.get('y');
-		if (0 <= currentPosition || currentPosition <= this.topBar.max || this.props.rightBarIsActive) return;
+		if (maxBoundary < v || v < 0) return;
 
-		tween({
-			from: currentPosition,
-			to: 0,
-			duration: TWEEN_DURATION,
-			ease: easing.linear
-		}).start(this.topBar.stylerY);
+		this.bottomBar.stylerY.update(v);
 	}
 
 	componentDidMount() {
@@ -261,20 +274,6 @@ class FixedMenusLayout extends Component {
 		this.rBHandlerShowIn();
 		this.tBRefresh();
 
-		this.listeners.scroll = listen(window, 'scroll').start(() => {
-			this.tBOnScroll();
-
-			clearTimeout(this.checkScrollTimeout);
-			if (!this.state.scrollInProgress) this.setState({ scrollInProgress: true });
-			this.checkScrollTimeout = setTimeout(() => {
-				this.setState({ scrollInProgress: false });
-			}, 70);
-		});
-
-		this.listeners.rBFinishManualSwipe = listen(document, 'touchend mouseup').start(() => {
-			this.rBFinishManualSwipe();
-		});
-
 		// document.documentElement.style.position = 'fixed';
 
 		// function preventDefault(e) {
@@ -289,34 +288,16 @@ class FixedMenusLayout extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (
-			!prevProps.swipeAxisX &&
-			this.props.swipeAxisX &&
-			this.props.rightBarIsActive &&
-			!this.rightBar.inProgress.manual
-		)
-			this.rBStartManualSwipe();
 		if (prevProps.windowHeight !== this.props.windowHeight) this.rBHandlerPosition();
 		if (prevProps.windowWidth !== this.props.windowWidth) {
 			this.tBRefresh();
 			this.rBPosition();
 		}
-		if (
-			(prevState.scrollInProgress && !this.state.scrollInProgress && !this.props.swipeInProgress) ||
-			(prevProps.swipeInProgress && !this.props.swipeInProgress && !this.state.scrollInProgress)
-		) {
-			this.tBFinish();
-		}
-		if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) {
-			this.topBar.onRightBar = this.topBar.styler.get('y') === this.topBar.max ? true : false;
-		}
+		if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) this.tbShouldOnRb();
 	}
 
 	componentWillUnmount() {
 		if (this.rightBar.subscriber) this.rightBar.subscriber.unsubscribe();
-		Object.keys(this.listeners).forEach(listener => {
-			if (this.listeners[listener]) this.listeners[listener].stop();
-		});
 	}
 
 	render() {
@@ -332,8 +313,8 @@ class FixedMenusLayout extends Component {
 					<div
 						ref={this.handler.ref}
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
-						onMouseDown={this.rBStartManualSwipe}
-						onTouchStart={this.rBStartManualSwipe}
+						onMouseDown={() => this.rBStartManualSwipe()}
+						onTouchStart={() => this.rBStartManualSwipe()}
 						style={{ top: this.state.handlerTopPosition }}
 					></div>
 
@@ -383,8 +364,6 @@ class FixedMenusLayout extends Component {
 }
 
 const mapStateToProps = state => ({
-	swipeAxisX: state.app.swipeAxis.x,
-	swipeInProgress: state.app.swipeAxis.inProgress,
 	windowWidth: state.app.width,
 	windowHeight: state.app.height,
 	rightBarIsActive: state.fixedMenus.rightBarIsActive
