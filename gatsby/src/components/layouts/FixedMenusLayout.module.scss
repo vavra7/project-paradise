@@ -44,6 +44,7 @@ $BOTTOM_BAR_HEIGHT: 48px;
 
 	& .right-bar-content-container {
 		overflow-y: auto;
+		overscroll-behavior-y: none;
 		margin-top: $TOP_BAR_HEIGHT_MOBILE;
 		-webkit-overflow-scrolling: touch;
 	}

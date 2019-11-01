@@ -1,12 +1,12 @@
 const eventEmitter = {
 	events: {},
-	listen: (eventName, callback) => {
-		if (!eventEmitter.events[eventName]) eventEmitter.events[eventName] = [];
-		eventEmitter.events[eventName].push(callback);
+	listen: (eventType, callback) => {
+		if (!eventEmitter.events[eventType]) eventEmitter.events[eventType] = [];
+		eventEmitter.events[eventType].push(callback);
 	},
-	emit: (eventName, data) => {
-		if (!eventEmitter.events[eventName]) return;
-		eventEmitter.events[eventName].forEach(callback => callback(data));
+	emit: (eventType, data) => {
+		if (!eventEmitter.events[eventType]) return;
+		eventEmitter.events[eventType].forEach(callback => callback(data));
 	}
 };
 
