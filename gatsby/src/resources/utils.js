@@ -1,6 +1,3 @@
-require('dotenv').config({
-	path: `.env.${process.env.NODE_ENV}`
-});
 const axios = require('axios');
 const path = require('path');
 
@@ -130,11 +127,11 @@ const createAllWpPages = ({ createPage }, { data, urlDirectory, templatePath }) 
 };
 
 module.exports = {
-	fetchWpData: fetchWpData,
-	fetchAllWpData: fetchAllWpData,
-	prepareAllWpData: prepareAllWpData,
-	createAllNodes: createAllNodes,
-	asyncForEach: asyncForEach,
-	createGraphqlType: createGraphqlType,
-	createAllWpPages: createAllWpPages
+	fetchWpData,
+	fetchAllWpData,
+	prepareAllWpData,
+	createAllNodes,
+	asyncForEach,
+	createGraphqlType,
+	createAllWpPages
 };

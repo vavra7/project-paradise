@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './FixedMenusLayout.module.scss';
-import { pointer, styler, value, chain, action, calc, listen, inertia, tween, easing } from 'popmotion';
+import { pointer, styler, value, chain, action, calc, inertia, tween, easing } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 import { connect } from 'react-redux';
 import { rightBarSetActive } from '../../actions/fixedMenusActions';

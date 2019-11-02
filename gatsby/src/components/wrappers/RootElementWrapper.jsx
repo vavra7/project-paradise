@@ -1,14 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducers from '../../reducers'
 import AppRootHandler from './components/AppRootHandler';
-
-export const store = createStore(
-	reducers,
-	// TODO: Remove Redux extension code on production
-	typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import { store } from '../../store';
 
 const RootElementWrapper = ({ element }) => {
 	return (

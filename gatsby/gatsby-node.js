@@ -1,3 +1,7 @@
+require('dotenv').config({
+	path: `.env.${process.env.NODE_ENV}`
+});
+
 const { TYPES } = require('./src/resources/types');
 const { asyncForEach } = require('./src/resources/utils');
 const node = require('./src/resources/node');
