@@ -66,7 +66,7 @@ export class AppRootHandler extends Component {
 			}
 		});
 
-		if (inProgressX) event.emit(EVENTS.APP_ROOT.SWIPE_X_START);
+		if (inProgressX) event.emit(EVENTS.APP_ROOT.SWIPE_X_START, e);
 
 		this.swipeEvaluationFinish = true;
 	}
@@ -171,7 +171,7 @@ export class AppRootHandler extends Component {
 			this.touchStart(e);
 		});
 
-		this.listeners.touchmove = listen(document, 'touchmove').start(e => {
+		this.listeners.touchmove = listen(document, 'touchmove', { passive: false }).start(e => {
 			this.swipeStart(e);
 			this.swipeScrollStart();
 		});

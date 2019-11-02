@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './FixedMenusLayout.module.scss';
-import { pointer, styler, value, chain, action, calc, inertia, tween, easing } from 'popmotion';
+import { pointer, styler, value, chain, action, calc, inertia, tween, easing, listen } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 import { connect } from 'react-redux';
 import { rightBarSetActive } from '../../actions/fixedMenusActions';
@@ -52,14 +52,15 @@ class FixedMenusLayout extends Component {
 			styler: null,
 			stylerY: null
 		};
+		this.listeners = {};
 
 		event.listen(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
 		event.listen(EVENTS.APP_ROOT.SCROLL_UPDATE, () => this.tBOnScroll());
 		event.listen(EVENTS.APP_ROOT.SWIPE_SCROLL_FINISH, () => this.tBFinish());
 		event.listen(EVENTS.APP_ROOT.TOUCH_END, () => this.rBFinishManualSwipe());
 		event.listen(EVENTS.APP_ROOT.MOUSE_UP, () => this.rBFinishManualSwipe());
-		event.listen(EVENTS.APP_ROOT.SWIPE_X_START, () => {
-			if (this.props.rightBarIsActive) this.rBStartManualSwipe();
+		event.listen(EVENTS.APP_ROOT.SWIPE_X_START, e => {
+			if (this.props.rightBarIsActive) this.rBStartManualSwipe(e);
 		});
 	}
 
@@ -133,9 +134,10 @@ class FixedMenusLayout extends Component {
 		}, 500);
 	}
 
-	rBStartManualSwipe() {
+	rBStartManualSwipe(e) {
 		if (this.rightBar.inProgress.manual) return;
 
+		if (e.cancelable) e.preventDefault();
 		this.rightBar.inProgress.auto = false;
 		this.rightBar.inProgress.manual = true;
 		if (!this.props.rightBarIsActive) this.props.rightBarSetActive(true);
@@ -151,6 +153,7 @@ class FixedMenusLayout extends Component {
 		};
 
 		pointer({
+			preventDefault: e.cancelable,
 			x: this.rightBar.styler.get('x')
 		})
 			.pipe(
@@ -273,6 +276,10 @@ class FixedMenusLayout extends Component {
 		this.rBHandlerPosition();
 		this.rBHandlerShowIn();
 		this.tBRefresh();
+
+		this.listeners.onHandler = listen(this.handler.ref.current, 'touchstart mousedown', { passive: false }).start(e => {
+			this.rBStartManualSwipe(e);
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -286,6 +293,9 @@ class FixedMenusLayout extends Component {
 
 	componentWillUnmount() {
 		if (this.rightBar.subscriber) this.rightBar.subscriber.unsubscribe();
+		Object.keys(this.listeners).forEach(listener => {
+			if (this.listeners[listener]) this.listeners[listener].stop();
+		});
 	}
 
 	render() {
@@ -301,8 +311,6 @@ class FixedMenusLayout extends Component {
 					<div
 						ref={this.handler.ref}
 						className={`${scopedStyles.rightBarHandlerContainer} p-absolute`}
-						onMouseDown={() => this.rBStartManualSwipe()}
-						onTouchStart={() => this.rBStartManualSwipe()}
 						style={{ top: this.state.handlerTopPosition }}
 					></div>
 
