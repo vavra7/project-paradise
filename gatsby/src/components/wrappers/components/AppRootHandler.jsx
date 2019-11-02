@@ -17,7 +17,8 @@ export class AppRootHandler extends Component {
 				inProgressY: false
 			},
 			scroll: {
-				inProgress: false
+				inProgress: false,
+				enabled: true
 			},
 			swipeScroll: {
 				inProgress: false
@@ -81,6 +82,30 @@ export class AppRootHandler extends Component {
 					inProgressX: false,
 					inProgressY: false
 				}
+			}
+		});
+	}
+
+	scrollEnable() {
+		if (this.state.scroll.enabled) return;
+
+		document.body.classList.remove('scrollDisabled');
+		this.setState({
+			scroll: {
+				...this.state.scroll,
+				...{ enabled: true }
+			}
+		});
+	}
+
+	scrollDisable() {
+		if (!this.state.scroll.enabled) return;
+
+		document.body.classList.add('scrollDisabled');
+		this.setState({
+			scroll: {
+				...this.state.scroll,
+				...{ enabled: false }
 			}
 		});
 	}
@@ -169,6 +194,11 @@ export class AppRootHandler extends Component {
 		});
 	}
 
+	componentDidUpdate(prevProps) {
+		if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) this.scrollDisable();
+		if (prevProps.rightBarIsActive && !this.props.rightBarIsActive) this.scrollEnable();
+	}
+
 	componentWillUnmount() {
 		Object.keys(this.listeners).forEach(listener => {
 			if (this.listeners[listener]) this.listeners[listener].stop();
@@ -180,11 +210,15 @@ export class AppRootHandler extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+	rightBarIsActive: state.fixedMenus.rightBarIsActive
+});
+
 const mapDispatchToProps = {
 	appWidthHeight
 };
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(AppRootHandler);

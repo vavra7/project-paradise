@@ -273,18 +273,6 @@ class FixedMenusLayout extends Component {
 		this.rBHandlerPosition();
 		this.rBHandlerShowIn();
 		this.tBRefresh();
-
-		// document.documentElement.style.position = 'fixed';
-
-		// function preventDefault(e) {
-		// 	e.preventDefault();
-		// }
-
-		// function disableScroll() {
-		// 	document.body.addEventListener('touchmove', preventDefault, { passive: false });
-		// }
-
-		// disableScroll();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
