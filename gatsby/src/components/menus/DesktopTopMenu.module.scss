@@ -1,0 +1,15 @@
+@import '../../styles/base/spacing';
+
+ul.menu-wrapper {
+	margin: 0;
+	padding: 0;
+	display: inline-flex;
+	list-style: none;
+
+	& li {
+		& a {
+			display: inline-block;
+			padding: map-get($spaces, 2);
+		}
+	}
+}

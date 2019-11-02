@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appWidthHeight } from '../actions/appRootActions';
+import DesktopTopMenu from '../components/menus/DesktopTopMenu';
 
 class test2 extends Component {
 	static propTypes = {};
@@ -21,7 +22,9 @@ class test2 extends Component {
 						perferendis neque omnis tenetur commodi! Ex quidem dolores hic fugiat optio?
 					</p>
 				</div>
-				<div></div>
+				<div>
+					<DesktopTopMenu></DesktopTopMenu>
+				</div>
 			</div>
 		);
 	}

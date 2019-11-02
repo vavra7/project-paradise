@@ -6,7 +6,7 @@ import RippleEffect from '../commons/buttons/ripple/RippleEffect';
 class MobileBottomMenu extends Component {
 	render() {
 		return (
-			<nav id="mobile-bottom-menu">
+			<nav className="mobile-bottom-menu">
 				<ul className={`${scopedStyles.menuWrapper} d-flex jc-space-around`}>
 					<li>
 						<RippleEffect>

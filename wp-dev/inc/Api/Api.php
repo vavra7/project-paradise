@@ -53,7 +53,7 @@ final class Api
 						'id' => $item->ID,
 						'title' => $item->title,
 						'url' => $item->url,
-						'path' => rtrim(parse_url($item->url, PHP_URL_PATH), '/'),
+						'path' => rtrim(parse_url($item->url, PHP_URL_PATH), '/') ?: '/',
 						'type' => $item->object,
 						'menu_item_parent' => $item->menu_item_parent,
 						'menu_order' => $item->menu_order,
@@ -78,7 +78,7 @@ final class Api
 	}
 
 	/**
-	 * Based on user's home url and site url determins whether link is internal or external
+	 * Based on user's home url and site url determines whether link is internal or external
 	 */
 	public function is_internal(string $url): bool
 	{

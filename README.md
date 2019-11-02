@@ -1,22 +1,33 @@
 # project-paradise
 
-## Launch  environments (wordpress)
+## Launch environments (wordpress)
+
 `docker-compose up`
 
-## Change directory owner (Linux only)
-`sudo chown $USER -R ./`
+## Change directory owner for Wordpress (Linux only)
+
+`sudo chown www-data -R ./`
+
+## Change directory rights (Linux only)
+
+`sudo chmod 777 -R ./`
 
 ## Install composer packages in Wordpress theme
+
 `cd wp-dev && composer install`
 
 ## Install Wordpress
-wp-dev (localhost:8071) / wp-test (localhost:8072)
+
+wp-dev (localhost:8069) / wp-test (localhost:8068)
 
 ## Change Wordpress Theme
+
 In development environment wp-dev change theme to "Project Paradise"
 
 ## Enable Wordpress API routes
+
 Change permalinks to "Post name" in Settings -> Permalinks
 
-## Install npm packages in Gatsby (gatsby-dev)
+## Install npm packages in Gatsby (gatsby)
+
 `npm install`

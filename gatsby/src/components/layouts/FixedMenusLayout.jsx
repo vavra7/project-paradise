@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import scopedStyles from './FixedMenusLayout.module.scss';
 import { pointer, styler, value, chain, action, calc, inertia, tween, easing, listen } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
+import MobileTopMenu from '../menus/MobileTopMenu';
+import DesktopTopMenu from '../menus/DesktopTopMenu';
 import { connect } from 'react-redux';
 import { rightBarSetActive } from '../../actions/fixedMenusActions';
 import { event } from '../../events';
@@ -15,6 +17,8 @@ class FixedMenusLayout extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired
 	};
+
+	//#region [ constructor ]
 
 	constructor(props) {
 		super(props);
@@ -64,9 +68,9 @@ class FixedMenusLayout extends Component {
 		});
 	}
 
-	/**
-	 * TOP BAR
-	 */
+	//#endregion
+
+	//#region [ rgba(247, 249, 97, 0.03) ] Top Bar
 
 	tBRefresh() {
 		this.topBar.max = -this.topBar.ref.current.offsetHeight - 2;
@@ -110,9 +114,9 @@ class FixedMenusLayout extends Component {
 		this.topBar.stylerY.update(Math.max(Math.min(progress, 0), this.topBar.max));
 	}
 
-	/**
-	 * RIGHT BAR
-	 */
+	//#endregion
+
+	//#region [ rgba(122, 249, 97, 0.04) ] Right Bar
 
 	rBToggle() {
 		const from = this.rightBar.styler.get('x');
@@ -242,6 +246,10 @@ class FixedMenusLayout extends Component {
 			this.setState({ handlerTopPosition: this.props.windowHeight / 2 });
 	}
 
+	//#endregion
+
+	//#region [ rgba(249, 199, 97, 0.03) ] Bottom Bar
+
 	rBPosition() {
 		this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
 	}
@@ -254,6 +262,10 @@ class FixedMenusLayout extends Component {
 
 		this.bottomBar.stylerY.update(v);
 	}
+
+	//#endregion
+
+	//#region [ lifeCycleMethods ]
 
 	componentDidMount() {
 		this.topBar.styler = styler(this.topBar.ref.current);
@@ -298,6 +310,8 @@ class FixedMenusLayout extends Component {
 		});
 	}
 
+	//#endregion
+
 	render() {
 		return (
 			<div id="fixed-menus-layout">
@@ -305,7 +319,15 @@ class FixedMenusLayout extends Component {
 					{this.props.children}
 				</div>
 
-				<div id="fixed-top-bar" ref={this.topBar.ref} className={`${scopedStyles.fixedTopBar} p-fixed`}></div>
+				<div id="fixed-top-bar" ref={this.topBar.ref} className={`${scopedStyles.fixedTopBar} p-fixed`}>
+					<div className="hide-md-up">
+						<MobileTopMenu></MobileTopMenu>
+					</div>
+
+					<div className="hide-sm-down">
+						<DesktopTopMenu></DesktopTopMenu>
+					</div>
+				</div>
 
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div

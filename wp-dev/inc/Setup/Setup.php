@@ -12,9 +12,8 @@ final class Setup
 	public function menus(): void
 	{
 		register_nav_menus([
-			'main_menu' => 'Main Menu',
-			'secondary_menu' => 'Secondary Menu',
-			'footer_menu' => 'Footer Menu'
+			'desktop_top_menu' => 'Desktop Top Menu',
+			'mobile_bottom_menu' => 'Mobile Bottom Menu'
 		]);
 	}
 }

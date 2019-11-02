@@ -1,6 +1,6 @@
 $base-size: 1rem;
 
-$spacing-modifiers: (
+$spaces: (
 	0: $base-size * 0,
 	1: $base-size * 0.25,
 	2: $base-size * 0.5,
@@ -9,9 +9,14 @@ $spacing-modifiers: (
 	5: $base-size * 3
 );
 
-@each $space, $size in $spacing-modifiers {
+@each $space, $size in $spaces {
 	.ma-#{$space} {
 		margin: $size;
+	}
+
+	.mx-#{$space} {
+		margin-left: $size;
+		margin-right: $size;
 	}
 
 	.mt-#{$space} {
