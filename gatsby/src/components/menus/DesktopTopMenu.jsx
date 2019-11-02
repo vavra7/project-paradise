@@ -19,6 +19,9 @@ const DesktopTopMenu = () => {
 			}
 		`
 	);
+
+	if (!data.wpMenu) return (<></>)
+
 	const menuItems = data.wpMenu.items;
 	const getPath = menuItem => {
 		return menuItem.type === 'post' ? `/post${menuItem.path}` : menuItem.path;
