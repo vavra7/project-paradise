@@ -36,7 +36,8 @@ class FixedMenusLayout extends Component {
 			stylerY: null,
 			max: 0,
 			onRightBar: true,
-			desktop: true
+			desktop: true,
+			desktopTweenInProgress: false
 		};
 		this.rightBar = {
 			ref: React.createRef(),
@@ -62,7 +63,10 @@ class FixedMenusLayout extends Component {
 		this.listeners = {};
 
 		event.listen(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
-		event.listen(EVENTS.APP_ROOT.SCROLL_UPDATE, () => this.tBOnScroll());
+		event.listen(EVENTS.APP_ROOT.SCROLL_UPDATE, () => {
+			this.tBMobileOnScroll();
+			this.tBDesktopOnScroll();
+		});
 		event.listen(EVENTS.APP_ROOT.SWIPE_SCROLL_FINISH, () => this.tBFinish());
 		event.listen(EVENTS.APP_ROOT.TOUCH_END, () => this.rBFinishManualSwipe());
 		event.listen(EVENTS.APP_ROOT.MOUSE_UP, () => this.rBFinishManualSwipe());
@@ -76,11 +80,16 @@ class FixedMenusLayout extends Component {
 	//#region [ rgba(247, 249, 97, 0.03) ] Top Bar
 
 	tBRefresh() {
-		this.topBar.max = -this.topBar.ref.current.offsetHeight - 2;
-	}
+		let newTbPosition = 0;
 
-	tBDesktopMobileToggle() {
 		this.topBar.desktop = this.props.windowWidth < BREAKPOINTS.MD_MIN ? false : true;
+		this.topBar.max = -this.topBar.ref.current.offsetHeight - 2;
+
+		if (this.topBar.desktop && window.pageYOffset < TB_DESKTOP_REVEAL_POINT) {
+			newTbPosition = this.topBar.max;
+		}
+
+		this.topBar.styler.set('y', newTbPosition);
 	}
 
 	tBFinish() {
@@ -100,7 +109,7 @@ class FixedMenusLayout extends Component {
 	}
 
 	tBOnRbProgress(rightBarX) {
-		if (!this.topBar.onRightBar) return;
+		if (!this.topBar.onRightBar || !this.props.rightBarIsActive || this.topBar.desktop) return;
 
 		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED + this.topBar.max;
 		if (0 < v) {
@@ -111,7 +120,37 @@ class FixedMenusLayout extends Component {
 		}
 	}
 
-	tBOnScroll() {
+	tBDesktopOnScroll() {
+		if (!this.topBar.desktop || this.topBar.desktopTweenInProgress) return;
+
+		const currentPosition = Math.round(this.topBar.styler.get('y'));
+		const revealPointDistance = window.pageYOffset - TB_DESKTOP_REVEAL_POINT;
+		let to = 0;
+
+		if (currentPosition < 0 && revealPointDistance < 0) return;
+		if (currentPosition === 0 && revealPointDistance >= 0) return;
+		if (currentPosition === 0 && revealPointDistance < 0) to = this.topBar.max;
+
+		this.topBar.desktopTweenInProgress = true;
+
+		chain(
+			tween({
+				from: currentPosition,
+				to: to,
+				duration: TWEEN_DURATION,
+				ease: easing.linear
+			}),
+			action(action => {
+				this.topBar.desktopTweenInProgress = false;
+				action.complete();
+				this.tBDesktopOnScroll();
+			})
+		).start(this.topBar.stylerY);
+	}
+
+	tBMobileOnScroll() {
+		if (this.topBar.desktop) return;
+
 		const diff = this.prevPageYOffset - window.pageYOffset;
 		const currentPosition = this.topBar.styler.get('y');
 		const progress = currentPosition + diff;
