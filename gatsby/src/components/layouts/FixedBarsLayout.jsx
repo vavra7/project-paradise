@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import scopedStyles from './FixedMenusLayout.module.scss';
+import scopedStyles from './FixedBarsLayout.module.scss';
 import { pointer, styler, value, chain, action, calc, inertia, tween, easing, listen } from 'popmotion';
 import MobileBottomMenu from '../menus/MobileBottomMenu';
 import MobileTopMenu from '../menus/MobileTopMenu';
 import DesktopTopMenu from '../menus/DesktopTopMenu';
 import { connect } from 'react-redux';
-import { rightBarSetActive } from '../../actions/fixedMenusActions';
+import { rightBarSetActive } from '../../actions/fixedBarsActions';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
 
 const TWEEN_DURATION = 250;
 const TB_BB_SPEED = 0.2;
-const TB_DESKTOP_REVEAL_POINT = 50;
+const TB_DESKTOP_REVEAL_POINT = 300;
 
-class FixedMenusLayout extends Component {
+class FixedBarsLayout extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired
 	};
@@ -62,7 +62,7 @@ class FixedMenusLayout extends Component {
 		};
 		this.listeners = {};
 
-		event.listen(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
+		event.listen(EVENTS.FIXED_BARS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
 		event.listen(EVENTS.APP_ROOT.SCROLL_UPDATE, () => {
 			this.tBMobileOnScroll();
 			this.tBDesktopOnScroll();
@@ -430,7 +430,7 @@ class FixedMenusLayout extends Component {
 const mapStateToProps = state => ({
 	windowWidth: state.app.width,
 	windowHeight: state.app.height,
-	rightBarIsActive: state.fixedMenus.rightBarIsActive
+	rightBarIsActive: state.fixedBars.rightBarIsActive
 });
 
 const mapDispatchToProps = {
@@ -440,4 +440,4 @@ const mapDispatchToProps = {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(FixedMenusLayout);
+)(FixedBarsLayout);

@@ -211,7 +211,7 @@ export class AppRootHandler extends Component {
 }
 
 const mapStateToProps = state => ({
-	rightBarIsActive: state.fixedMenus.rightBarIsActive
+	rightBarIsActive: state.fixedBars.rightBarIsActive
 });
 
 const mapDispatchToProps = {

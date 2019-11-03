@@ -4,9 +4,9 @@ const initialState = {
 	rightBarIsActive: false
 };
 
-const fixedMenusReducer = (state = initialState, action) => {
+const fixedBarsReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case ACTIONS.FIXED_MENUS.RIGHT_BAR_ACTIVE:
+		case ACTIONS.FIXED_BARS.RIGHT_BAR_ACTIVE:
 			return {
 				...state,
 				rightBarIsActive: action.payload.active
@@ -16,4 +16,4 @@ const fixedMenusReducer = (state = initialState, action) => {
 	}
 };
 
-export default fixedMenusReducer;
+export default fixedBarsReducer;

@@ -20,7 +20,7 @@ const Test = () => {
 			<pre>{JSON.stringify(app, null, 2)}</pre>
 
 			<div>
-				<button style={{ height: 100, width: 200 }} onClick={() => event.emit(EVENTS.FIXED_MENUS.RIGHT_BAR_TOGGLE)}>
+				<button style={{ height: 100, width: 200 }} onClick={() => event.emit(EVENTS.FIXED_BARS.RIGHT_BAR_TOGGLE)}>
 					test
 				</button>
 			</div>

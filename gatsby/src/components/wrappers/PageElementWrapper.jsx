@@ -1,10 +1,10 @@
 import React from 'react';
-import FixedMenusLayout from '../layouts/FixedMenusLayout';
+import FixedBarsLayout from '../layouts/FixedBarsLayout';
 
 const PageElementWrapper = ({ element, props }) => {
 	return (
 		<div id="page-element-wrapper">
-			<FixedMenusLayout {...props}>{element}</FixedMenusLayout>
+			<FixedBarsLayout {...props}>{element}</FixedBarsLayout>
 		</div>
 	);
 };

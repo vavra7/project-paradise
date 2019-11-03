@@ -1,10 +1,10 @@
 import appRootReducer from './appRootReducer';
-import fixedMenusReducer from './fixedMenusReducer';
+import fixedBarsReducer from './fixedBarsReducer';
 import { combineReducers } from 'redux';
 
 const reducers = combineReducers({
 	app: appRootReducer,
-	fixedMenus: fixedMenusReducer
+	fixedBars: fixedBarsReducer
 });
 
 export default reducers;

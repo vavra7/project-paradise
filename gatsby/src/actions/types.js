@@ -2,7 +2,7 @@ export const ACTIONS = {
 	APP: {
 		WIDTH_HEIGHT: 'WIDTH_HEIGHT'
 	},
-	FIXED_MENUS: {
+	FIXED_BARS: {
 		RIGHT_BAR_ACTIVE: 'RIGHT_BAR_ACTIVE'
 	}
 };
