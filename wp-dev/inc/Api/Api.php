@@ -11,11 +11,11 @@ final class Api
 
 	/**
 	 * Adds new endpoint in open api
-	 * gatsby/v1/menus
+	 * wp/v1/menus
 	 */
 	public function menu_api(): void
 	{
-		register_rest_route('gatsby/v1', 'menus', [
+		register_rest_route('wp/v1', 'menus', [
 			'methods' => \WP_REST_Server::READABLE,
 			'callback' => [$this, 'get_location_menus']
 		]);
@@ -46,21 +46,7 @@ final class Api
 				];
 			} else {
 				$menu = wp_get_nav_menu_object($menu_id);
-				$menu_items = [];
-
-				foreach (wp_get_nav_menu_items($menu_id) as $item) {
-					$menu_items[] = [
-						'id' => $item->ID,
-						'title' => $item->title,
-						'url' => $item->url,
-						'path' => rtrim(parse_url($item->url, PHP_URL_PATH), '/') ?: '/',
-						'type' => $item->object,
-						'menu_item_parent' => $item->menu_item_parent,
-						'menu_order' => $item->menu_order,
-						'internal' => $this->is_internal($item->url)
-					];
-				};
-
+				$menu_items = $this->get_menu_items($menu_id);
 				$location_menus[] = [
 					'id'						=> $location_slug,
 					'location_slug'	=> $location_slug,
@@ -75,6 +61,29 @@ final class Api
 		}
 
 		return $location_menus;
+	}
+
+	/**
+	 * Returns menu items
+	 */
+	public function get_menu_items(int $menu_id): array
+	{
+		$menu_items = [];
+
+		foreach (wp_get_nav_menu_items($menu_id) as $item) {
+			$menu_items[] = [
+				'id' => $item->ID,
+				'title' => $item->title,
+				'url' => $item->url,
+				'path' => rtrim(parse_url($item->url, PHP_URL_PATH), '/') ?: '/',
+				'type' => $item->object,
+				'menu_item_parent' => $item->menu_item_parent,
+				'menu_order' => $item->menu_order,
+				'internal' => $this->is_internal($item->url)
+			];
+		};
+
+		return $menu_items;
 	}
 
 	/**

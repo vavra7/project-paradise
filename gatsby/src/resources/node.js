@@ -5,7 +5,7 @@ const { GRAPHQL } = require('./graphql');
 const ENDPOINT = {
 	WP_PAGE: '/wp-json/wp/v2/pages',
 	WP_POST: '/wp-json/wp/v2/posts',
-	WP_MENU: '/wp-json/gatsby/v1/menus'
+	WP_MENU: '/wp-json/wp/v1/menus'
 };
 
 module.exports = {

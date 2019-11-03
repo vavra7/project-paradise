@@ -9,9 +9,11 @@ import { connect } from 'react-redux';
 import { rightBarSetActive } from '../../actions/fixedMenusActions';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
+import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
 
 const TWEEN_DURATION = 250;
 const TB_BB_SPEED = 0.2;
+const TB_DESKTOP_REVEAL_POINT = 50;
 
 class FixedMenusLayout extends Component {
 	static propTypes = {
@@ -33,7 +35,8 @@ class FixedMenusLayout extends Component {
 			styler: null,
 			stylerY: null,
 			max: 0,
-			onRightBar: true
+			onRightBar: true,
+			desktop: true
 		};
 		this.rightBar = {
 			ref: React.createRef(),
@@ -74,6 +77,10 @@ class FixedMenusLayout extends Component {
 
 	tBRefresh() {
 		this.topBar.max = -this.topBar.ref.current.offsetHeight - 2;
+	}
+
+	tBDesktopMobileToggle() {
+		this.topBar.desktop = this.props.windowWidth < BREAKPOINTS.MD_MIN ? false : true;
 	}
 
 	tBFinish() {

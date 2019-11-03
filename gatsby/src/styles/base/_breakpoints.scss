@@ -1,0 +1,47 @@
+$xs: 0px;
+$sm: 600px;
+$md: 960px;
+$lg: 1264px;
+$xl: 1904px;
+
+$sm-content-width: 560px;
+$md-content-width: 910px;
+$lg-content-width: 1200px;
+$xl-content-width: 1820px;
+
+$breakpoints-min: (
+	'xs': $xs,
+	'sm': $sm,
+	'md': $md,
+	'lg': $lg,
+	'xl': $xl
+);
+
+$breakpoints-max: (
+	'xs': $sm - 1,
+	'sm': $md - 1,
+	'md': $lg - 1,
+	'lg': $xl - 1,
+	'xl': 99999px
+);
+
+@function remove-unit($value) {
+	@if type-of($value) == 'number' and not unitless($value) {
+		@return $value / ($value * 0 + 1);
+	}
+
+	@return $value;
+}
+
+:export {
+	XS_MIN: remove-unit(map-get($breakpoints-min, 'xs'));
+	XS_MAX: remove-unit(map-get($breakpoints-max, 'xs'));
+	SM_MIN: remove-unit(map-get($breakpoints-min, 'sm'));
+	SM_MAX: remove-unit(map-get($breakpoints-max, 'sm'));
+	MD_MIN: remove-unit(map-get($breakpoints-min, 'md'));
+	MD_MAX: remove-unit(map-get($breakpoints-max, 'md'));
+	LG_MIN: remove-unit(map-get($breakpoints-min, 'lg'));
+	LG_MAX: remove-unit(map-get($breakpoints-max, 'lg'));
+	XL_MIN: remove-unit(map-get($breakpoints-min, 'xl'));
+	XL_MAX: remove-unit(map-get($breakpoints-max, 'xl'));
+}

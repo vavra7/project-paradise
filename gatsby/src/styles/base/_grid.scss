@@ -1,29 +1,4 @@
-$xs: 0;
-$sm: 600px;
-$md: 960px;
-$lg: 1264px;
-$xl: 1904px;
-
-$sm-content-width: 560px;
-$md-content-width: 910px;
-$lg-content-width: 1200px;
-$xl-content-width: 1820px;
-
-$breakpoints-min: (
-	'xs': $xs,
-	'sm': $sm,
-	'md': $md,
-	'lg': $lg,
-	'xl': $xl
-);
-
-$breakpoints-max: (
-	'xs': $sm - 1,
-	'sm': $md - 1,
-	'md': $lg - 1,
-	'lg': $xl - 1,
-	'xl': 99999px
-);
+@import './breakpoints';
 
 $content-widths: (
 	$sm: $sm-content-width,
@@ -34,7 +9,6 @@ $content-widths: (
 
 $grid-gutter: 1rem;
 $grid-columns: 12;
-
 
 // Containers
 .container,
