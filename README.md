@@ -6,23 +6,23 @@
 
 ## Change directory owner for Wordpress (Linux only)
 
-`sudo chown www-data -R ./`
+`sudo chown www-data -R ./wp`
 
 ## Change directory rights (Linux only)
 
-`sudo chmod 777 -R ./`
+`sudo chmod 777 -R ./wp`
 
 ## Install composer packages in Wordpress theme
 
-`cd wp-dev && composer install`
+`cd wp && composer install`
 
 ## Install Wordpress
 
-wp-dev (localhost:8069) / wp-test (localhost:8068)
+wp (localhost:8069)
 
 ## Change Wordpress Theme
 
-In development environment wp-dev change theme to "Project Paradise"
+In development environment wp change theme to "Project Paradise"
 
 ## Enable Wordpress API routes
 

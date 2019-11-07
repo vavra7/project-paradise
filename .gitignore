@@ -1,7 +1,5 @@
-wp-dev/_wp-files/
-wp-dev/vendor/
-
-wp-test/_wp-files/
+wp/_wp-files/
+wp/vendor/
 
 gatsby/public/
 gatsby/node_modules/
