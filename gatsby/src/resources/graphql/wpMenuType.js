@@ -69,6 +69,9 @@ module.exports = [
 			},
 			internal: {
 				type: 'Boolean!'
+			},
+			icon: {
+				type: 'String'
 			}
 		}
 	}
