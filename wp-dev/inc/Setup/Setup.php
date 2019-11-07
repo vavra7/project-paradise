@@ -4,7 +4,7 @@ namespace Inc\Setup;
 
 final class Setup
 {
-	public function register(): void
+	function __construct()
 	{
 		add_action('after_setup_theme', [$this, 'menus']);
 	}

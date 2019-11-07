@@ -11,13 +11,6 @@
 
 <body>
 	<?php
-	function debug($input): void
-	{
-		echo '<pre>';
-		print_r($input);
-		echo '</pre>';
-	}
-
 	debug(parse_url('https://www.youtube.com/watch?v=oAVhEPey_qA&t=11906s'));
 
 	?>

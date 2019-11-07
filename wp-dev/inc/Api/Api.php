@@ -4,7 +4,7 @@ namespace Inc\Api;
 
 final class Api
 {
-	public function register(): void
+	function __construct()
 	{
 		add_action('rest_api_init', [$this, 'menu_api']);
 	}
@@ -79,7 +79,8 @@ final class Api
 				'type' => $item->object,
 				'menu_item_parent' => $item->menu_item_parent,
 				'menu_order' => $item->menu_order,
-				'internal' => $this->is_internal($item->url)
+				'internal' => $this->is_internal($item->url),
+				'icon' => $item->icon
 			];
 		};
 
