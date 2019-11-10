@@ -1,59 +1,63 @@
-import React, { Component } from 'react';
+import React from 'react';
 import scopedStyles from './MobileBottomMenu.module.scss';
-import { Link } from 'gatsby';
+import { useStaticQuery, Link, graphql } from 'gatsby';
 import RippleEffect from '../commons/buttons/ripple/RippleEffect';
 
-class MobileBottomMenu extends Component {
-	render() {
-		return (
-			<nav className="mobile-bottom-menu">
-				<ul className={`${scopedStyles.menuWrapper} d-flex jc-space-around`}>
-					<li>
-						<RippleEffect>
-						<Link to="/">
-							<i className="icon-home"></i>
-							<span>Domů</span>
-						</Link>
-						</RippleEffect>
-					</li>
-					<li>
-						<RippleEffect>
-						<Link to="/test">
-							<i className="icon-user-friends"></i>
-							<span>O nás</span>
-						</Link>
-						</RippleEffect>
-					</li>
-					<li>
-						<RippleEffect>
-						<Link to="/test2">
-							<i className="icon-umbrella-beach"></i>
-							<span>Dovolené</span>
-						</Link>
-						</RippleEffect>
-					</li>
+const NUMBER_OF_ITEMS = 5;
 
-					<li>
-						<RippleEffect>
-						<Link to="/">
-							<i className="icon-shopping-cart"></i>
-							<span>eShop</span>
-						</Link>
-						</RippleEffect>
-					</li>
+const MobileBottomMenu = () => {
+	const data = useStaticQuery(
+		graphql`
+			query {
+				wpMenu(locationSlug: { eq: "mobile_bottom_menu" }) {
+					id
+					locationSlug
+					items {
+						wpId
+						title
+						type
+						menuOrder
+						url
+						path
+						menuOrder
+						internal
+						icon
+					}
+				}
+			}
+		`
+	);
 
-					<li>
+	if (!data.wpMenu) return <></>;
+
+	const menuItems = data.wpMenu.items.slice(0, NUMBER_OF_ITEMS);
+	const getPath = menuItem => {
+		return menuItem.type === 'post' ? `/post${menuItem.path}` : menuItem.path;
+	};
+
+	return (
+		<nav className="mobile-bottom-menu">
+			<ul className={`${scopedStyles.menuWrapper} d-flex jc-space-around`}>
+				{menuItems.map(item => (
+					<li key={item.wpId}>
 						<RippleEffect>
-						<Link to="/">
-							<i className="icon-envelope"></i>
-							<span>Kontakt</span>
-						</Link>
+							{item.internal ? (
+								<Link to={getPath(item)}>
+									<i className={item.icon ? item.icon : 'icon-arrow-circle-right'}></i>
+									<span>{item.title}</span>
+								</Link>
+							) : (
+								<a href={item.url} target="_blank" rel="noopener noreferrer">
+									<i className={item.icon ? item.icon : 'icon-arrow-circle-right'}></i>
+									<span>{item.title}</span>
+								</a>
+							)}
 						</RippleEffect>
 					</li>
-				</ul>
-			</nav>
-		);
-	}
-}
+				))}
+			</ul>
+		</nav>
+	);
+};
 
 export default MobileBottomMenu;

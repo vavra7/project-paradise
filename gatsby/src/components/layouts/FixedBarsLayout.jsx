@@ -93,8 +93,11 @@ class FixedBarsLayout extends Component {
 	}
 
 	tBFinish() {
+		if (this.props.rightBarIsActive) return;
+
 		const currentPosition = this.topBar.styler.get('y');
-		if (0 <= currentPosition || currentPosition <= this.topBar.max || this.props.rightBarIsActive) return;
+
+		if (0 <= currentPosition || currentPosition <= this.topBar.max) return;
 
 		tween({
 			from: currentPosition,
@@ -109,7 +112,7 @@ class FixedBarsLayout extends Component {
 	}
 
 	tBOnRbProgress(rightBarX) {
-		if (!this.topBar.onRightBar || !this.props.rightBarIsActive || this.topBar.desktop) return;
+		if (this.topBar.desktop || !this.topBar.onRightBar || !this.props.rightBarIsActive) return;
 
 		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED + this.topBar.max;
 		if (0 < v) {

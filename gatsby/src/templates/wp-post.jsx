@@ -10,7 +10,13 @@ export const query = graphql`
 `;
 
 export const WpPost = props => {
-	return <pre>{JSON.stringify(props, null, 2)}</pre>;
+	const wpPost = props.pageResources.json.data;
+
+	return (
+		<div>
+			<pre>{JSON.stringify(wpPost, null, 2)}</pre>
+		</div>
+	);
 };
 
 export default WpPost;
