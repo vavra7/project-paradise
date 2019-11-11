@@ -9,10 +9,12 @@ export const query = graphql`
 	}
 `;
 
-export const WpPage = props => {
-	// const wpPage = props.pageResources.json.data;
-
-	return <pre>{JSON.stringify(props, null, 2)}</pre>;
+export const WpPage = ({ data }) => {
+	return (
+		<div>
+			<pre>{JSON.stringify(data, null, 2)}</pre>
+		</div>
+	);
 };
 
 export default WpPage;

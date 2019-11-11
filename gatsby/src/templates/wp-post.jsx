@@ -9,12 +9,10 @@ export const query = graphql`
 	}
 `;
 
-export const WpPost = props => {
-	// const wpPost = props.pageResources.json.data;
-
+export const WpPost = ({ data }) => {
 	return (
 		<div>
-			<pre>{JSON.stringify({ wpPost: 'asldjf' }, null, 2)}</pre>
+			<pre>{JSON.stringify(data, null, 2)}</pre>
 		</div>
 	);
 };
