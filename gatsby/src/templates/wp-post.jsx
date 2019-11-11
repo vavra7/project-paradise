@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import CommonPostLayout from '../components/layouts/CommonPostLayout';
 
 export const query = graphql`
 	query($id: String!) {
@@ -11,9 +12,9 @@ export const query = graphql`
 
 export const WpPost = ({ data }) => {
 	return (
-		<div>
+		<CommonPostLayout>
 			<pre>{JSON.stringify(data, null, 2)}</pre>
-		</div>
+		</CommonPostLayout>
 	);
 };
 

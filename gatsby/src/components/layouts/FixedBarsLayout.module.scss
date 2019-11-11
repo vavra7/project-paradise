@@ -3,6 +3,10 @@
 $TOP_BAR_HEIGHT_MOBILE: 30px;
 $BOTTOM_BAR_HEIGHT: 48px;
 
+.bottom-bar-offset {
+	padding-bottom: $BOTTOM_BAR_HEIGHT;
+}
+
 .fixed-top-bar {
 	background: rgba(255, 0, 0, 0.198);
 	top: 0;
@@ -48,10 +52,6 @@ $BOTTOM_BAR_HEIGHT: 48px;
 		margin-top: $TOP_BAR_HEIGHT_MOBILE;
 		-webkit-overflow-scrolling: touch;
 	}
-}
-
-.content-wrapper {
-	padding-bottom: $BOTTOM_BAR_HEIGHT;
 }
 
 .fixed-bottom-bar {

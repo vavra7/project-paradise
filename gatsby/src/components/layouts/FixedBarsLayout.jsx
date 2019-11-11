@@ -14,6 +14,7 @@ import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
 const TWEEN_DURATION = 250;
 const TB_BB_SPEED = 0.2;
 const TB_DESKTOP_REVEAL_POINT = 300;
+const TB_EXTRA_OFFSET = 2;
 
 class FixedBarsLayout extends Component {
 	static propTypes = {
@@ -25,7 +26,8 @@ class FixedBarsLayout extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			handlerTopPosition: 0
+			handlerTopPosition: 0,
+			desktopWidth: false
 		};
 
 		this.prevPageYOffset = 0;
@@ -36,7 +38,6 @@ class FixedBarsLayout extends Component {
 			stylerY: null,
 			max: 0,
 			onRightBar: true,
-			desktop: true,
 			desktopTweenInProgress: false
 		};
 		this.rightBar = {
@@ -82,10 +83,13 @@ class FixedBarsLayout extends Component {
 	tBRefresh() {
 		let newTbPosition = 0;
 
-		this.topBar.desktop = this.props.windowWidth < BREAKPOINTS.MD_MIN ? false : true;
-		this.topBar.max = -this.topBar.ref.current.offsetHeight - 2;
+		this.setState({
+			desktopWidth: this.props.windowWidth < BREAKPOINTS.MD_MIN ? false : true
+		});
 
-		if (this.topBar.desktop && window.pageYOffset < TB_DESKTOP_REVEAL_POINT) {
+		this.topBar.max = -this.topBar.ref.current.offsetHeight - TB_EXTRA_OFFSET;
+
+		if (this.state.desktopWidth && window.pageYOffset < TB_DESKTOP_REVEAL_POINT) {
 			newTbPosition = this.topBar.max;
 		}
 
@@ -112,7 +116,7 @@ class FixedBarsLayout extends Component {
 	}
 
 	tBOnRbProgress(rightBarX) {
-		if (this.topBar.desktop || !this.topBar.onRightBar || !this.props.rightBarIsActive) return;
+		if (this.state.desktopWidth || !this.topBar.onRightBar || !this.props.rightBarIsActive) return;
 
 		const v = (this.rightBar.ref.current.offsetWidth - rightBarX) * TB_BB_SPEED + this.topBar.max;
 		if (0 < v) {
@@ -124,7 +128,7 @@ class FixedBarsLayout extends Component {
 	}
 
 	tBDesktopOnScroll() {
-		if (!this.topBar.desktop || this.topBar.desktopTweenInProgress) return;
+		if (!this.state.desktopWidth || this.topBar.desktopTweenInProgress) return;
 
 		const currentPosition = Math.round(this.topBar.styler.get('y'));
 		const revealPointDistance = window.pageYOffset - TB_DESKTOP_REVEAL_POINT;
@@ -152,7 +156,7 @@ class FixedBarsLayout extends Component {
 	}
 
 	tBMobileOnScroll() {
-		if (this.topBar.desktop) return;
+		if (this.state.desktopWidth) return;
 
 		const diff = this.prevPageYOffset - window.pageYOffset;
 		const currentPosition = this.topBar.styler.get('y');
@@ -318,7 +322,9 @@ class FixedBarsLayout extends Component {
 
 	componentDidMount() {
 		this.topBar.styler = styler(this.topBar.ref.current);
-		this.topBar.stylerY = value(0, v => this.topBar.styler.set('y', v));
+		this.topBar.stylerY = value(-this.topBar.ref.current.offsetHeight - TB_EXTRA_OFFSET, v =>
+			this.topBar.styler.set('y', v)
+		);
 
 		this.rightBar.styler = styler(this.rightBar.ref.current);
 		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
@@ -363,11 +369,7 @@ class FixedBarsLayout extends Component {
 
 	render() {
 		return (
-			<div id="fixed-menus-layout">
-				<div id="fixed-menus-content-wrapper" className={scopedStyles.contentWrapper}>
-					{this.props.children}
-				</div>
-
+			<div id="fixed-bars-layout" className={`${!this.state.desktopWidth ? scopedStyles.bottomBarOffset : ''}`}>
 				<div id="fixed-top-bar" ref={this.topBar.ref} className={`${scopedStyles.fixedTopBar} p-fixed`}>
 					<div className="hide-md-up">
 						<MobileTopMenu></MobileTopMenu>
@@ -417,6 +419,8 @@ class FixedBarsLayout extends Component {
 						voluptatem culpa vero non! Labore perferendis numquam eius ipsum dicta! Veniam quos ipsam quis ipsa ipsum
 					</div>
 				</div>
+
+				{this.props.children}
 
 				<div
 					id="fixed-bottom-bar"
