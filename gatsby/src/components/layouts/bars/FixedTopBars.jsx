@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MobileTopMenu from '../../menus/MobileTopMenu';
 import DesktopTopMenu from '../../menus/DesktopTopMenu';
-import scopedStyles from './TopBars.module.scss';
+import scopedStyles from './FixedTopBars.module.scss';
 import BREAKPOINTS from '../../../styles/base/_breakpoints.scss';
 import { event } from '../../../events';
 import { EVENTS } from '../../../events/types';
@@ -13,7 +13,7 @@ const DESKTOP_BAR_EXTRA_OFFSET = 3;
 const MOBILE_BAR_TWEEN_DURATION = 200;
 const RIGHT_BAR_SPEED_MODIFIER = 0.2;
 
-class TopBars extends Component {
+class FixedTopBars extends Component {
 	//#region [ constructor ]
 
 	constructor(props) {
@@ -105,8 +105,6 @@ class TopBars extends Component {
 		} else {
 			this.mobileTopBar.stylerY.update(v);
 		}
-		console.log(v);
-
 		this.mobileTopBar.stylerY.update(v);
 	}
 
@@ -184,4 +182,4 @@ const mapStateToProps = state => ({
 export default connect(
 	mapStateToProps,
 	null
-)(TopBars);
+)(FixedTopBars);

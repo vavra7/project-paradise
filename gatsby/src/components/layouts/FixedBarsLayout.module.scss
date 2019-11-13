@@ -1,10 +1,10 @@
 @import '../../styles/partials/z-indexes';
 
 $TOP_BAR_HEIGHT_MOBILE: 30px;
-$BOTTOM_BAR_HEIGHT: 48px;
+
 
 .bottom-bar-offset {
-	padding-bottom: $BOTTOM_BAR_HEIGHT;
+	// padding-bottom: $BOTTOM_BAR_HEIGHT;
 }
 
 .fixed-top-bar {
@@ -54,11 +54,4 @@ $BOTTOM_BAR_HEIGHT: 48px;
 	}
 }
 
-.fixed-bottom-bar {
-	right: 0;
-	bottom: 0;
-	left: 0;
-	padding: env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
-	z-index: $zi-fixed-bottom-bar;
-	height: $BOTTOM_BAR_HEIGHT;
-}
+

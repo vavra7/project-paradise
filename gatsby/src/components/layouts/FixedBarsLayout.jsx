@@ -10,7 +10,9 @@ import { rightBarSetActive } from '../../actions/fixedBarsActions';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
-import TopBars from './bars/TopBars';
+import FixedTopBars from './bars/FixedTopBars';
+import fixedBottomBar from './bars/FixedBottomBar';
+import FixedBottomBar from './bars/FixedBottomBar';
 
 const TWEEN_DURATION = 250;
 const TB_BB_SPEED = 0.2;
@@ -300,13 +302,13 @@ class FixedBarsLayout extends Component {
 			this.setState({ handlerTopPosition: this.props.windowHeight / 2 });
 	}
 
-	//#endregion
-
-	//#region [ rgba(249, 199, 97, 0.03) ] Bottom Bar
-
 	rBPosition() {
 		this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
 	}
+
+	//#endregion
+
+	//#region [ rgba(249, 199, 97, 0.03) ] Bottom Bar
 
 	bBOnRbProgress(rightBarX) {
 		const maxBoundary = this.bottomBar.ref.current.offsetHeight + 50;
@@ -333,11 +335,11 @@ class FixedBarsLayout extends Component {
 		this.handler.styler = styler(this.handler.ref.current);
 		this.handler.stylerOpacity = value(0, v => this.handler.styler.set('opacity', v));
 
-		this.bottomBar.styler = styler(this.bottomBar.ref.current);
-		this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
+		// this.bottomBar.styler = styler(this.bottomBar.ref.current);
+		// this.bottomBar.stylerY = value(0, v => this.bottomBar.styler.set('y', v));
 
 		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(v => {
-			this.bBOnRbProgress(v);
+			// this.bBOnRbProgress(v);
 			// this.tBOnRbProgress(v);
 			const rightBarProgress = this.rightBar.ref.current.offsetWidth - v;
 			event.emit(EVENTS.FIXED_BARS.RIGHT_BAR_UPDATE, rightBarProgress);
@@ -356,7 +358,7 @@ class FixedBarsLayout extends Component {
 		if (prevProps.windowHeight !== this.props.windowHeight) this.rBHandlerPosition();
 		if (prevProps.windowWidth !== this.props.windowWidth) {
 			// this.tBRefresh();
-			this.rBPosition();
+			// this.rBPosition();
 		}
 		// if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) this.tbShouldOnRb();
 	}
@@ -373,7 +375,7 @@ class FixedBarsLayout extends Component {
 	render() {
 		return (
 			<div id="fixed-bars-layout" className={`${!this.state.desktopWidth ? scopedStyles.bottomBarOffset : ''}`}>
-				<TopBars />
+				<FixedTopBars />
 				{/* <div id="fixed-top-bar" ref={this.topBar.ref} className={`${scopedStyles.fixedTopBar} p-fixed`}>
 					<div className="hide-md-up">
 						<MobileTopMenu></MobileTopMenu>
@@ -426,13 +428,15 @@ class FixedBarsLayout extends Component {
 
 				{this.props.children}
 
-				<div
+				<FixedBottomBar />
+
+				{/* <div
 					id="fixed-bottom-bar"
 					ref={this.bottomBar.ref}
 					className={`${scopedStyles.fixedBottomBar} p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2 hide-md-up`}
 				>
 					<MobileBottomMenu />
-				</div>
+				</div> */}
 			</div>
 		);
 	}
