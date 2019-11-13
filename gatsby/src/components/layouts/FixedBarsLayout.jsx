@@ -10,6 +10,7 @@ import { rightBarSetActive } from '../../actions/fixedBarsActions';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
+import TopBars from './bars/TopBars';
 
 const TWEEN_DURATION = 250;
 const TB_BB_SPEED = 0.2;
@@ -65,10 +66,10 @@ class FixedBarsLayout extends Component {
 
 		event.listen(EVENTS.FIXED_BARS.RIGHT_BAR_TOGGLE, () => this.rBToggle());
 		event.listen(EVENTS.APP_ROOT.SCROLL_UPDATE, () => {
-			this.tBMobileOnScroll();
-			this.tBDesktopOnScroll();
+			// this.tBMobileOnScroll();
+			// this.tBDesktopOnScroll();
 		});
-		event.listen(EVENTS.APP_ROOT.SWIPE_SCROLL_FINISH, () => this.tBFinish());
+		// event.listen(EVENTS.APP_ROOT.SWIPE_SCROLL_FINISH, () => this.tBFinish());
 		event.listen(EVENTS.APP_ROOT.TOUCH_END, () => this.rBFinishManualSwipe());
 		event.listen(EVENTS.APP_ROOT.MOUSE_UP, () => this.rBFinishManualSwipe());
 		event.listen(EVENTS.APP_ROOT.SWIPE_X_START, e => {
@@ -80,21 +81,21 @@ class FixedBarsLayout extends Component {
 
 	//#region [ rgba(247, 249, 97, 0.03) ] Top Bar
 
-	tBRefresh() {
-		let newTbPosition = 0;
+	// tBRefresh() {
+	// 	let newTbPosition = 0;
 
-		this.setState({
-			desktopWidth: this.props.windowWidth < BREAKPOINTS.MD_MIN ? false : true
-		});
+	// 	this.setState({
+	// 		desktopWidth: this.props.windowWidth < BREAKPOINTS.MD_MIN ? false : true
+	// 	});
 
-		this.topBar.max = -this.topBar.ref.current.offsetHeight - TB_EXTRA_OFFSET;
+	// 	this.topBar.max = -this.topBar.ref.current.offsetHeight - TB_EXTRA_OFFSET;
 
-		if (this.state.desktopWidth && window.pageYOffset < TB_DESKTOP_REVEAL_POINT) {
-			newTbPosition = this.topBar.max;
-		}
+	// 	if (this.state.desktopWidth && window.pageYOffset < TB_DESKTOP_REVEAL_POINT) {
+	// 		newTbPosition = this.topBar.max;
+	// 	}
 
-		this.topBar.styler.set('y', newTbPosition);
-	}
+	// 	this.topBar.styler.set('y', newTbPosition);
+	// }
 
 	tBFinish() {
 		if (this.props.rightBarIsActive) return;
@@ -111,9 +112,9 @@ class FixedBarsLayout extends Component {
 		}).start(this.topBar.stylerY);
 	}
 
-	tbShouldOnRb() {
-		this.topBar.onRightBar = this.topBar.styler.get('y') === this.topBar.max ? true : false;
-	}
+	// tbShouldOnRb() {
+	// 	this.topBar.onRightBar = this.topBar.styler.get('y') === this.topBar.max ? true : false;
+	// }
 
 	tBOnRbProgress(rightBarX) {
 		if (this.state.desktopWidth || !this.topBar.onRightBar || !this.props.rightBarIsActive) return;
@@ -321,10 +322,10 @@ class FixedBarsLayout extends Component {
 	//#region [ lifeCycleMethods ]
 
 	componentDidMount() {
-		this.topBar.styler = styler(this.topBar.ref.current);
-		this.topBar.stylerY = value(-this.topBar.ref.current.offsetHeight - TB_EXTRA_OFFSET, v =>
-			this.topBar.styler.set('y', v)
-		);
+		// this.topBar.styler = styler(this.topBar.ref.current);
+		// this.topBar.stylerY = value(-this.topBar.ref.current.offsetHeight - TB_EXTRA_OFFSET, v =>
+		// 	this.topBar.styler.set('y', v)
+		// );
 
 		this.rightBar.styler = styler(this.rightBar.ref.current);
 		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
@@ -337,12 +338,14 @@ class FixedBarsLayout extends Component {
 
 		this.rightBar.subscriber = this.rightBar.stylerX.subscribe(v => {
 			this.bBOnRbProgress(v);
-			this.tBOnRbProgress(v);
+			// this.tBOnRbProgress(v);
+			const rightBarProgress = this.rightBar.ref.current.offsetWidth - v;
+			event.emit(EVENTS.FIXED_BARS.RIGHT_BAR_UPDATE, rightBarProgress);
 		});
 
 		this.rBHandlerPosition();
 		this.rBHandlerShowIn();
-		this.tBRefresh();
+		// this.tBRefresh();
 
 		this.listeners.onHandler = listen(this.handler.ref.current, 'touchstart mousedown', { passive: false }).start(e => {
 			this.rBStartManualSwipe(e);
@@ -352,10 +355,10 @@ class FixedBarsLayout extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.windowHeight !== this.props.windowHeight) this.rBHandlerPosition();
 		if (prevProps.windowWidth !== this.props.windowWidth) {
-			this.tBRefresh();
+			// this.tBRefresh();
 			this.rBPosition();
 		}
-		if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) this.tbShouldOnRb();
+		// if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) this.tbShouldOnRb();
 	}
 
 	componentWillUnmount() {
@@ -370,7 +373,8 @@ class FixedBarsLayout extends Component {
 	render() {
 		return (
 			<div id="fixed-bars-layout" className={`${!this.state.desktopWidth ? scopedStyles.bottomBarOffset : ''}`}>
-				<div id="fixed-top-bar" ref={this.topBar.ref} className={`${scopedStyles.fixedTopBar} p-fixed`}>
+				<TopBars />
+				{/* <div id="fixed-top-bar" ref={this.topBar.ref} className={`${scopedStyles.fixedTopBar} p-fixed`}>
 					<div className="hide-md-up">
 						<MobileTopMenu></MobileTopMenu>
 					</div>
@@ -378,7 +382,7 @@ class FixedBarsLayout extends Component {
 					<div className="hide-sm-down">
 						<DesktopTopMenu></DesktopTopMenu>
 					</div>
-				</div>
+				</div> */}
 
 				<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
 					<div

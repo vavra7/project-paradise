@@ -1,0 +1,20 @@
+@import '../../../styles/partials/z-indexes';
+
+$DESKTOP_FIXED_TOP_BAR_DURATION: 200ms;
+
+.fixed-top-bar {
+	background: rgba(255, 0, 0, 0.198);
+	z-index: $zi-fixed-top-bar;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+
+.desktop-fixed-top-bar {
+	transform: translateY(-102%);
+	transition: transform $DESKTOP_FIXED_TOP_BAR_DURATION linear;
+}
+
+.desktop-fixed-top-bar-active {
+	transform: translateY(0);
+}
