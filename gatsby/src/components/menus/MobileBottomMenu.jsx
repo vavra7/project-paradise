@@ -5,7 +5,7 @@ import RippleEffect from '../commons/buttons/ripple/RippleEffect';
 
 const NUMBER_OF_ITEMS = 5;
 
-const MobileBottomMenu = () => {
+function MobileBottomMenu() {
 	const data = useStaticQuery(
 		graphql`
 			query {

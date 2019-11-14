@@ -4,10 +4,17 @@ import { appWidthHeight } from '../../../actions/appRootActions';
 import { listen } from 'popmotion';
 import { event } from '../../../events';
 import { EVENTS } from '../../../events/types';
+import PropTypes from 'prop-types';
 
 const SCROLL_CHECK_INTERVAL = 100;
 
-export class AppRootHandler extends Component {
+class AppRootHandler extends Component {
+	static propTypes = {
+		children: PropTypes.element.isRequired
+	};
+
+	//#region [ constructor ]
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -34,6 +41,8 @@ export class AppRootHandler extends Component {
 
 		this.listeners = {};
 	}
+
+	//#endregion
 
 	touchStart(e) {
 		this.swipeEvaluationFinish = false;
@@ -162,6 +171,8 @@ export class AppRootHandler extends Component {
 		}
 	}
 
+	//#region [ lifeCycleMethods ]
+
 	componentDidMount() {
 		this.listeners.resize = listen(window, 'resize').start(() => {
 			this.props.appWidthHeight(window.innerWidth, window.innerHeight);
@@ -195,8 +206,8 @@ export class AppRootHandler extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (!prevProps.rightBarIsActive && this.props.rightBarIsActive) this.scrollDisable();
-		if (prevProps.rightBarIsActive && !this.props.rightBarIsActive) this.scrollEnable();
+		if (!prevProps.rightBarActive && this.props.rightBarActive) this.scrollDisable();
+		if (prevProps.rightBarActive && !this.props.rightBarActive) this.scrollEnable();
 	}
 
 	componentWillUnmount() {
@@ -205,13 +216,15 @@ export class AppRootHandler extends Component {
 		});
 	}
 
+	//#endregion
+
 	render() {
 		return <>{this.props.children}</>;
 	}
 }
 
 const mapStateToProps = state => ({
-	rightBarIsActive: state.fixedBars.rightBarIsActive
+	rightBarActive: state.fixedBars.rightBarActive
 });
 
 const mapDispatchToProps = {

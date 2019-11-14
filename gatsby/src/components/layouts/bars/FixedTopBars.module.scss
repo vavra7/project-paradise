@@ -1,6 +1,7 @@
 @import '../../../styles/partials/z-indexes';
 
 $DESKTOP_FIXED_TOP_BAR_DURATION: 200ms;
+$MOBILE_TOP_BAR_HEIGHT: 30px;
 
 .fixed-top-bar {
 	background: rgba(255, 0, 0, 0.198);
@@ -10,11 +11,15 @@ $DESKTOP_FIXED_TOP_BAR_DURATION: 200ms;
 	left: 0;
 }
 
-.desktop-fixed-top-bar {
+.mobile {
+	min-height: $MOBILE_TOP_BAR_HEIGHT;
+}
+
+.desktop {
 	transform: translateY(-102%);
 	transition: transform $DESKTOP_FIXED_TOP_BAR_DURATION linear;
 }
 
-.desktop-fixed-top-bar-active {
+.desktop-active {
 	transform: translateY(0);
 }

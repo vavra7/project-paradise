@@ -2,7 +2,7 @@ import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import scopedStyles from './DesktopTopMenu.module.scss';
 
-const DesktopTopMenu = () => {
+function DesktopTopMenu() {
 	const data = useStaticQuery(
 		graphql`
 			query {

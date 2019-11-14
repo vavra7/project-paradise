@@ -9,12 +9,12 @@ export const query = graphql`
 	}
 `;
 
-export const WpPage = ({ data }) => {
+function WpPage({ data }) {
 	return (
 		<div>
 			<pre>{JSON.stringify(data, null, 2)}</pre>
 		</div>
 	);
-};
+}
 
 export default WpPage;

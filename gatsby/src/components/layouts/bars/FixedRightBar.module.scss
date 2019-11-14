@@ -1,20 +1,5 @@
-@import '../../styles/partials/z-indexes';
-
-$TOP_BAR_HEIGHT_MOBILE: 30px;
-
-
-.bottom-bar-offset {
-	// padding-bottom: $BOTTOM_BAR_HEIGHT;
-}
-
-.fixed-top-bar {
-	background: rgba(255, 0, 0, 0.198);
-	top: 0;
-	right: 0;
-	left: 0;
-	z-index: $zi-fixed-top-bar;
-	min-height: $TOP_BAR_HEIGHT_MOBILE;
-}
+@import '../../../styles/partials/z-indexes';
+@import './FixedTopBars.module.scss';
 
 .fixed-right-bar {
 	background: rgb(128, 128, 128);
@@ -32,12 +17,12 @@ $TOP_BAR_HEIGHT_MOBILE: 30px;
 		right: 0;
 		bottom: 0;
 		content: '';
-		width: 200px;
+		width: 300px;
 		background: rgba(255, 230, 0, 0.315);
 		transform: translateX(100%);
 	}
 
-	& .right-bar-handler-container {
+	& .handler-container {
 		background: rgb(194, 194, 194);
 		align-self: center;
 		height: 300px;
@@ -46,12 +31,10 @@ $TOP_BAR_HEIGHT_MOBILE: 30px;
 		transform: translate(-100%, -50%);
 	}
 
-	& .right-bar-content-container {
+	& .content-container {
 		overflow-y: auto;
 		overscroll-behavior-y: none;
-		margin-top: $TOP_BAR_HEIGHT_MOBILE;
+		margin-top: $MOBILE_TOP_BAR_HEIGHT;
 		-webkit-overflow-scrolling: touch;
 	}
 }
-
-

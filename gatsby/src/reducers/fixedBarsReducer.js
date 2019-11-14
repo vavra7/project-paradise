@@ -1,7 +1,7 @@
 import { ACTIONS } from '../actions/types';
 
 const initialState = {
-	rightBarIsActive: false
+	rightBarActive: false
 };
 
 const fixedBarsReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const fixedBarsReducer = (state = initialState, action) => {
 		case ACTIONS.FIXED_BARS.RIGHT_BAR_ACTIVE:
 			return {
 				...state,
-				rightBarIsActive: action.payload.active
+				rightBarActive: action.payload.active
 			};
 		default:
 			return state;

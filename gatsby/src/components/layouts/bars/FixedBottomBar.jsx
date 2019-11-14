@@ -44,7 +44,7 @@ class FixedBottomBar extends Component {
 	}
 
 	onRightBar(rightBarProgress) {
-		if (!this.state.active) return;
+		if (!this.state.active || !this.ref.current) return;
 
 		const v = rightBarProgress * SPEED_MODIFIER;
 

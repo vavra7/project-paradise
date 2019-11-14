@@ -95,7 +95,7 @@ class FixedTopBars extends Component {
 	}
 
 	mobilBarOnRightBar(rightBarProgress) {
-		if (!this.state.mobile || !this.mobileTopBar.onRightBar) return;
+		if (!this.state.mobile || !this.mobileTopBar.onRightBar || !this.mobileTopBar.ref.current) return;
 
 		const v = rightBarProgress * RIGHT_BAR_SPEED_MODIFIER + this.mobileTopBar.minY;
 
@@ -156,16 +156,16 @@ class FixedTopBars extends Component {
 				<div
 					id="mobile-fixed-top-bar"
 					ref={this.mobileTopBar.ref}
-					className={`${scopedStyles.fixedTopBar} p-fixed ${this.state.mobile ? '' : 'hide'}`}
+					className={`${scopedStyles.fixedTopBar} ${scopedStyles.mobile} p-fixed ${this.state.mobile ? '' : 'hide'}`}
 				>
 					<MobileTopMenu></MobileTopMenu>
 				</div>
 
 				<div
 					id="desktop-fixed-top-bar"
-					className={`${scopedStyles.fixedTopBar} ${scopedStyles.desktopFixedTopBar} p-fixed ${
+					className={`${scopedStyles.fixedTopBar} ${scopedStyles.desktop} p-fixed ${
 						this.state.mobile ? 'hide' : ''
-					} ${this.state.desktopBarActive ? scopedStyles.desktopFixedTopBarActive : ''}`}
+					} ${this.state.desktopBarActive ? scopedStyles.desktopActive : ''}`}
 				>
 					<DesktopTopMenu></DesktopTopMenu>
 				</div>
@@ -176,7 +176,7 @@ class FixedTopBars extends Component {
 
 const mapStateToProps = state => ({
 	windowWidth: state.app.width,
-	rightBarActive: state.fixedBars.rightBarIsActive
+	rightBarActive: state.fixedBars.rightBarActive
 });
 
 export default connect(
