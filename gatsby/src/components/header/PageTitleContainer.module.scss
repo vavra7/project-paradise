@@ -1,34 +1,49 @@
 @import '../../styles/base/colors';
 @import '../../styles/partials/z-indexes';
 @import '../../styles/base/grid';
+@import '../../styles/base/breakpoints';
+@import '../../styles/base/typography';
 
 .page-title-container {
 	position: relative;
 
 	&:before {
 		content: '';
-		top: 50%;
+		top: $title-3-line-height / 2;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		height: 2px;
-		width: 90%;
 		position: absolute;
 		background: $line;
 		z-index: $zi-line;
+		width: 90%;
+		min-width: calc(100% - #{$grid-gutter});
+
+		@media (min-width: $sm) {
+			min-width: calc(#{$sm-content-width} + #{$grid-gutter});
+		}
+
+		@media (min-width: $md) {
+			min-width: calc(#{$md-content-width} + #{$grid-gutter});
+		}
+
+		@media (min-width: $lg) {
+			min-width: calc(#{$lg-content-width} + #{$grid-gutter});
+		}
+
+		@media (min-width: $xl) {
+			min-width: calc(#{$xl-content-width} + #{$grid-gutter});
+		}
 	}
 }
 
-.title {
-	position: relative;
+.line-overlay {
+	display: inline;
+	background: $white;
+	z-index: $zi-line-overlay;
+}
 
-	&:before {
-		content: '';
-		position: absolute;
-		width: calc(100% + #{$grid-gutter});
-		left: 50%;
-		transform: translateX(-50%);
-		height: 100%;
-		background: $white;
-		z-index: $zi-line-overlay;
-	}
+h1.title {
+	display: inline;
+	position: relative;
 }

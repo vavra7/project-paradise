@@ -19,8 +19,13 @@ $spaces: (
 		margin-right: $size;
 	}
 
+	.my-#{$space} {
+		margin-top: $size;
+		margin-bottom: $size;
+	}
+
 	.mt-#{$space} {
-		margin-top: $size
+		margin-top: $size;
 	}
 
 	.pa-#{$space} {
