@@ -30,7 +30,7 @@ $align-items-list: (center);
 	}
 }
 
-$justify-content-list: (flex-start, center, flex-end, space-around);
+$justify-content-list: (flex-start, center, flex-end, space-between, space-around);
 
 @each $justify-content in $justify-content-list {
 	.jc-#{$justify-content} {

@@ -1,5 +1,5 @@
 @import '../../styles/base/colors';
-@import '../layouts/bars/FixedBottomBar.module.scss';
+@import '../fixedBars//FixedBottomBar.module.scss';
 
 $font-size: 10px;
 
@@ -33,6 +33,10 @@ ul.menu-wrapper {
 
 			& span {
 				font-size: $font-size;
+				max-width: 65px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 		}
 	}

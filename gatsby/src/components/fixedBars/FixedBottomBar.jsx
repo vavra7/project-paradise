@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import MobileBottomMenu from '../../menus/MobileBottomMenu';
+import MobileBottomMenu from '../menus/MobileBottomMenu';
 import scopedStyles from './FixedBottomBar.module.scss';
 import { styler, value } from 'popmotion';
-import { event } from '../../../events';
-import { EVENTS } from '../../../events/types';
+import { event } from '../../events';
+import { EVENTS } from '../../events/types';
 import { connect } from 'react-redux';
-import BREAKPOINTS from '../../../styles/base/_breakpoints.scss';
+import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
 
 const EXTRA_OFFSET = 50;
 const SPEED_MODIFIER = 0.2;
@@ -56,6 +56,7 @@ class FixedBottomBar extends Component {
 	//#region [ lifeCycleMethods ]
 
 	componentDidMount() {
+		this.updateActive();
 		this.styler = styler(this.ref.current);
 		this.stylerY = value(0, v => this.styler.set('y', v));
 		this.maxY = this.ref.current.offsetHeight + EXTRA_OFFSET;

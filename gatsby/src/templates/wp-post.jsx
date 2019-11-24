@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import CommonPostLayout from '../components/layouts/CommonPostLayout';
-import FixedRightBar from '../components/layouts/bars/FixedRightBar';
+import FixedRightBar from '../components/fixedBars/FixedRightBar';
 
 export const query = graphql`
 	query($id: String!) {
@@ -14,7 +14,7 @@ export const query = graphql`
 function WpPost({ data }) {
 	return (
 		<>
-			<CommonPostLayout>
+			<CommonPostLayout title={data.wpPost.title}>
 				<pre>{JSON.stringify(data, null, 2)}</pre>
 			</CommonPostLayout>
 

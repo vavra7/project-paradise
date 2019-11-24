@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import MobileTopMenu from '../../menus/MobileTopMenu';
-import DesktopTopMenu from '../../menus/DesktopTopMenu';
+import MobileTopMenu from '../menus/MobileTopMenu';
+import DesktopTopMenu from '../menus/DesktopTopMenu';
 import scopedStyles from './FixedTopBars.module.scss';
-import BREAKPOINTS from '../../../styles/base/_breakpoints.scss';
-import { event } from '../../../events';
-import { EVENTS } from '../../../events/types';
+import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
+import { event } from '../../events';
+import { EVENTS } from '../../events/types';
 import { styler, value, tween, easing } from 'popmotion';
+import Logo from '../commons/logo/Logo';
 
 const DESKTOP_REVEAL_POINT = 300;
 const DESKTOP_BAR_EXTRA_OFFSET = 3;
@@ -156,16 +157,21 @@ class FixedTopBars extends Component {
 				<div
 					id="mobile-fixed-top-bar"
 					ref={this.mobileTopBar.ref}
-					className={`${scopedStyles.fixedTopBar} ${scopedStyles.mobile} p-fixed ${this.state.mobile ? '' : 'hide'}`}
+					className={`${scopedStyles.fixedTopBar} ${scopedStyles.mobile} p-fixed d-flex ${
+						this.state.mobile ? '' : 'hide'
+					}`}
 				>
-					<MobileTopMenu></MobileTopMenu>
+					<div className="container-fluid d-flex jc-space-between ai-center">
+						<Logo />
+						<MobileTopMenu />
+					</div>
 				</div>
 
 				<div
 					id="desktop-fixed-top-bar"
-					className={`${scopedStyles.fixedTopBar} ${scopedStyles.desktop} p-fixed ${
-						this.state.mobile ? 'hide' : ''
-					} ${this.state.desktopBarActive ? scopedStyles.desktopActive : ''}`}
+					className={`${scopedStyles.fixedTopBar} ${scopedStyles.desktop} p-fixed ${this.state.mobile ? 'hide' : ''} ${
+						this.state.desktopBarActive ? scopedStyles.desktopActive : ''
+					}`}
 				>
 					<DesktopTopMenu></DesktopTopMenu>
 				</div>

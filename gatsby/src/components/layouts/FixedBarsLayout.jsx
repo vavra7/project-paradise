@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FixedTopBars from './bars/FixedTopBars';
-import FixedBottomBar from './bars/FixedBottomBar';
+import FixedTopBars from '../fixedBars/FixedTopBars';
+import FixedBottomBar from '../fixedBars/FixedBottomBar';
 
 function FixedBarsLayout(props) {
 	return (

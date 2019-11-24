@@ -73,14 +73,14 @@ $grid-columns: 12;
 
 // Hide
 .hide {
-	display: none;
+	display: none !important;
 	visibility: hidden;
 }
 
 @each $breakpoint, $width in $breakpoints-max {
 	@media (max-width: $width) {
 		.hide-#{$breakpoint}-down {
-			display: none;
+			display: none !important;
 			visibility: hidden;
 		}
 	}
@@ -89,7 +89,7 @@ $grid-columns: 12;
 @each $breakpoint, $width in $breakpoints-min {
 	@media (min-width: $width) {
 		.hide-#{$breakpoint}-up {
-			display: none;
+			display: none !important;
 			visibility: hidden;
 		}
 	}

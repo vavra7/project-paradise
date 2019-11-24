@@ -1,39 +1,42 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DesktopTopMenu from '../menus/DesktopTopMenu';
+import StaticTopBar from '../header/StaticTopBar';
+import MainMenuContainer from '../header/MainMenuContainer';
+import BreadCrumbsContainer from '../header/BreadCrumbsContainer';
+import PageTitleContainer from '../header/PageTitleContainer';
 
 class CommonPostLayout extends Component {
 	static propTypes = {
-		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired
+		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
+		title: PropTypes.string.isRequired
 	};
 
 	render() {
 		return (
-			<div id="common-post-layout">
+			<>
 				<header id="main-header">
-					<DesktopTopMenu />
+					<StaticTopBar />
+					<MainMenuContainer />
+					<BreadCrumbsContainer />
+					<PageTitleContainer title={this.props.title} />
 				</header>
 
-				<div id="content">
-					<section id="primary" className="container">
-						<div className="row">
-							<main className="col-xs-8">
-								<article>{this.props.children}</article>
-							</main>
+				<section id="primary" className="container">
+					<div className="row">
+						<main id="content" className="col-xs-12 col-md-8" role="main">
+							<article>{this.props.children}</article>
+						</main>
 
-							<aside className="col-xs-4">
-								Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar
-							</aside>
-						</div>
-					</section>
+						<aside className="col-md-4 hide-sm-down">
+							Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar Side Bar
+						</aside>
+					</div>
+				</section>
 
-					<section>Instagram sekce</section>
-				</div>
+				<section>Instagram sekce</section>
 
-				<footer id="main-footer">
-					Footer
-				</footer>
-			</div>
+				<footer id="main-footer">Footer</footer>
+			</>
 		);
 	}
 }

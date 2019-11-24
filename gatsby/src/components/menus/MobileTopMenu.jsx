@@ -1,7 +1,17 @@
 import React from 'react';
+import { event } from '../../events';
+import { EVENTS } from '../../events/types';
 
-const MobileTopMenu = () => {
-	return <div>This is mobile menu</div>;
+const toggleFixedRightBar = () => {
+	event.emit(EVENTS.FIXED_BARS.RIGHT_BAR_TOGGLE);
 };
+
+function MobileTopMenu() {
+	return (
+		<nav>
+			<i className="icon-bars" onClick={() => toggleFixedRightBar()}></i>
+		</nav>
+	);
+}
 
 export default MobileTopMenu;

@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './FixedRightBar.module.scss';
 import { connect } from 'react-redux';
-import { rightBarSetActive } from '../../../actions/fixedBarsActions';
+import { rightBarSetActive } from '../../actions/fixedBarsActions';
 import { styler, value, listen, pointer, calc, chain, tween, easing, action, inertia } from 'popmotion';
-import { event } from '../../../events';
-import { EVENTS } from '../../../events/types';
+import { event } from '../../events';
+import { EVENTS } from '../../events/types';
 
 const DIFF_HANDLER_UPDATE = 60;
-const HANDLER_REVEAL_DELAY = 400;
-const HANDLER_REVEAL_DURATION = 1000;
-
 const OVER_DRAG_SPEED_MODIFIER = 0.15;
 const MIN_VELOCITY = 600;
 const MAX_VELOCITY = 1800;
@@ -43,9 +40,7 @@ class FixedRightBar extends Component {
 		};
 
 		this.handler = {
-			ref: React.createRef(),
-			styler: null,
-			stylerOpacity: null
+			ref: React.createRef()
 		};
 
 		this.listeners = {
@@ -65,17 +60,6 @@ class FixedRightBar extends Component {
 	setHandlerPosition() {
 		if (Math.abs(this.state.handlerPosition - this.props.windowHeight / 2) > DIFF_HANDLER_UPDATE)
 			this.setState({ handlerPosition: this.props.windowHeight / 2 });
-	}
-
-	handlerReveal() {
-		setTimeout(() => {
-			tween({
-				from: 0,
-				to: 1,
-				duration: HANDLER_REVEAL_DURATION,
-				ease: easing.linear
-			}).start(this.handler.stylerOpacity);
-		}, HANDLER_REVEAL_DELAY);
 	}
 
 	refreshRightBarPosition() {
@@ -200,9 +184,6 @@ class FixedRightBar extends Component {
 		this.rightBar.styler = styler(this.rightBar.ref.current);
 		this.rightBar.stylerX = value(this.rightBar.ref.current.offsetWidth, v => this.rightBar.styler.set('x', v));
 
-		this.handler.styler = styler(this.handler.ref.current);
-		this.handler.stylerOpacity = value(0, v => this.handler.styler.set('opacity', v));
-
 		this.listeners.onHandler = listen(this.handler.ref.current, 'touchstart mousedown', { passive: false }).start(e => {
 			this.startManualSwipe(e);
 		});
@@ -213,7 +194,6 @@ class FixedRightBar extends Component {
 		});
 
 		this.setHandlerPosition();
-		this.handlerReveal();
 	}
 
 	componentDidUpdate(prevProps) {

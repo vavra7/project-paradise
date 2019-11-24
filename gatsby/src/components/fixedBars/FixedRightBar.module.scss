@@ -1,4 +1,4 @@
-@import '../../../styles/partials/z-indexes';
+@import '../../styles/partials/z-indexes';
 @import './FixedTopBars.module.scss';
 
 .fixed-right-bar {
@@ -27,7 +27,7 @@
 		align-self: center;
 		height: 300px;
 		width: 20px;
-		opacity: 0;
+		// opacity: 0;
 		transform: translate(-100%, -50%);
 	}
 
