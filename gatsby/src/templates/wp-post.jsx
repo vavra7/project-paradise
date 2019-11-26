@@ -4,9 +4,23 @@ import CommonPostLayout from '../components/layouts/CommonPostLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 
 export const query = graphql`
-	query($id: String!) {
-		wpPost(id: { eq: $id }) {
+	query($wpId: Int, $featuredMedia: Int) {
+		wpPost(wpId: { eq: $wpId }) {
 			title
+			wpId
+			featuredMedia
+		}
+		featuredMedia: wpMedia(wpId: { eq: $featuredMedia }) {
+			wpId
+			url
+		}
+		postMedia: allWpMedia(filter: { wpPost: { eq: $wpId } }) {
+			edges {
+				node {
+					wpId
+					url
+				}
+			}
 		}
 	}
 `;

@@ -15,7 +15,7 @@ final class Api
 	 */
 	public function menu_api(): void
 	{
-		register_rest_route('wp/v1', 'menus', [
+		register_rest_route('wp/v2', 'menus', [
 			'methods' => \WP_REST_Server::READABLE,
 			'callback' => [$this, 'get_location_menus']
 		]);

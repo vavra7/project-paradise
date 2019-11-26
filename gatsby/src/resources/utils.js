@@ -21,7 +21,7 @@ const fetchWpData = async endpoint => {
 /**
  * Fetching and returns all WP data at endpoint with paging support.
  */
-const fetchAllWpData = async endpoint => {
+const fetchPagedWpData = async endpoint => {
 	console.log(`   - start fetching from "${process.env.WP_URL}${endpoint}"`);
 	const perPage = 50; // WP supports max 100
 	const data = [];
@@ -52,7 +52,7 @@ const fetchAllWpData = async endpoint => {
  * Loops through array of raw fetched data from WP,
  * transforms them and returns array of node inputs.
  */
-const prepareAllWpData = ({ createNodeId, createContentDigest, nodeType }, data) => {
+const prepareWpDataForNode = ({ createNodeId, createContentDigest, nodeType }, data, nodeName) => {
 	try {
 		if (data.length && !data[0].id) {
 			throw new ReferenceError(`\x1b[31mThe data type '${nodeType}' fetched form WP doesn't contain id.`);
@@ -65,7 +65,7 @@ const prepareAllWpData = ({ createNodeId, createContentDigest, nodeType }, data)
 				parent: null,
 				children: [],
 				internal: {
-					type: nodeType,
+					type: nodeName,
 					content: JSON.stringify(item),
 					contentDigest: createContentDigest(item)
 				}
@@ -79,7 +79,7 @@ const prepareAllWpData = ({ createNodeId, createContentDigest, nodeType }, data)
 /**
  * Loops through array of node inputs and creates nodes.
  */
-const createAllNodes = ({ createNode }, data) => {
+const createNodes = ({ createNode }, data) => {
 	data.forEach(item => {
 		createNode(item);
 	});
@@ -112,13 +112,15 @@ const createGraphqlType = ({ schema, createTypes }, data) => {
 /**
  * Creates pages from all provided WP data.
  */
-const createAllWpPages = ({ createPage }, { data, urlDirectory, templatePath }) => {
+const createWpPages = ({ createPage }, { data, urlDirectory, templatePath }) => {
 	data.forEach(item => {
 		const pageData = {
 			path: `${urlDirectory}/${item.node.slug}`,
 			component: path.resolve(templatePath),
 			context: {
-				id: item.node.id
+				id: item.node.id,
+				wpId: item.node.wpId,
+				featuredMedia: item.node.wpId
 			}
 		};
 
@@ -128,10 +130,10 @@ const createAllWpPages = ({ createPage }, { data, urlDirectory, templatePath }) 
 
 module.exports = {
 	fetchWpData,
-	fetchAllWpData,
-	prepareAllWpData,
-	createAllNodes,
+	fetchPagedWpData,
+	prepareWpDataForNode,
+	createNodes,
 	asyncForEach,
 	createGraphqlType,
-	createAllWpPages
+	createWpPages
 };

@@ -1,5 +1,5 @@
 const { TYPES } = require('./types');
-const { createAllWpPages } = require('./utils');
+const { createWpPages } = require('./utils');
 
 const URL_DIRECTORY = {
 	WP_PAGE: '',
@@ -18,6 +18,8 @@ module.exports = {
 					edges {
 						node {
 							id
+							wpId
+							featuredMedia
 							slug
 						}
 					}
@@ -26,7 +28,7 @@ module.exports = {
 		`);
 		const data = queryResult.data.allWpPage.edges;
 
-		createAllWpPages(dispatch, {
+		createWpPages(dispatch, {
 			data: data,
 			urlDirectory: URL_DIRECTORY.WP_PAGE,
 			templatePath: TEMPLATE_PATH.WP_PAGE
@@ -39,6 +41,8 @@ module.exports = {
 					edges {
 						node {
 							id
+							wpId
+							featuredMedia
 							slug
 						}
 					}
@@ -47,7 +51,7 @@ module.exports = {
 		`);
 		const data = queryResult.data.allWpPost.edges;
 
-		createAllWpPages(dispatch, {
+		createWpPages(dispatch, {
 			data: data,
 			urlDirectory: URL_DIRECTORY.WP_POST,
 			templatePath: TEMPLATE_PATH.WP_POST

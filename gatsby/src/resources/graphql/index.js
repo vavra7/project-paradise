@@ -1,9 +1,11 @@
-const wpPageType = require('./wpPageType')
-const wpPostType = require('./wpPostType')
-const wpMenuType = require('./wpMenuType')
+const wpPage = require('./wpPageType');
+const wpPost = require('./wpPostType');
+const wpMenu = require('./wpMenuType');
+const wpMedia = require('./wpMediaType');
 
-module.exports.GRAPHQL = {
-	WP_POST: wpPostType,
-	WP_PAGE: wpPageType,
-	WP_MENU: wpMenuType
-}
+module.exports = {
+	wpPage,
+	wpPost,
+	wpMenu,
+	wpMedia
+};
