@@ -2,39 +2,44 @@ require('dotenv').config({
 	path: `.env.${process.env.NODE_ENV}`
 });
 
-const { TYPES } = require('./src/resources/types');
-const { asyncForEach } = require('./src/resources/utils');
-const node = require('./src/resources/node');
-const page = require('./src/resources/page');
+const nodes = require('./sourcing/nodes');
+const graphql = require('./sourcing/graphql');
+const pages = require('./sourcing/pages');
 
-const types = Object.values(TYPES);
-
-module.exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, schema }) => {
+module.exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest, reporter, store }) => {
 	const dispatch = {
-		createNodeId: createNodeId,
-		createContentDigest: createContentDigest,
-		createNode: actions.createNode,
-		schema: schema,
-		createTypes: actions.createTypes
+		actions,
+		cache,
+		createNodeId,
+		createContentDigest,
+		store,
+		reporter
 	};
 
-	await asyncForEach(types, async type => {
-		if (node[type]) {
-			dispatch.nodeType = type;
-			await node[type](dispatch);
-		}
-	});
+	await Promise.all([
+		nodes.wpPages(dispatch),
+		nodes.wpPosts(dispatch),
+		nodes.wpMenus(dispatch),
+		nodes.files(dispatch).then(() => {
+			nodes.wpMedia(dispatch);
+		})
+	]);
 };
 
-module.exports.createPages = async ({ graphql, actions }) => {
+module.exports.createSchemaCustomization = ({ actions, schema }) => {
 	const dispatch = {
-		graphql: graphql,
-		createPage: actions.createPage
+		actions,
+		schema
 	};
 
-	await asyncForEach(types, async type => {
-		if (page[type]) {
-			page[type](dispatch);
-		}
-	});
+	graphql.initCreateGraphqlTypes(dispatch);
+};
+
+module.exports.createPages = async ({ actions, graphql }) => {
+	const dispatch = {
+		actions,
+		graphql
+	};
+
+	await Promise.all([pages.wpPages(dispatch), pages.wpPosts(dispatch)]);
 };

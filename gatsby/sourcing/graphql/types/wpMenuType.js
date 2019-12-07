@@ -1,8 +1,8 @@
-const { GRAPHQL } = require('./types');
+const { NODES } = require('../../nodes/types');
 
 module.exports = [
 	{
-		name: GRAPHQL.WP_MENU,
+		name: NODES.WP_MENU,
 		fields: {
 			id: {
 				type: 'ID!'

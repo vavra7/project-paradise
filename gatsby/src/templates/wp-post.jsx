@@ -2,23 +2,24 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import CommonPostLayout from '../components/layouts/CommonPostLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
+import Img from 'gatsby-image';
 
 export const query = graphql`
-	query($wpId: Int, $featuredMedia: Int) {
+	query($wpId: Int!) {
 		wpPost(wpId: { eq: $wpId }) {
+			wpId
 			title
-			wpId
-			featuredMedia
-		}
-		featuredMedia: wpMedia(wpId: { eq: $featuredMedia }) {
-			wpId
-			url
-		}
-		postMedia: allWpMedia(filter: { wpPost: { eq: $wpId } }) {
-			edges {
-				node {
-					wpId
-					url
+			featuredMedia {
+				id
+				childWpMedia {
+					childFile {
+						childImageSharp {
+							id
+							fluid {
+								...GatsbyImageSharpFluid_tracedSVG
+							}
+						}
+					}
 				}
 			}
 		}
@@ -26,12 +27,18 @@ export const query = graphql`
 `;
 
 function WpPost({ data }) {
+	const featuredImg = data.wpPost.featuredMedia.id ? (
+		<Img fluid={data.wpPost.featuredMedia.childWpMedia.childFile.childImageSharp.fluid}></Img>
+	) : (
+		''
+	);
+
 	return (
 		<>
+			{featuredImg}
 			<CommonPostLayout title={data.wpPost.title}>
 				<pre>{JSON.stringify(data, null, 2)}</pre>
 			</CommonPostLayout>
-
 			<FixedRightBar>
 				<div>alsfjslkj</div>
 			</FixedRightBar>

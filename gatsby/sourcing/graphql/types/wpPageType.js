@@ -1,7 +1,7 @@
-const { GRAPHQL } = require('./types');
+const { NODES } = require('../../nodes/types');
 
 module.exports = {
-	name: GRAPHQL.WP_PAGE,
+	name: NODES.WP_PAGE,
 	fields: {
 		id: {
 			type: 'ID!'
@@ -30,8 +30,8 @@ module.exports = {
 			resolve: item => item.title.rendered
 		},
 		featuredMedia: {
-			type: 'Int',
-			resolve: item => (item.featured_media ? item.featured_media : null)
+			type: 'FeaturedMedia',
+			resolve: item => item
 		},
 		content: {
 			type: 'String',

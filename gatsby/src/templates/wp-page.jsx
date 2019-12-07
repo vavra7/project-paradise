@@ -2,8 +2,8 @@ import React from 'react';
 import { graphql } from 'gatsby';
 
 export const query = graphql`
-	query($id: String!) {
-		wpPage(id: { eq: $id }) {
+	query($wpId: Int!) {
+		wpPage(wpId: { eq: $wpId }) {
 			title
 		}
 	}
