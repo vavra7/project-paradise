@@ -2,7 +2,6 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import CommonPostLayout from '../components/layouts/CommonPostLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
-import Img from 'gatsby-image';
 
 export const query = graphql`
 	query($wpId: Int!) {
@@ -15,30 +14,31 @@ export const query = graphql`
 					childFile {
 						childImageSharp {
 							id
-							fluid {
+							fluid(maxWidth: 1200, srcSetBreakpoints: [200, 340, 520, 890, 960, 1100]) {
 								...GatsbyImageSharpFluid_tracedSVG
 							}
 						}
 					}
 				}
 			}
+			content
 		}
 	}
 `;
 
 function WpPost({ data }) {
-	const featuredImg = data.wpPost.featuredMedia.id ? (
-		<Img fluid={data.wpPost.featuredMedia.childWpMedia.childFile.childImageSharp.fluid}></Img>
-	) : (
-		''
-	);
+	const title = data.wpPost.title;
+	const featuredImgSrc = data.wpPost.featuredMedia.id
+		? data.wpPost.featuredMedia.childWpMedia.childFile.childImageSharp.fluid
+		: null;
+	const content = data.wpPost.content;
 
 	return (
 		<>
-			{featuredImg}
-			<CommonPostLayout title={data.wpPost.title}>
-				<pre>{JSON.stringify(data, null, 2)}</pre>
+			<CommonPostLayout title={title} featuredImgSrc={featuredImgSrc} content={content}>
+				<div className="entry-content" dangerouslySetInnerHTML={{ __html: content }}></div>
 			</CommonPostLayout>
+
 			<FixedRightBar>
 				<div>alsfjslkj</div>
 			</FixedRightBar>
