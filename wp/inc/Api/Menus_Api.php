@@ -2,7 +2,7 @@
 
 namespace Inc\Api;
 
-final class Api
+class Menus_Api
 {
 	function __construct()
 	{

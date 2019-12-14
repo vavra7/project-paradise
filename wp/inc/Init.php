@@ -9,7 +9,8 @@ final class Init
 		return [
 			Setup\Setup::class,
 			Core\Menus::class,
-			Api\Api::class
+			Api\Posts_Api::class,
+			Api\Menus_Api::class
 		];
 	}
 
