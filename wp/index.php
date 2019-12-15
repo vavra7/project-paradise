@@ -11,8 +11,7 @@
 
 <body>
 	<?php
-	debug(parse_url('https://www.youtube.com/watch?v=oAVhEPey_qA&t=11906s'));
-
+	echo 'Silence is golden';
 	?>
 
 </body>

@@ -1,4 +1,6 @@
 wp/_wp-files/
+wp/node_modules/
+wp/build/
 wp/vendor/
 
 gatsby/public/

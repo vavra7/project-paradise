@@ -1,1 +1,0 @@
-add <meta name="viewport" content="minimum-scale=1">
