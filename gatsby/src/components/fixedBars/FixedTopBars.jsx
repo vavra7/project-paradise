@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MobileTopMenu from '../menus/MobileTopMenu';
 import DesktopTopMenu from '../menus/DesktopTopMenu';
 import scopedStyles from './FixedTopBars.module.scss';
-import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
+import BREAKPOINTS from '../../../../common-styles/modules/_breakpoints.scss';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import { styler, value, tween, easing } from 'popmotion';
@@ -185,7 +185,4 @@ const mapStateToProps = state => ({
 	rightBarActive: state.fixedBars.rightBarActive
 });
 
-export default connect(
-	mapStateToProps,
-	null
-)(FixedTopBars);
+export default connect(mapStateToProps, null)(FixedTopBars);

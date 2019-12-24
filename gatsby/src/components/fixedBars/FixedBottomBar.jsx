@@ -5,7 +5,7 @@ import { styler, value } from 'popmotion';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import { connect } from 'react-redux';
-import BREAKPOINTS from '../../styles/base/_breakpoints.scss';
+import BREAKPOINTS from '../../../../common-styles/modules/_breakpoints.scss';
 
 const EXTRA_OFFSET = 50;
 const SPEED_MODIFIER = 0.2;
@@ -87,7 +87,4 @@ const mapStateToProps = state => ({
 	windowWidth: state.app.width
 });
 
-export default connect(
-	mapStateToProps,
-	null
-)(FixedBottomBar);
+export default connect(mapStateToProps, null)(FixedBottomBar);

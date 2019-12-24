@@ -1,0 +1,8 @@
+// common styles for gatsby and wordpress
+@import '../../common-styles/commons';
+
+// general wp style components
+@import './style-modules/colors';
+
+// block styles
+@import './blocks/gatsby-image-style.scss'

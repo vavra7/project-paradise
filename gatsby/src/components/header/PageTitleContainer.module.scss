@@ -1,8 +1,8 @@
-@import '../../styles/base/colors';
-@import '../../styles/partials/z-indexes';
-@import '../../styles/base/grid';
-@import '../../styles/base/breakpoints';
-@import '../../styles/base/typography';
+@import '../../../../common-styles/modules/grid';
+@import '../../../../common-styles/modules/breakpoints';
+@import '../../../../common-styles/modules/colors';
+@import '../../../../common-styles/modules/typography';
+@import '../../styles/modules/z-indexes';
 
 .page-title-container {
 	position: relative;

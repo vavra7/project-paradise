@@ -1,0 +1,11 @@
+$wp-light-grey: #f3f3f4;
+
+$color-list: (
+	'wp-light-grey': $wp-light-grey
+);
+
+@each $color-name, $color in $color-list {
+	.bg-#{$color-name} {
+		background-color: $color;
+	}
+}

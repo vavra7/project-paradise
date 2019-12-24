@@ -1,15 +1,11 @@
-// Base
-@import './base/fonts';
-@import './base/grid';
-@import './base/spacing';
-@import './base/positioning';
-@import './base/colors';
-@import './base/typography';
-@import './base/icons';
+// common styles for gatsby and wordpress
+@import '../../../common-styles/commons';
 
-// Partials
-@import './partials/lines';
-@import './partials/shadow';
+// gatsby style components
+@import './modules/fonts';
+@import './modules/icons';
+@import './modules/lines';
+@import './modules/shadow';
 
 html,
 body {

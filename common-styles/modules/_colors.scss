@@ -2,10 +2,10 @@ $primary: #4267b2;
 $secondary: #eab926;
 $paragraph: #444;
 $line: #c8c8c8;
-$light-grey: #ECECEC;
-$white: #FFF;
+$light-grey: #ececec;
+$white: #fff;
 
-$colors: (
+$color-list: (
 	'primary': $primary,
 	'secondary': $secondary,
 	'paragraph': $paragraph,
@@ -14,7 +14,7 @@ $colors: (
 	'white': $white
 );
 
-@each $color-name, $color in $colors {
+@each $color-name, $color in $color-list {
 	.bg-#{$color-name} {
 		background-color: $color;
 	}

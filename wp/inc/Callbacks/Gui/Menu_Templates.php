@@ -6,7 +6,7 @@ class Menu_Templates
 {
 	public function menu_item_input_description_wide($input_id, $item_id, $label, $value, $args)
 	{
-		?>
+?>
 		<p class="field-<?php echo $input_id; ?> description description-wide">
 			<label for="edit-menu-item-<?php echo $input_id . '-' . $item_id; ?>">
 				<?php echo $label; ?><br />

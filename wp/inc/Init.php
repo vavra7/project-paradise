@@ -8,6 +8,7 @@ final class Init
 	{
 		return [
 			Setup\Setup::class,
+			Setup\Enqueue::class,
 			Core\Menus::class,
 			Blocks\Blocks::class,
 			Api\Posts_Api::class,

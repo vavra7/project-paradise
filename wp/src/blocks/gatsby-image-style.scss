@@ -1,0 +1,18 @@
+.wp-block-gatsby-image {
+	.img-wrapper {
+		line-height: 0;
+
+		.img-overlay {
+			display: none;
+			background: rgba(255, 255, 255, 0.6);
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+
+		&:hover .img-overlay {
+			display: flex;
+		}
+	}
+}

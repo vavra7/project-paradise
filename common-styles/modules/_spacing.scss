@@ -28,6 +28,10 @@ $spaces: (
 		margin-top: $size;
 	}
 
+	.mr-#{$space} {
+		margin-right: $size;
+	}
+
 	.pa-#{$space} {
 		padding: $size;
 	}
