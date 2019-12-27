@@ -30,6 +30,7 @@ class RippleEffect extends Component {
 
 	render() {
 		return (
+			/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 			<div className={`${scopedStyles.rippleEffect} d-flex fg-1 ai-center jc-center`} onClick={e => this.addRipple(e)}>
 				{this.state.ripples.map(({ top, left, id }) => (
 					<Ripple top={top} left={left} key={id} removeRipple={() => this.onRemoveRipple(id)} />
@@ -37,6 +38,7 @@ class RippleEffect extends Component {
 
 				{this.props.children}
 			</div>
+			/* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 		);
 	}
 }

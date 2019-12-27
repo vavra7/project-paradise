@@ -1,6 +1,6 @@
 import React from 'react';
 import DesktopTopMenu from '../menus/DesktopTopMenu';
-import scopedStyles from './MainMenuContainer.module.scss'
+import scopedStyles from './MainMenuContainer.module.scss';
 
 function MainMenuContainer() {
 	return (

@@ -9,7 +9,9 @@ const toggleFixedRightBar = () => {
 function MobileTopMenu() {
 	return (
 		<nav>
-			<i className="icon-bars" onClick={() => toggleFixedRightBar()}></i>
+			<button onClick={() => toggleFixedRightBar()} style={{ background: 'none', border: 'none' }}>
+				<i className="icon-bars"></i>
+			</button>
 		</nav>
 	);
 }

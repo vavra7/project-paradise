@@ -58,6 +58,6 @@ function MobileBottomMenu() {
 			</ul>
 		</nav>
 	);
-};
+}
 
 export default MobileBottomMenu;

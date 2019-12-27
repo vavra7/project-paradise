@@ -20,7 +20,7 @@ function DesktopTopMenu() {
 		`
 	);
 
-	if (!data.wpMenu) return (<></>)
+	if (!data.wpMenu) return <></>;
 
 	const menuItems = data.wpMenu.items;
 	const getPath = menuItem => {
@@ -44,6 +44,6 @@ function DesktopTopMenu() {
 			</ul>
 		</nav>
 	);
-};
+}
 
 export default DesktopTopMenu;
