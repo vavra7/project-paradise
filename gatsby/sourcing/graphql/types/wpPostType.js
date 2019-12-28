@@ -1,4 +1,5 @@
 const { NODES } = require('../../nodes/types');
+const { getMediaIdsList } = require('../utils');
 
 module.exports = {
 	name: NODES.WP_POST,
@@ -10,10 +11,12 @@ module.exports = {
 			type: 'Int!'
 		},
 		date: {
-			type: 'Date!'
+			type: 'Date!',
+			resolve: item => item.date_gmt
 		},
 		modified: {
-			type: 'Date!'
+			type: 'Date!',
+			resolve: item => item.modified_gmt
 		},
 		slug: {
 			type: 'String!'
@@ -30,12 +33,20 @@ module.exports = {
 			resolve: item => item.title.rendered
 		},
 		featuredMedia: {
-			type: 'FeaturedMedia',
-			resolve: item => item
+			type: 'Media',
+			resolve: item => item.featured_media
+		},
+		media: {
+			type: '[Media]',
+			resolve: item => getMediaIdsList(item)
 		},
 		content: {
 			type: 'String',
 			resolve: item => item.content.rendered
+		},
+		blocks: {
+			type: 'String',
+			resolve: item => JSON.stringify(item.blocks)
 		},
 		excerpt: {
 			type: 'String',

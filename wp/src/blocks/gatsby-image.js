@@ -31,6 +31,7 @@ const settings = {
 };
 
 export function edit({ attributes, setAttributes }) {
+	// TODO: vyřešit ověření že příloha existuje. Aktuálně se nechová správně pokud v mediích obrázek smažu. Mizí id pokud se reloadne a znovu uloží.
 	const onSelect = media => {
 		const imgPrevUrl = media.sizes.large ? media.sizes.large.url : media.sizes.full.url;
 
@@ -79,7 +80,9 @@ export function edit({ attributes, setAttributes }) {
 					<div className="img-overlay p-absolute d-flex fd-column jc-center ai-center">
 						{label}
 
-						<div className="components-placeholder__instructions text-center mt-2">Use media library to change image.</div>
+						<div className="components-placeholder__instructions text-center mt-2">
+							Use media library to change image.
+						</div>
 
 						{mediaLibraryBtn({ isLarge: false })}
 					</div>

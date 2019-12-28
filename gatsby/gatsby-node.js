@@ -17,11 +17,12 @@ module.exports.sourceNodes = async ({ actions, cache, createNodeId, createConten
 	};
 
 	await Promise.all([
-		nodes.wpPages(dispatch),
-		nodes.wpPosts(dispatch),
 		nodes.wpMenus(dispatch),
 		nodes.files(dispatch).then(() => {
-			nodes.wpMedia(dispatch);
+			nodes.wpMedia(dispatch).then(() => {
+				nodes.wpPosts(dispatch);
+				nodes.wpPages(dispatch);
+			});
 		})
 	]);
 };

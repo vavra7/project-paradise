@@ -11,6 +11,9 @@ module.exports = {
 		quotes: ['warn', 'single'],
 		'no-var': 'warn',
 		'arrow-spacing': 'warn',
+		'no-import-assign': 'warn',
+		'no-template-curly-in-string': 'warn',
+		'require-await': 'warn',
 		/* custom rules */
 
 		/* eslint:recommended */

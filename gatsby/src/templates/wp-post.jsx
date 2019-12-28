@@ -8,6 +8,7 @@ export const query = graphql`
 		wpPost(wpId: { eq: $wpId }) {
 			wpId
 			title
+			blocks
 			featuredMedia {
 				id
 				childWpMedia {
@@ -32,6 +33,7 @@ function WpPost({ data }) {
 		? data.wpPost.featuredMedia.childWpMedia.childFile.childImageSharp.fluid
 		: null;
 	const content = data.wpPost.content;
+	// const blocks = JSON.parse(data.wpPost.blocks);
 
 	return (
 		<>

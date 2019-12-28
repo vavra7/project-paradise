@@ -15,6 +15,33 @@ const createGraphqlTypes = ({ actions, schema }, graphqlTypes) => {
 };
 
 /**
+ * Extract all media from post and returns its list of ids.
+ */
+const getMediaIdsList = post => {
+	let ids = [];
+
+	const enlistId = id => {
+		if (!ids.includes(id)) ids.push(id);
+	};
+
+	const addMediaFromBlocks = blocks => {
+		blocks.forEach(block => {
+			if (block.blockName === 'gatsby/image') {
+				if (block.attrs.id) enlistId(block.attrs.id);
+			}
+
+			if (block.innerBlocks.length) addMediaFromBlocks(block.innerBlocks);
+		});
+	};
+
+	if (post.featured_media) enlistId(post.featured_media);
+
+	addMediaFromBlocks(post.blocks);
+
+	return ids;
+};
+
+/**
  * Returns name of child node
  */
 const getChildName = node => {
@@ -23,5 +50,6 @@ const getChildName = node => {
 
 module.exports = {
 	createGraphqlTypes,
-	getChildName
+	getChildName,
+	getMediaIdsList
 };

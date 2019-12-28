@@ -10,10 +10,12 @@ module.exports = {
 			type: 'Int!'
 		},
 		date: {
-			type: 'Date!'
+			type: 'Date!',
+			resolve: item => item.date_gmt
 		},
 		modified: {
-			type: 'Date!'
+			type: 'Date!',
+			resolve: item => item.modified_gmt
 		},
 		slug: {
 			type: 'String!'
@@ -30,8 +32,8 @@ module.exports = {
 			resolve: item => item.title.rendered
 		},
 		featuredMedia: {
-			type: 'FeaturedMedia',
-			resolve: item => item
+			type: 'Media',
+			resolve: item => item.featured_media
 		},
 		content: {
 			type: 'String',

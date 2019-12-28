@@ -1,4 +1,5 @@
 const { request, requestPagedWpData } = require('./utils');
+const { FIELDS } = require('./fields');
 
 module.exports = {
 	pages: {
@@ -16,7 +17,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'get',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/posts`,
+			url: `${process.env.WP_URL}/wp-json/wp/v2/posts?_fields=${FIELDS.WP_POSTS.join(',')}`,
 			headers: {}
 		},
 		reduce: res => res
