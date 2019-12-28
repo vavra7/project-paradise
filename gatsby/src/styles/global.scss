@@ -1,7 +1,11 @@
 // common styles for gatsby and wordpress
 @import '../../../common-styles/commons';
 
-// gatsby style components
+// wp general block styles
+@import '../../../wp/_wp-files/wp-includes/css/dist/block-library/theme.min.css';
+@import '../../../wp/_wp-files/wp-includes/css/dist/block-library/style.min.css';
+
+// gatsby style modules
 @import './modules/fonts';
 @import './modules/icons';
 @import './modules/lines';
