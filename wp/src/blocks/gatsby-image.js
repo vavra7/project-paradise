@@ -9,9 +9,12 @@ const settings = {
 	icon: 'format-image',
 	keywords: ['image', 'photo', 'picture'],
 	category: 'common',
+	supports: {
+		align: false
+	},
 	attributes: {
 		id: {
-			type: 'string'
+			type: 'number'
 		},
 		imgPrevUrl: {
 			type: 'string',
@@ -31,11 +34,14 @@ const settings = {
 };
 
 export function edit({ attributes, setAttributes }) {
-	// TODO: vyřešit ověření že příloha existuje. Aktuálně se nechová správně pokud v mediích obrázek smažu. Mizí id pokud se reloadne a znovu uloží.
 	const onSelect = media => {
 		const imgPrevUrl = media.sizes.large ? media.sizes.large.url : media.sizes.full.url;
 
 		setAttributes({ id: media.id, imgPrevUrl, alt: media.alt });
+	};
+
+	const onError = () => {
+		setAttributes({ id: null, imgPrevUrl: '', alt: '' });
 	};
 
 	const mediaLibraryBtn = props => {
@@ -75,7 +81,7 @@ export function edit({ attributes, setAttributes }) {
 				</div>
 			) : (
 				<div className="img-wrapper p-relative text-center">
-					<img src={attributes.imgPrevUrl} />
+					<img src={attributes.imgPrevUrl} onError={onError} />
 
 					<div className="img-overlay p-absolute d-flex fd-column jc-center ai-center">
 						{label}
