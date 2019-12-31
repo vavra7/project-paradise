@@ -5,13 +5,18 @@ import Img from 'gatsby-image';
 const ASPECT_RATIO = 1.6;
 
 function FeaturedImage(props) {
-	const image = props.featuredImgSrc ? <Img fluid={{ ...props.featuredImgSrc, aspectRatio: ASPECT_RATIO }} /> : '';
+	const image =
+		props.featuredMedia.id && props.featuredMedia.childWpMedia ? (
+			<Img fluid={{ ...props.featuredMedia.childWpMedia.childFile.childImageSharp.fluid, aspectRatio: ASPECT_RATIO }} />
+		) : (
+			''
+		);
 
 	return <div className="entry-featured-image">{image}</div>;
 }
 
 FeaturedImage.propTypes = {
-	featuredImgSrc: PropTypes.object
+	featuredMedia: PropTypes.object.isRequired
 };
 
 export default FeaturedImage;

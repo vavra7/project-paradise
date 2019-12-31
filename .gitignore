@@ -3,6 +3,20 @@ wp/node_modules/
 wp/build/
 wp/vendor/
 
+!wp/_wp-files/
+wp/_wp-files/*
+!wp/_wp-files/wp-includes/
+wp/_wp-files/wp-includes/*
+!wp/_wp-files/wp-includes/css/
+wp/_wp-files/wp-includes/css/*
+!wp/_wp-files/wp-includes/css/dist
+wp/_wp-files/wp-includes/css/dist/*
+!wp/_wp-files/wp-includes/css/dist/block-library/
+wp/_wp-files/wp-includes/css/dist/block-library/*
+!wp/_wp-files/wp-includes/css/dist/block-library/theme.min.css
+!wp/_wp-files/wp-includes/css/dist/block-library/style.min.css
+
+
 gatsby/public/
 gatsby/node_modules/
 gatsby/.cache/

@@ -10,8 +10,7 @@ class CommonPostLayout extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
 		title: PropTypes.string.isRequired,
-		featuredImgSrc: PropTypes.object,
-		content: PropTypes.string
+		featuredMedia: PropTypes.object.isRequired
 	};
 
 	render() {
@@ -29,10 +28,10 @@ class CommonPostLayout extends Component {
 						<main id="content" className="col-xs-12 col-md-8" role="main">
 							<article>
 								<header className="entry-header">
-									<FeaturedImage featuredImgSrc={this.props.featuredImgSrc} />
+									<FeaturedImage featuredMedia={this.props.featuredMedia} />
 								</header>
 
-								{this.props.children}
+								<div className="entry-content">{this.props.children}</div>
 
 								<footer className="entry-footer"></footer>
 							</article>
