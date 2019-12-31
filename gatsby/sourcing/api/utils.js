@@ -29,16 +29,17 @@ const request = config => {
 const requestPagedWpData = async config => {
 	const PER_PAGE = 50; // WP supports max 100
 	const url = config.url;
+	const linkSign = url.includes('?') ? '&' : '?';
 	const data = [];
 
-	config.url = `${url}?per_page=${PER_PAGE}&page=1`;
+	config.url = `${url}${linkSign}per_page=${PER_PAGE}&page=1`;
 	const firstRes = await axios(config);
 	const totalPages = firstRes.headers['x-wp-totalpages'];
 	data.push(...firstRes.data);
 
 	if (totalPages > 1) {
 		for (let i = 2; i <= totalPages; i++) {
-			config.url = `${url}?per_page=${PER_PAGE}&page=${i}`;
+			config.url = `${url}${linkSign}per_page=${PER_PAGE}&page=${i}`;
 			const res = await axios(config);
 			data.push(...res.data);
 		}

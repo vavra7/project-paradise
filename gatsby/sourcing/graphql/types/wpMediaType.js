@@ -11,14 +11,20 @@ module.exports = {
 			type: 'Int!'
 		},
 		date: {
-			type: 'Date!'
+			type: 'Date!',
+			resolve: item => item.date_gmt
 		},
 		modified: {
-			type: 'Date!'
+			type: 'Date!',
+			resolve: item => item.modified_gmt
 		},
-		wpPost: {
+		attachedTo: {
 			type: 'Int',
 			resolve: item => item.post
+		},
+		altText: {
+			type: 'String',
+			resolve: item => item.alt_text
 		},
 		url: {
 			type: 'String!',

@@ -12,6 +12,7 @@ export const query = graphql`
 			featuredMedia {
 				id
 				childWpMedia {
+					altText
 					childFile {
 						childImageSharp {
 							id
@@ -25,6 +26,7 @@ export const query = graphql`
 			media {
 				id
 				childWpMedia {
+					altText
 					childFile {
 						childImageSharp {
 							id

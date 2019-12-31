@@ -37,7 +37,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'get',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/media`,
+			url: `${process.env.WP_URL}/wp-json/wp/v2/media?_fields=${FIELDS.WP_MEDIA.join(',')}`,
 			headers: {}
 		},
 		reduce: res => res
