@@ -27,7 +27,7 @@ module.exports = {
 		handler: request,
 		config: {
 			method: 'get',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/menus`,
+			url: `${process.env.WP_URL}/wp-json/project-paradise/v1/menus`,
 			headers: {}
 		},
 		reduce: res => res.data

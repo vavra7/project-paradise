@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Api;
+namespace Inc\Api\Routes;
 
-class Posts_Api
+class Posts_Route
 {
 	function __construct()
 	{

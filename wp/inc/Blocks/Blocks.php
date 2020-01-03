@@ -19,7 +19,7 @@ class Blocks extends Enqueue
 	public function register_block_types(): void
 	{
 		register_block_type('namespace/slug-test', [
-			'editor_script' => self::$BLOCK_SCRIPTS
+			'editor_script' => self::BLOCK_SCRIPTS
 		]);
 	}
 

@@ -1,22 +1,25 @@
 <?php
 
-namespace Inc\Api;
+namespace Inc\Api\Routes;
 
-class Menus_Api
+use \WP_REST_Server;
+
+class Menus_Route
 {
+	private const ROUTE = 'menus';
+
 	function __construct()
 	{
-		add_action('rest_api_init', [$this, 'menu_api']);
+		add_action('rest_api_init', [$this, 'register_route']);
 	}
 
 	/**
-	 * Adds new endpoint in open api
-	 * wp/v1/menus
+	 * Adds new endpoint in REST api
 	 */
-	public function menu_api(): void
+	public function register_route(): void
 	{
-		register_rest_route('wp/v2', 'menus', [
-			'methods' => \WP_REST_Server::READABLE,
+		register_rest_route(Routes_Enum::NAMESPACE, self::ROUTE, [
+			'methods' => WP_REST_Server::READABLE,
 			'callback' => [$this, 'get_location_menus']
 		]);
 	}

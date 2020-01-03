@@ -1,9 +1,5 @@
 # project-paradise
 
-## Launch environments (wordpress)
-
-`docker-compose up`
-
 ## Change directory owner for Wordpress (Linux only)
 
 `sudo chown www-data -R ./wp`
@@ -14,11 +10,27 @@
 
 ## Install composer packages in Wordpress theme
 
-`cd wp && composer install`
+In wp folder run: `composer install`
+
+## Install npm packages in Wordpress
+
+In wp folder run: `npm install`
+
+## Build scripts and styles for Wordpress
+
+In wp folder run: `npm run build`
 
 ## Install Wordpress
 
 wp (localhost:8069)
+
+## Allow authorization headers
+Add following lines in .htaccess file
+````
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule ^(.*) - [E=HTTP_AUTHORIZATION:%1]
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+````
 
 ## Change Wordpress Theme
 
@@ -28,6 +40,10 @@ In development environment wp change theme to "Project Paradise"
 
 Change permalinks to "Post name" in Settings -> Permalinks
 
-## Install npm packages in Gatsby (gatsby)
+## Install npm packages in Gatsby
 
-`npm install`
+In gatsby folder run: `npm install`
+
+## Launch environments (wordpress)
+
+`docker-compose up`

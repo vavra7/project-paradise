@@ -4,9 +4,9 @@ namespace Inc\Setup;
 
 class Enqueue
 {
-	static $ADMIN_STYLE = 'admin-style';
-	static $MAIN_STYLE = 'main-style';
-	static $BLOCK_SCRIPTS = 'block-scripts';
+	const ADMIN_STYLE = 'admin-style';
+	const MAIN_STYLE = 'main-style';
+	const BLOCK_SCRIPTS = 'block-scripts';
 
 	function __construct()
 	{
@@ -23,7 +23,7 @@ class Enqueue
 			$asset_file = include(get_template_directory() . '/build/admin.asset.php');
 
 			wp_enqueue_style(
-				self::$ADMIN_STYLE,
+				self::ADMIN_STYLE,
 				get_template_directory_uri() . '/build/admin.css',
 				[],
 				$asset_file['version'],
@@ -41,7 +41,7 @@ class Enqueue
 			$asset_file = include(get_template_directory() . '/build/style.asset.php');
 
 			wp_enqueue_style(
-				self::$MAIN_STYLE,
+				self::MAIN_STYLE,
 				get_template_directory_uri() . '/build/style.css',
 				[],
 				$asset_file['version'],
@@ -59,7 +59,7 @@ class Enqueue
 			$asset_file = include(get_template_directory() . '/build/index.asset.php');
 
 			wp_register_script(
-				self::$BLOCK_SCRIPTS,
+				self::BLOCK_SCRIPTS,
 				get_template_directory_uri() . '/build/index.js',
 				$asset_file['dependencies'],
 				$asset_file['version']
