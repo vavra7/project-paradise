@@ -22,10 +22,10 @@ In wp folder run: `npm run build`
 
 ## Install Wordpress
 
-wp (localhost:8069)
+on localhost:8069 go through setup
 
 ## Allow authorization headers
-Add following lines in .htaccess file
+Add following lines in Wordpress in .htaccess file
 ````
 RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule ^(.*) - [E=HTTP_AUTHORIZATION:%1]
@@ -34,7 +34,7 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
 ## Change Wordpress Theme
 
-In development environment wp change theme to "Project Paradise"
+In Wordpress menu change theme to "Project Paradise"
 
 ## Enable Wordpress API routes
 

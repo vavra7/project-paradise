@@ -2,6 +2,7 @@
 @import '../../../../common-styles/modules/breakpoints';
 @import '../../../../common-styles/modules/colors';
 @import '../../../../common-styles/modules/typography';
+@import '../../../../common-styles/modules/spacing';
 @import '../../styles/modules/z-indexes';
 
 .page-title-container {
@@ -37,13 +38,11 @@
 	}
 }
 
-.line-overlay {
-	display: inline;
-	background: $white;
-	z-index: $zi-line-overlay;
-}
-
 h1.title {
 	display: inline;
-	position: relative;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	background: white;
+	padding: 0 $base-size;
+	margin: 0 -$base-size;
 }

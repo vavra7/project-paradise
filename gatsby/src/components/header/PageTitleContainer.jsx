@@ -8,10 +8,7 @@ function PageTitleContainer(props) {
 			<div className="container">
 				<div className="row">
 					<div className="col-xs-offset-1 col-xs-6">
-						<div className={scopedStyle.lineOverlay}>
-							{/* TODO: add margin to cover line */}
-							<h1 className={`${scopedStyle.title} title-3`}>{props.title}</h1>
-						</div>
+						<h1 className={`${scopedStyle.title} title-3`}>{props.title}</h1>
 					</div>
 				</div>
 			</div>
