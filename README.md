@@ -25,7 +25,7 @@ In wp folder run: `npm run build`
 on localhost:8069 go through setup
 
 ## Allow authorization headers
-Add following lines in Wordpress in .htaccess file
+Add following lines in Wordpress in .htaccess file under line with: "# END WordPress"
 ````
 RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule ^(.*) - [E=HTTP_AUTHORIZATION:%1]

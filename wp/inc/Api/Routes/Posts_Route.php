@@ -26,11 +26,10 @@ class Posts_Route
 
 
 	/**
-	 * Add blocks in post endpoint
+	 * Adds blocks in post endpoint
 	 */
 	public function add_blocks()
 	{
-		// TODO: Pořešit funkci jinak. Aktuálně spodne pokud volám field 'blocks' bez 'content'.
 		$args = [
 			'get_callback' => [$this, 'get_blocks']
 		];
