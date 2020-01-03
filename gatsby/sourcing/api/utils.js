@@ -11,8 +11,12 @@ const requestFromApi = ({ reporter }, api) => {
 
 			return api.reduce(res);
 		})
-		.catch(() => {
-			reporter.error(`request data from api ${api.id}`);
+		.catch(e => {
+			reporter.error(
+				`request data from api ${api.id}${
+					e && e.response && e.response.data ? '\n\ndata: ' + JSON.stringify(e.response.data, null, 2) : ''
+				}`
+			);
 		});
 };
 
@@ -28,18 +32,25 @@ const request = config => {
  */
 const requestPagedWpData = async config => {
 	const PER_PAGE = 50; // WP supports max 100
-	const url = config.url;
-	const linkSign = url.includes('?') ? '&' : '?';
+	const url = new URL(config.url);
 	const data = [];
 
-	config.url = `${url}${linkSign}per_page=${PER_PAGE}&page=1`;
+	let _url = url;
+	_url.searchParams.append('per_page', PER_PAGE);
+	_url.searchParams.append('page', 1);
+
+	config.url = _url.href;
 	const firstRes = await axios(config);
 	const totalPages = firstRes.headers['x-wp-totalpages'];
 	data.push(...firstRes.data);
 
 	if (totalPages > 1) {
 		for (let i = 2; i <= totalPages; i++) {
-			config.url = `${url}${linkSign}per_page=${PER_PAGE}&page=${i}`;
+			_url = url;
+			_url.searchParams.append('per_page', PER_PAGE);
+			_url.searchParams.append('page', i);
+
+			config.url = _url.href;
 			const res = await axios(config);
 			data.push(...res.data);
 		}

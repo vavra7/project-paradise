@@ -2,12 +2,13 @@ require('dotenv').config({
 	path: `.env.${process.env.NODE_ENV}`
 });
 
+const auth = require('./sourcing/auth');
 const nodes = require('./sourcing/nodes');
 const graphql = require('./sourcing/graphql');
 const pages = require('./sourcing/pages');
 
 module.exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest, reporter, store }) => {
-	const dispatch = {
+	const apiMethods = {
 		actions,
 		cache,
 		createNodeId,
@@ -16,30 +17,33 @@ module.exports.sourceNodes = async ({ actions, cache, createNodeId, createConten
 		reporter
 	};
 
+	await auth.generateToken(apiMethods);
+
 	await Promise.all([
-		nodes.wpPosts(dispatch),
-		nodes.wpPages(dispatch),
-		nodes.wpMenus(dispatch),
-		nodes.files(dispatch).then(() => {
-			nodes.wpMedia(dispatch);
+		nodes.wpSettings(apiMethods),
+		nodes.wpPosts(apiMethods),
+		nodes.wpPages(apiMethods),
+		nodes.wpMenus(apiMethods),
+		nodes.files(apiMethods).then(() => {
+			nodes.wpMedia(apiMethods);
 		})
 	]);
 };
 
 module.exports.createSchemaCustomization = ({ actions, schema }) => {
-	const dispatch = {
+	const apiMethods = {
 		actions,
 		schema
 	};
 
-	graphql.initCreateGraphqlTypes(dispatch);
+	graphql.initCreateGraphqlTypes(apiMethods);
 };
 
 module.exports.createPages = async ({ actions, graphql }) => {
-	const dispatch = {
+	const apiMethods = {
 		actions,
 		graphql
 	};
 
-	await Promise.all([pages.wpPages(dispatch), pages.wpPosts(dispatch)]);
+	await Promise.all([pages.wpPages(apiMethods), pages.wpPosts(apiMethods)]);
 };

@@ -1,78 +1,86 @@
 const api = require('../api');
 const { NODES } = require('./types');
+const { CACHE_KEYS } = require('../enums');
 const { requestFromApi } = require('../api/utils');
 const { createInternal, createNodes } = require('./utils');
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
 
 module.exports = {
-	wpPages: async dispatch => {
-		const data = await requestFromApi(dispatch, api.wp.pages);
+	wpSettings: async apiMethods => {
+		const variables = {
+			token: await apiMethods.cache.get(CACHE_KEYS.WP_AUTH_TOKEN)
+		};
+		const data = await requestFromApi(apiMethods, api.wp.settings(variables));
+		//TODO: node
+	},
+	wpPages: async apiMethods => {
+		const data = await requestFromApi(apiMethods, api.wp.pages());
 		const nodeData = data.map(item =>
 			Object.assign({}, item, {
-				id: dispatch.createNodeId(`${NODES.WP_PAGE}${item.id}`),
+				id: apiMethods.createNodeId(`${NODES.WP_PAGE}${item.id}`),
 				wpId: item.id,
 				parent: null,
 				children: [],
-				internal: createInternal(dispatch, NODES.WP_PAGE, item)
+				internal: createInternal(apiMethods, NODES.WP_PAGE, item)
 			})
 		);
-		createNodes(dispatch, nodeData);
+		createNodes(apiMethods, nodeData);
 	},
-	wpPosts: async dispatch => {
-		const data = await requestFromApi(dispatch, api.wp.posts);
+	wpPosts: async apiMethods => {
+		const data = await requestFromApi(apiMethods, api.wp.posts());
 		const nodeData = data.map(item =>
 			Object.assign({}, item, {
-				id: dispatch.createNodeId(`${NODES.WP_POST}${item.id}`),
+				id: apiMethods.createNodeId(`${NODES.WP_POST}${item.id}`),
 				wpId: item.id,
 				parent: null,
 				children: [],
-				internal: createInternal(dispatch, NODES.WP_POST, item)
+				internal: createInternal(apiMethods, NODES.WP_POST, item)
 			})
 		);
-		createNodes(dispatch, nodeData);
+		createNodes(apiMethods, nodeData);
 	},
-	wpMenus: async dispatch => {
-		const data = await requestFromApi(dispatch, api.wp.menus);
+	wpMenus: async apiMethods => {
+		const data = await requestFromApi(apiMethods, api.wp.menus());
 		const nodeData = data.map(item =>
 			Object.assign({}, item, {
-				id: dispatch.createNodeId(`${NODES.WP_MENU}${item.id}`),
+				id: apiMethods.createNodeId(`${NODES.WP_MENU}${item.id}`),
 				wpId: item.id,
 				parent: null,
 				children: [],
-				internal: createInternal(dispatch, NODES.WP_MENU, item)
+				internal: createInternal(apiMethods, NODES.WP_MENU, item)
 			})
 		);
-		createNodes(dispatch, nodeData);
+		createNodes(apiMethods, nodeData);
 	},
-	files: async dispatch => {
-		const data = await requestFromApi(dispatch, api.wp.media);
+	files: async apiMethods => {
+		const data = await requestFromApi(apiMethods, api.wp.media());
 
-		await dispatch.cache.set('wpMediaData', data);
+		await apiMethods.cache.set(CACHE_KEYS.WP_MEDIA_DATA, data);
 
 		for (let index = 0; index < data.length; index++) {
 			const file = data[index];
 
 			await createRemoteFileNode({
 				url: file.source_url,
-				store: dispatch.store,
-				cache: dispatch.cache,
-				createNode: dispatch.actions.createNode,
-				createNodeId: dispatch.createNodeId
+				store: apiMethods.store,
+				cache: apiMethods.cache,
+				createNode: apiMethods.actions.createNode,
+				createNodeId: apiMethods.createNodeId
 			});
 		}
 	},
-	wpMedia: async dispatch => {
-		const data = await dispatch.cache.get('wpMediaData');
+	wpMedia: async apiMethods => {
+		const data = await apiMethods.cache.get(CACHE_KEYS.WP_MEDIA_DATA);
 
 		const nodeData = data.map(item =>
 			Object.assign({}, item, {
-				id: dispatch.createNodeId(`${NODES.WP_MEDIA}${item.id}`),
+				id: apiMethods.createNodeId(`${NODES.WP_MEDIA}${item.id}`),
 				wpId: item.id,
 				parent: null,
 				children: [],
-				internal: createInternal(dispatch, NODES.WP_MEDIA, item)
+				internal: createInternal(apiMethods, NODES.WP_MEDIA, item)
 			})
 		);
-		createNodes(dispatch, nodeData);
+		createNodes(apiMethods, nodeData);
 	}
 };

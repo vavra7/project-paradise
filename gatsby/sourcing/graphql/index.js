@@ -7,8 +7,8 @@ const wpMedia = require('./types/wpMediaType');
 
 const graphqlTypes = [common, wpPage, wpPost, wpMenu, wpMedia];
 
-const initCreateGraphqlTypes = dispatch => {
-	graphqlTypes.forEach(graphqlType => createGraphqlTypes(dispatch, graphqlType));
+const initCreateGraphqlTypes = apiMethods => {
+	graphqlTypes.forEach(graphqlType => createGraphqlTypes(apiMethods, graphqlType));
 };
 
 module.exports = {
