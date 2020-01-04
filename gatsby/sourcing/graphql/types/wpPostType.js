@@ -18,15 +18,8 @@ module.exports = {
 			type: 'Date!',
 			resolve: item => item.modified_gmt
 		},
-		slug: {
+		path: {
 			type: 'String!'
-		},
-		status: {
-			type: 'String!'
-		},
-		wpType: {
-			type: 'String!',
-			resolve: item => item.type
 		},
 		title: {
 			type: 'String',

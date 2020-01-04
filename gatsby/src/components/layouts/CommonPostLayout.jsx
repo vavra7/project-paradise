@@ -19,7 +19,7 @@ class CommonPostLayout extends Component {
 				<header id="main-header">
 					<StaticTopBar />
 					<MainMenuContainer />
-					<BreadCrumbsContainer />
+					<BreadCrumbsContainer current={this.props.title} />
 					<PageTitleContainer title={this.props.title} />
 				</header>
 
