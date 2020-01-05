@@ -2,8 +2,12 @@
 
 namespace Inc\Api\Routes;
 
+use Inc\Api\Utils\Url_Extractor;
+
 class Posts_Route
 {
+	use Url_Extractor;
+
 	function __construct()
 	{
 		add_action('rest_api_init', [$this, 'add_blocks']);
@@ -41,9 +45,10 @@ class Posts_Route
 	{
 		$args = [
 			'get_callback' => function ($response_post) {
-				$post = get_post($response_post['id']);
+				$permalink = get_permalink($response_post['id']);
+				$path = $this->get_path_from_url($permalink);
 
-				return '/' . 'post/' . $post->post_name;
+				return $path;
 			}
 
 		];

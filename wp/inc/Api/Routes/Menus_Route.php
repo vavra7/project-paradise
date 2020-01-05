@@ -3,9 +3,12 @@
 namespace Inc\Api\Routes;
 
 use \WP_REST_Server;
+use Inc\Api\Utils\Url_Extractor;
 
 class Menus_Route
 {
+	use Url_Extractor;
+
 	private const ROUTE = 'menus';
 
 	function __construct()
@@ -78,7 +81,7 @@ class Menus_Route
 				'id' => $item->ID,
 				'title' => $item->title,
 				'url' => $item->url,
-				'path' => rtrim(parse_url($item->url, PHP_URL_PATH), '/') ?: '/',
+				'path' => $this->get_path_from_url($item->url, PHP_URL_PATH) ?: '/',
 				'type' => $item->object,
 				'menu_item_parent' => $item->menu_item_parent,
 				'menu_order' => $item->menu_order,

@@ -2,8 +2,12 @@
 
 namespace Inc\Api\Routes;
 
+use Inc\Api\Utils\Url_Extractor;
+
 class Pages_Route
 {
+	use Url_Extractor;
+
 	static $page_states = [
 		'page_on_front',
 		'wp_page_for_privacy_policy',
@@ -59,13 +63,14 @@ class Pages_Route
 	{
 		$args = [
 			'get_callback' => function (array $response_post): string {
-				$post = get_post($response_post['id']);
-
 				if (array_key_exists($response_post['id'], $this->pages_with_state) && in_array('page_on_front', $this->pages_with_state[$response_post['id']])) {
 					return '/';
 				}
 
-				return '/' . $post->post_name;
+				$permalink = get_permalink($response_post['id']);
+				$path = $this->get_path_from_url($permalink);
+
+				return $path;
 			}
 		];
 

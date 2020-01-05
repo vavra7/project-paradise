@@ -23,9 +23,6 @@ function DesktopTopMenu() {
 	if (!data.wpMenu) return <></>;
 
 	const menuItems = data.wpMenu.items;
-	const getPath = menuItem => {
-		return menuItem.type === 'post' ? `/post${menuItem.path}` : menuItem.path;
-	};
 
 	return (
 		<nav className="desktop-top-menu">
@@ -33,7 +30,7 @@ function DesktopTopMenu() {
 				{menuItems.map(item => (
 					<li key={item.wpId}>
 						{item.internal ? (
-							<Link to={getPath(item)}>{item.title}</Link>
+							<Link to={item.path}>{item.title}</Link>
 						) : (
 							<a href={item.url} target="_blank" rel="noopener noreferrer">
 								{item.title}

@@ -43,6 +43,6 @@ h1.title {
 	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
 	background: white;
-	padding: 0 $base-size;
-	margin: 0 -$base-size;
+	padding: 0 map-get($spaces, 2);
+	margin: 0 -#{map-get($spaces, 2)};
 }

@@ -31,9 +31,6 @@ function MobileBottomMenu() {
 	if (!data.wpMenu) return <></>;
 
 	const menuItems = data.wpMenu.items.slice(0, NUMBER_OF_ITEMS);
-	const getPath = menuItem => {
-		return menuItem.type === 'post' ? `/post${menuItem.path}` : menuItem.path;
-	};
 
 	return (
 		<nav className="mobile-bottom-menu">
@@ -42,7 +39,7 @@ function MobileBottomMenu() {
 					<li key={item.wpId}>
 						<RippleEffect>
 							{item.internal ? (
-								<Link to={getPath(item)}>
+								<Link to={item.path}>
 									<i className={item.icon ? item.icon : 'icon-arrow-circle-right'}></i>
 									<span>{item.title}</span>
 								</Link>
