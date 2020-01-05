@@ -1,0 +1,5 @@
+// Hide first option of permalink "Plain"
+form > table.form-table.permalink-structure > tbody > tr:nth-child(1) {
+	display: none !important;
+	opacity: 0 !important;
+}

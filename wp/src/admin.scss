@@ -4,5 +4,9 @@
 // general wp style components
 @import './style-modules/colors';
 
+// Hide elements in Wordpress that can not be removed in php
+@import './style-modules/hide';
+
 // block styles
-@import './blocks/gatsby-image-style.scss'
+@import './blocks/gatsby-image-style.scss';
+
