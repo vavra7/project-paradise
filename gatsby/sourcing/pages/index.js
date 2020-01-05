@@ -5,6 +5,16 @@ module.exports = {
 	wpPages: async ({ graphql, actions }) => {
 		const queryResult = await graphql(`
 			{
+				wpSettings {
+					postsPerPage
+				}
+				allWpPost {
+					edges {
+						node {
+							id
+						}
+					}
+				}
 				pageOnFront: wpPage(states: { in: "${PAGE_STATES.PAGE_ON_FRONT}" }) {
 					wpId
 					path
@@ -30,6 +40,7 @@ module.exports = {
 		//#region [ rgba(255, 0, 0, 0.02) ] page on front
 
 		const pageOnFront = queryResult.data.pageOnFront;
+
 		if (pageOnFront) {
 			const pageOnFrontData = {
 				path: pageOnFront.path,
@@ -39,12 +50,6 @@ module.exports = {
 				}
 			};
 			actions.createPage(pageOnFrontData);
-		} else {
-			const pageOnFrontData = {
-				path: '/',
-				component: path.resolve('./src/templates/PageOnFrontGeneral.jsx')
-			};
-			actions.createPage(pageOnFrontData);
 		}
 
 		//#endregion
@@ -52,14 +57,44 @@ module.exports = {
 		//#region [ rgba(0, 225, 0, 0.02) ] page for posts
 
 		const pageForPosts = queryResult.data.pageForPosts;
-		if (pageForPosts) {
+		const postsPerPage = queryResult.data.wpSettings.postsPerPage;
+		const postsCount = queryResult.data.allWpPost.edges.length;
+		const numOfPages = Math.ceil(postsCount / postsPerPage);
+		const pagination = {};
+
+		const getPath = i => {
+			if (pageForPosts) {
+				if (i === 1) {
+					return pageForPosts.path;
+				} else {
+					return `${pageForPosts.path}/${i}`;
+				}
+			} else {
+				if (i === 1) {
+					return '/';
+				} else {
+					return `/page/${i}`;
+				}
+			}
+		};
+
+		for (let i = 1; i <= numOfPages; i++) {
+			pagination[i] = getPath(i);
+		}
+
+		for (let i = 1; i <= numOfPages; i++) {
 			const pageForPostsData = {
-				path: pageForPosts.path,
+				path: pagination[i],
 				component: path.resolve('./src/templates/PageForPosts.jsx'),
 				context: {
-					wpId: pageForPosts.wpId
+					wpId: pageForPosts ? pageForPosts.wpId : 0,
+					limit: postsPerPage,
+					skip: (i - 1) * postsPerPage,
+					currentPage: i,
+					pagination
 				}
 			};
+
 			actions.createPage(pageForPostsData);
 		}
 

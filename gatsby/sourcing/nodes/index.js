@@ -11,7 +11,13 @@ module.exports = {
 			token: await apiMethods.cache.get(CACHE_KEYS.WP_AUTH_TOKEN)
 		};
 		const data = await requestFromApi(apiMethods, api.wp.settings(variables));
-		//TODO: node
+		const nodeData = Object.assign({}, data, {
+			id: NODES.WP_SETTINGS,
+			parent: null,
+			children: [],
+			internal: createInternal(apiMethods, NODES.WP_SETTINGS, data)
+		});
+		apiMethods.actions.createNode(nodeData);
 	},
 	wpPages: async apiMethods => {
 		const data = await requestFromApi(apiMethods, api.wp.pages());
