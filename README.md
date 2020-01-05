@@ -36,10 +36,6 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
 In Wordpress menu change theme to "Project Paradise"
 
-## Enable Wordpress API routes
-
-Change permalinks to "Post name" in Settings -> Permalinks
-
 ## Install npm packages in Gatsby
 
 In gatsby folder run: `npm install`

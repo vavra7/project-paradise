@@ -8,8 +8,28 @@ final class Setup
 	{
 		add_action('after_setup_theme', [$this, 'menus']);
 		add_action('after_setup_theme', [$this, 'themeSupport']);
+		add_action('init', [$this, 'activate_permalink']);
 	}
 
+	/**
+	 * If it is not set permalink it sets a permalink structure to avoid plain settings.
+	 */
+	public function activate_permalink(): void
+	{
+		$permalink_structure = get_option('permalink_structure');
+
+		if (!$permalink_structure) {
+			global $wp_rewrite;
+
+			$wp_rewrite->set_permalink_structure('post/%postname%/');
+			update_option("rewrite_rules", false);
+			$wp_rewrite->flush_rules(true);
+		}
+	}
+
+	/**
+	 * Register menu locations
+	 */
 	public function menus(): void
 	{
 		register_nav_menus([
@@ -18,6 +38,9 @@ final class Setup
 		]);
 	}
 
+	/**
+	 * Adds theme supports
+	 */
 	public function themeSupport()
 	{
 		add_theme_support('post-thumbnails');

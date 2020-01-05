@@ -4,7 +4,7 @@ namespace Inc\Api\Routes;
 
 use \WP_REST_Server;
 use \WP_Error;
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 class Generate_Token_Route
 {

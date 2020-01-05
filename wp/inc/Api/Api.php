@@ -4,7 +4,7 @@ namespace Inc\Api;
 
 use \WP_Error;
 use \Exception;
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 class Api
 {
