@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 services:
   db:
     image: mysql:latest
@@ -9,7 +9,7 @@ services:
     volumes:
       - wp-db:/var/lib/mysql
     ports:
-      - "${DB_PORT}:3306"
+      - '6033:3306'
     networks:
       - wp
 
@@ -28,7 +28,7 @@ services:
       - ./wp:/var/www/html/wp-content/themes/project-paradise
       - ./wp/_wp-files:/var/www/html
     ports:
-      - "${WP_PORT}:80"
+      - '8069:80'
     networks:
       - wp
 networks:

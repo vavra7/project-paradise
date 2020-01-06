@@ -31,6 +31,13 @@ RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule ^(.*) - [E=HTTP_AUTHORIZATION:%1]
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 ````
+## Import custom wp config file
+Add following lines to the bottom of wp-config.php
+```
+if (file_exists(__DIR__ . '/wp-content/themes/project-paradise/wp-config.extend.php')) {
+	require_once __DIR__ . '/wp-content/themes/project-paradise/wp-config.extend.php';
+}
+```
 
 ## Change Wordpress Theme
 
