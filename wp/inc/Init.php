@@ -11,11 +11,7 @@ final class Init
 			Setup\Enqueue::class,
 			Core\Menus::class,
 			Blocks\Blocks::class,
-			Api\Api::class,
-			Api\Routes\Pages_Route::class,
-			Api\Routes\Posts_Route::class,
-			Api\Routes\Menus_Route::class,
-			Api\Routes\Generate_Token_Route::class
+			Rest_Api\Rest_Api::class
 		];
 	}
 

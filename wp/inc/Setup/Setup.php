@@ -9,6 +9,17 @@ final class Setup
 		add_action('after_setup_theme', [$this, 'menus']);
 		add_action('after_setup_theme', [$this, 'themeSupport']);
 		add_action('init', [$this, 'activate_permalink']);
+		add_filter('rest_url', [$this, 'change_outgoing_url']);
+	}
+
+	/**
+	 * Changes outgoing internal REST API requests url.
+	 */
+	public function change_outgoing_url($url)
+	{
+		$url = str_replace(home_url(), site_url(), $url);
+
+		return $url;
 	}
 
 	/**

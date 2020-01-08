@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Api\Routes;
+namespace Inc\Rest_Api\Endpoints;
 
-final class Routes_Enum
+final class Endpoints_Enum
 {
 	public const NAMESPACE = 'project-paradise/v1';
 }

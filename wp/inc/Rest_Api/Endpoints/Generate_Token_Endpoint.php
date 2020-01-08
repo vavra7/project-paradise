@@ -1,18 +1,21 @@
 <?php
 
-namespace Inc\Api\Routes;
+namespace Inc\Rest_Api\Endpoints;
 
+use Inc\Rest_Api\Includes\Jwt_Auth;
 use \WP_REST_Server;
 use \WP_Error;
-use Firebase\JWT\JWT;
 
-class Generate_Token_Route
+
+class Generate_Token_Endpoint
 {
-	private const ROUTE = 'generate-token';
+	private const ENDPOINT = 'generate-token';
+
+	private $jwt_auth;
 
 	function __construct()
 	{
-		add_action('rest_api_init', [$this, 'register_route']);
+		$this->jwt_auth = new Jwt_Auth;
 	}
 
 	/**
@@ -20,14 +23,14 @@ class Generate_Token_Route
 	 */
 	public function register_route(): void
 	{
-		register_rest_route(Routes_Enum::NAMESPACE, self::ROUTE, [
+		register_rest_route(Endpoints_Enum::NAMESPACE, self::ENDPOINT, [
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => [$this, 'get_response']
 		]);
 	}
 
 	/**
-	 * Returns response for request
+	 * Gets request response
 	 */
 	public function get_response($request)
 	{
@@ -49,27 +52,8 @@ class Generate_Token_Route
 			return $new_error;
 		}
 
-
 		return [
-			'token' => $this->generate_token($user)
+			'token' => $this->jwt_auth->generate_token($user)
 		];
-	}
-
-	/**
-	 * Generates and returns JWT token
-	 */
-	public function generate_token($user)
-	{
-		$payload = [
-			'iss' => get_bloginfo('url'),
-			'exp' => time() + 30,
-			'data' => [
-				'user' => [
-					'id' => $user->data->ID
-				]
-			]
-		];
-
-		return JWT::encode($payload, getenv('JWT_SECRET_KEY'));
 	}
 }

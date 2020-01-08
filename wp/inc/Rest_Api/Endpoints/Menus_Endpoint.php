@@ -1,27 +1,22 @@
 <?php
 
-namespace Inc\Api\Routes;
+namespace Inc\Rest_Api\Endpoints;
 
 use \WP_REST_Server;
-use Inc\Api\Utils\Url_Extractor;
+use Inc\Rest_Api\Includes\Url_Extractor;
 
-class Menus_Route
+class Menus_Endpoint
 {
 	use Url_Extractor;
 
-	private const ROUTE = 'menus';
-
-	function __construct()
-	{
-		add_action('rest_api_init', [$this, 'register_route']);
-	}
+	private const ENDPOINT = 'menus';
 
 	/**
 	 * Adds new endpoint in REST api
 	 */
 	public function register_route(): void
 	{
-		register_rest_route(Routes_Enum::NAMESPACE, self::ROUTE, [
+		register_rest_route(Endpoints_Enum::NAMESPACE, self::ENDPOINT, [
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => [$this, 'get_location_menus']
 		]);
@@ -72,7 +67,7 @@ class Menus_Route
 	/**
 	 * Returns menu items
 	 */
-	public function get_menu_items(int $menu_id): array
+	private function get_menu_items(int $menu_id): array
 	{
 		$menu_items = [];
 
@@ -96,7 +91,7 @@ class Menus_Route
 	/**
 	 * Based on user's home url and site url determines whether link is internal or external
 	 */
-	public function is_internal(string $url): bool
+	private function is_internal(string $url): bool
 	{
 		$parsed_home_url = parse_url(get_home_url());
 		$parsed_site_url = parse_url(get_site_url());

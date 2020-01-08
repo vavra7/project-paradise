@@ -1,24 +1,17 @@
 <?php
 
-namespace Inc\Api\Routes;
+namespace Inc\Rest_Api\Endpoints;
 
-use Inc\Api\Utils\Url_Extractor;
+use Inc\Rest_Api\Includes\Url_Extractor;
 
-class Posts_Route
+class Posts_Endpoint
 {
 	use Url_Extractor;
-
-	function __construct()
-	{
-		add_action('rest_api_init', [$this, 'add_blocks']);
-		add_action('rest_api_init', [$this, 'add_path']);
-	}
-
 
 	/**
 	 * Adds blocks in post endpoint
 	 */
-	public function add_blocks(): void
+	public function add_field_blocks(): void
 	{
 		$args = [
 			'get_callback' => function (array $response_post) {
@@ -41,7 +34,7 @@ class Posts_Route
 	/**
 	 * Adds path used for render link in Gatsby
 	 */
-	public function add_path()
+	public function add_field_path()
 	{
 		$args = [
 			'get_callback' => function ($response_post) {

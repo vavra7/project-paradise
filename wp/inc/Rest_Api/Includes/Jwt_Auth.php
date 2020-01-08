@@ -1,20 +1,14 @@
 <?php
 
-namespace Inc\Api;
+namespace Inc\Rest_Api\Includes;
 
 use \WP_Error;
 use \Exception;
 use Firebase\JWT\JWT;
 
-class Api
+class Jwt_Auth
 {
-	private $jwt_error = null;
-
-	function __construct()
-	{
-		add_filter('determine_current_user', [$this, 'determine_current_user']);
-		add_filter('rest_pre_dispatch', [$this, 'check_for_jwt_error']);
-	}
+	private $jwt_error;
 
 	/**
 	 * The default filters used to determine the current user from the request’s cookies.
@@ -44,21 +38,41 @@ class Api
 	}
 
 	/**
-	 * Determine if it is rest api request
+	 * Check if there is saved error from JWT token validation.
+	 * If so, return error instead.
 	 */
-	public function is_rest_api_request()
+	public function return_jwt_error($request)
 	{
-		$rest_api_slug = rest_get_url_prefix();
-		$valid_api_uri = strpos($_SERVER['REQUEST_URI'], $rest_api_slug);
+		if (is_wp_error($this->jwt_error)) {
+			return $this->jwt_error;
+		}
 
-		return $valid_api_uri;
+		return $request;
+	}
+
+	/**
+	 * Generates and returns JWT token
+	 */
+	public function generate_token($user)
+	{
+		$payload = [
+			'iss' => get_bloginfo('url'),
+			'exp' => time() + 30,
+			'data' => [
+				'user' => [
+					'id' => $user->data->ID
+				]
+			]
+		];
+
+		return JWT::encode($payload, getenv('JWT_SECRET_KEY'));
 	}
 
 	/**
 	 * Function validating token. In case success validation returns
 	 * decoded token. Otherwise false.
 	 */
-	public function validate_token($auth_header)
+	private function validate_token($auth_header)
 	{
 		list($encoded_token) = sscanf($auth_header, 'Bearer %s');
 
@@ -116,15 +130,13 @@ class Api
 	}
 
 	/**
-	 * Check if there is saved error from JWT token validation.
-	 * If so, return error instead.
+	 * Determine if it is rest api request
 	 */
-	public function check_for_jwt_error($request)
+	private function is_rest_api_request()
 	{
-		if (is_wp_error($this->jwt_error)) {
-			return $this->jwt_error;
-		}
+		$rest_api_slug = rest_get_url_prefix();
+		$valid_api_uri = strpos($_SERVER['REQUEST_URI'], $rest_api_slug);
 
-		return $request;
+		return $valid_api_uri;
 	}
 }
