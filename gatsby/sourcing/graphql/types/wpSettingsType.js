@@ -6,8 +6,9 @@ module.exports = {
 		id: {
 			type: 'ID!'
 		},
-		title: {
-			type: 'String'
+		siteTitle: {
+			type: 'String',
+			resolve: item => item.title
 		},
 		postsPerPage: {
 			type: 'Int!',

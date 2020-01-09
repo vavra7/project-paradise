@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import CommonLayout from '../components/layouts/CommonLayout';
 
 export const query = graphql`
 	query($wpId: Int!) {
@@ -11,9 +12,11 @@ export const query = graphql`
 
 function WpPage({ data }) {
 	return (
-		<div>
-			<pre>{JSON.stringify(data, null, 2)}</pre>
-		</div>
+		<CommonLayout title="todo">
+			<div>
+				<pre>{JSON.stringify(data, null, 2)}</pre>
+			</div>
+		</CommonLayout>
 	);
 }
 

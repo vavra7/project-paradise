@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
-import { SETTINGS } from '../../settings';
+import { SETTINGS } from '../../../settings';
 
 const ASPECT_RATIO = 1.6;
 

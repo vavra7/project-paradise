@@ -19,41 +19,66 @@ function BreadCrumbsContainer(props) {
 			}
 		`
 	);
-	const pagesWithState = data.allWpPage.edges.map(node => node.node);
-	const pageOnFront = pagesWithState.find(page => page.states.includes(PAGE_STATES.PAGE_ON_FRONT));
-	const pageForPosts = pagesWithState.find(page => page.states.includes(PAGE_STATES.PAGE_FOR_POSTS));
+	const getPageOnFront = pagesWithState => {
+		let _pageOnFront = pagesWithState.find(page => page.states.includes(PAGE_STATES.PAGE_ON_FRONT));
 
-	const commonLevel = (to, title) => {
+		if (!_pageOnFront) {
+			_pageOnFront = {
+				title: 'Domů',
+				path: '/'
+			};
+		}
+
+		return _pageOnFront;
+	};
+
+	const renderLevel = (title, to = null, useGoBetween = true) => {
+		const goBetween = <> > </>;
+
 		return (
 			<>
-				<Link to={to}>{title}</Link> >{' '}
+				{useGoBetween && goBetween}
+				{to ? <Link to={to}>{title}</Link> : title}
 			</>
 		);
 	};
 
-	const homeLevel = () => {
-		let homeLevel;
+	const pagesWithState = data.allWpPage.edges.map(node => node.node);
+	const pageOnFront = getPageOnFront(pagesWithState);
+	const pageForPosts = pagesWithState.find(page => page.states.includes(PAGE_STATES.PAGE_FOR_POSTS));
 
-		if (pageOnFront) {
-			homeLevel = commonLevel(pageOnFront.path, pageOnFront.title);
-		} else {
-			homeLevel = commonLevel('/', 'Domů');
-		}
+	let breadCrumbs;
 
-		return homeLevel;
-	};
+	if (props.isPageOnFront && props.isPageForPosts) {
+		return <></>;
+	} else if (!props.isPageOnFront && props.isPageForPosts) {
+		breadCrumbs = (
+			<>
+				{renderLevel(pageOnFront.title, pageOnFront.path, false)}
+				{renderLevel(props.current)}
+			</>
+		);
+	} else {
+		breadCrumbs = (
+			<>
+				{renderLevel(pageOnFront.title, pageOnFront.path, false)}
+				{pageForPosts && renderLevel(pageForPosts.title, pageForPosts.path)}
+				{renderLevel(props.current)}
+			</>
+		);
+	}
 
 	return (
 		<div id="bread-crumbs-container" className="container my-3">
-			{homeLevel()}
-			{pageForPosts && commonLevel(pageForPosts.path, pageForPosts.title)}
-			{props.current}
+			{breadCrumbs}
 		</div>
 	);
 }
 
 BreadCrumbsContainer.propTypes = {
-	current: PropTypes.string.isRequired
+	current: PropTypes.string.isRequired,
+	isPageOnFront: PropTypes.bool.isRequired,
+	isPageForPosts: PropTypes.bool.isRequired
 };
 
 export default BreadCrumbsContainer;

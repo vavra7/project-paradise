@@ -1,7 +1,8 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import CommonPostLayout from '../components/layouts/CommonPostLayout';
+import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
+import Post from '../components/post/Post';
 import BlocksRouter from '../components/blocks/BlocksRouter';
 
 export const query = graphql`
@@ -49,12 +50,14 @@ function WpPost({ data }) {
 
 	return (
 		<>
-			<CommonPostLayout title={title} featuredMedia={featuredMedia}>
-				<BlocksRouter blocks={blocks} media={media} />
-			</CommonPostLayout>
+			<CommonLayout title={title}>
+				<Post featuredMedia={featuredMedia}>
+					<BlocksRouter blocks={blocks} media={media} />
+				</Post>
+			</CommonLayout>
 
 			<FixedRightBar>
-				<div>alsfjslkj</div>
+				<div>test</div>
 			</FixedRightBar>
 		</>
 	);
