@@ -2,6 +2,8 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import CommonLayout from '../components/layouts/CommonLayout';
+import PostPreview from '../components/post/PostPreview';
+import CommonPagination from '../components/commons/pagination/CommonPagination';
 
 export const query = graphql`
 	query($wpId: Int!, $skip: Int!, $limit: Int!) {
@@ -14,9 +16,24 @@ export const query = graphql`
 		pagePosts: allWpPost(sort: { fields: [date], order: DESC }, limit: $limit, skip: $skip) {
 			edges {
 				node {
+					wpId
 					title
 					path
 					excerpt
+					featuredMedia {
+						id
+						childWpMedia {
+							altText
+							childFile {
+								childImageSharp {
+									id
+									fluid(maxWidth: 1200, srcSetBreakpoints: [200, 340, 520, 890, 960, 1100]) {
+										...GatsbyImageSharpFluid_tracedSVG
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -26,17 +43,19 @@ export const query = graphql`
 function PageForPosts(props) {
 	const title = props.data.pageForPosts ? props.data.pageForPosts.title : props.data.wpSettings.siteTitle;
 	const pagination = props.pageContext.pagination;
+	const currentPage = props.pageContext.currentPage;
 	const posts = props.data.pagePosts.edges.map(node => node.node);
 
 	return (
 		<>
 			<CommonLayout title={title} isPageOnFront={props.data.pageForPosts ? false : true} isPageForPosts>
-				<div>
-					<h1>Page For Posts Template</h1>
-					<div></div>
-					<pre>{JSON.stringify(pagination, null, 2)}</pre>
-					<pre>{JSON.stringify(posts, null, 2)}</pre>
-				</div>
+				<CommonPagination pagination={pagination} currentPage={currentPage} />
+
+				{posts.map(post => (
+					<PostPreview key={post.wpId} post={post} />
+				))}
+
+				<CommonPagination pagination={pagination} currentPage={currentPage} />
 			</CommonLayout>
 
 			<FixedRightBar>

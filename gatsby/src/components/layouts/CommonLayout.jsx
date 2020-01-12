@@ -39,7 +39,7 @@ function CommonLayout(props) {
 }
 
 CommonLayout.propTypes = {
-	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
+	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 	title: PropTypes.string.isRequired,
 	isPageOnFront: PropTypes.bool,
 	isPageForPosts: PropTypes.bool

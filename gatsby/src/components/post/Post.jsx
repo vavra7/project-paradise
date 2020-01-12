@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 function Post(props) {
 	return (
 		<article>
-			<header className="entry-header">
+			<header className="post-header">
 				<FeaturedImage featuredMedia={props.featuredMedia} />
 			</header>
 
-			<div className="entry-content">{props.children}</div>
+			<div className="post-content">{props.children}</div>
 
-			<footer className="entry-footer"></footer>
+			<footer className="post-footer"></footer>
 		</article>
 	);
 }
