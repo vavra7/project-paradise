@@ -17,7 +17,7 @@ function FeaturedImage(props) {
 			''
 		);
 
-	return <div className="entry-featured-image">{image}</div>;
+	return image;
 }
 
 FeaturedImage.propTypes = {

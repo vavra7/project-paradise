@@ -7,7 +7,7 @@ function PageTitleContainer(props) {
 		<div id="page-title-container" className={`${scopedStyle.pageTitleContainer} my-4`}>
 			<div className="container">
 				<div className="row">
-					<div className="col-xs-offset-1 col-xs-6">
+					<div className="col-lg-offset-1 col-xs-12 col-md-8 col-lg-6">
 						<h1 className={`${scopedStyle.title} title-3`}>{props.title}</h1>
 					</div>
 				</div>

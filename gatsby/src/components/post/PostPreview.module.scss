@@ -1,0 +1,15 @@
+@import '../../../../common-styles/modules/grid';
+
+@media (min-width: $lg) and (max-width: map-get($breakpoints-max, 'lg')) {
+	.lg-narrow {
+		margin: auto;
+		max-width: calc(#{$lg-content-width / $grid-columns * 6} - #{$grid-gutter});
+	}
+}
+
+@media (min-width: $xl) {
+	.xl-narrow {
+		margin: auto;
+		max-width: calc(#{$xl-content-width / $grid-columns * 6} - #{$grid-gutter});
+	}
+}

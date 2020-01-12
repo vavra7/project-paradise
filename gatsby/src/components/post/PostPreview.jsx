@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FeaturedImage from './components/FeaturedImage';
 import { Link } from 'gatsby';
+import scopedStyles from './PostPreview.module.scss';
 
 function PostPreview(props) {
 	const path = props.post.path;
@@ -12,14 +13,19 @@ function PostPreview(props) {
 	return (
 		<article>
 			<header className="post-prev-header">
-				<FeaturedImage featuredMedia={featuredMedia} />
+				<div className="post-prev-featured-image">
+					<FeaturedImage featuredMedia={featuredMedia} />
+				</div>
 
-				<h2 className="post-prev-title">
+				<h2 className={`post-prev-title ${scopedStyles.xlNarrow} ${scopedStyles.lgNarrow}`}>
 					<Link to={path}>{title}</Link>
 				</h2>
 			</header>
 
-			<div className="post-prev-excerpt" dangerouslySetInnerHTML={{ __html: excerpt }} />
+			<div
+				className={`post-prev-excerpt ${scopedStyles.xlNarrow} ${scopedStyles.lgNarrow}`}
+				dangerouslySetInnerHTML={{ __html: excerpt }}
+			/>
 
 			<footer className="post-prev-footer"></footer>
 		</article>
