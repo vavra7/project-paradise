@@ -56,7 +56,7 @@ class Jwt_Auth
 	public function generate_token($user)
 	{
 		$payload = [
-			'iss' => get_bloginfo('url'),
+			'iss' => get_site_url(),
 			'exp' => time() + 30,
 			'data' => [
 				'user' => [
@@ -91,7 +91,7 @@ class Jwt_Auth
 		try {
 			$decoded_token = JWT::decode($encoded_token, getenv('JWT_SECRET_KEY'), array('HS256'));
 
-			if ($decoded_token->iss != get_bloginfo('url')) {
+			if ($decoded_token->iss != get_site_url()) {
 				$this->jwt_error = new WP_Error(
 					'jwt_auth_bad_iss',
 					'The iss do not match with this server',

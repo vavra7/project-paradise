@@ -6,6 +6,7 @@ use Inc\Rest_Api\Endpoints\Generate_Token_Endpoint;
 use Inc\Rest_Api\Endpoints\Menus_Endpoint;
 use Inc\Rest_Api\Endpoints\Posts_Endpoint;
 use Inc\Rest_Api\Endpoints\Pages_Endpoint;
+use Inc\Rest_Api\Endpoints\Categories_Endpoint;
 use Inc\Rest_Api\Includes\Jwt_Auth;
 
 class Rest_Api
@@ -18,6 +19,8 @@ class Rest_Api
 
 	private $menus_endpoint;
 
+	private $categories_endpoint;
+
 	private $generate_token_endpoint;
 
 	function __construct()
@@ -26,6 +29,7 @@ class Rest_Api
 		$this->posts_endpoint = new Posts_Endpoint;
 		$this->pages_endpoint = new Pages_Endpoint;
 		$this->menus_endpoint = new Menus_Endpoint;
+		$this->categories_endpoint = new Categories_Endpoint;
 		$this->generate_token_endpoint = new Generate_Token_Endpoint;
 
 		$this->add_actions();
@@ -52,5 +56,6 @@ class Rest_Api
 		$this->posts_endpoint->add_field_path();
 		$this->pages_endpoint->add_field_states();
 		$this->pages_endpoint->add_field_path();
+		$this->categories_endpoint->add_field_path();
 	}
 }

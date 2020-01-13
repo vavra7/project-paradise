@@ -67,7 +67,7 @@ module.exports = {
 				if (i === 1) {
 					return pageForPosts.path;
 				} else {
-					return `${pageForPosts.path}/${i}`;
+					return `${pageForPosts.path}/page/${i}`;
 				}
 			} else {
 				if (i === 1) {
