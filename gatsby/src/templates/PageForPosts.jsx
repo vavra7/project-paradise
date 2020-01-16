@@ -4,6 +4,7 @@ import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import CommonLayout from '../components/layouts/CommonLayout';
 import PostPreview from '../components/post/PostPreview';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
+import PropTypes from 'prop-types';
 
 export const query = graphql`
 	query($wpId: Int!, $skip: Int!, $limit: Int!) {
@@ -64,5 +65,10 @@ function PageForPosts(props) {
 		</>
 	);
 }
+
+PageForPosts.propTypes = {
+	data: PropTypes.object.isRequired,
+	pageContext: PropTypes.object.isRequired
+};
 
 export default PageForPosts;

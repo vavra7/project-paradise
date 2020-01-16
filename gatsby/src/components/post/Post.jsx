@@ -20,7 +20,8 @@ function Post(props) {
 }
 
 Post.propTypes = {
-	featuredMedia: PropTypes.object.isRequired
+	featuredMedia: PropTypes.object.isRequired,
+	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
 };
 
 export default Post;

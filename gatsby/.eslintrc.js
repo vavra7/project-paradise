@@ -2,7 +2,7 @@ module.exports = {
 	globals: {
 		__PATH_PREFIX__: true
 	},
-	extends: ['react-app'],
+	extends: ['react-app', 'plugin:react/recommended'],
 	rules: {
 		/* custom rules */
 		semi: ['warn', 'always'],

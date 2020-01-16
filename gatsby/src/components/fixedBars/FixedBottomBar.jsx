@@ -6,11 +6,16 @@ import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import { connect } from 'react-redux';
 import BREAKPOINTS from '../../../../common-styles/modules/_breakpoints.scss';
+import PropTypes from 'prop-types';
 
 const EXTRA_OFFSET = 50;
 const SPEED_MODIFIER = 0.2;
 
 class FixedBottomBar extends Component {
+	static propTypes = {
+		windowWidth: PropTypes.number.isRequired
+	};
+
 	//#region [ constructor ]
 
 	constructor(props) {

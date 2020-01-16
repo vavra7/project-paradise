@@ -15,5 +15,20 @@ module.exports = [
 					context.nodeModel.getAllNodes({ type: NODES.WP_MEDIA }).find(node => node.wpId === item)
 			}
 		}
+	},
+	{
+		name: 'Category',
+		fields: {
+			id: {
+				type: 'Int',
+				resolve: item => item
+			},
+			[getChildName(NODES.WP_CATEGORY)]: {
+				type: NODES.WP_CATEGORY,
+				resolve: (item, args, context, info) => 
+					context.nodeModel.getAllNodes({ type: NODES.WP_CATEGORY }).find(node => node.wpId === item)
+				
+			}
+		}
 	}
 ];

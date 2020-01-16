@@ -15,7 +15,11 @@ const TWEEN_DURATION = 250;
 
 class FixedRightBar extends Component {
 	static propTypes = {
-		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
+		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+		rightBarActive: PropTypes.bool.isRequired,
+		windowHeight: PropTypes.number.isRequired,
+		windowWidth: PropTypes.number.isRequired,
+		rightBarSetActive: PropTypes.func.isRequired
 	};
 
 	//#region [ constructor ]
@@ -88,10 +92,7 @@ class FixedRightBar extends Component {
 			preventDefault: e.cancelable,
 			x: this.rightBar.styler.get('x')
 		})
-			.pipe(
-				({ x }) => x,
-				overDragPipe
-			)
+			.pipe(({ x }) => x, overDragPipe)
 			.start(this.rightBar.stylerX);
 	}
 
@@ -235,7 +236,4 @@ const mapDispatchToProps = {
 	rightBarSetActive
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(FixedRightBar);
+export default connect(mapStateToProps, mapDispatchToProps)(FixedRightBar);

@@ -4,6 +4,7 @@ import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import Post from '../components/post/Post';
 import BlocksRouter from '../components/blocks/BlocksRouter';
+import PropTypes from 'prop-types';
 
 export const query = graphql`
 	query($wpId: Int!) {
@@ -62,5 +63,9 @@ function WpPost({ data }) {
 		</>
 	);
 }
+
+WpPost.propTypes = {
+	data: PropTypes.object.isRequired
+};
 
 export default WpPost;

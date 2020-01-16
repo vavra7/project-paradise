@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import AppRootHandler from './components/AppRootHandler';
 import { store } from '../../store';
+import PropTypes from 'prop-types';
 
 function RootElementWrapper({ element }) {
 	return (
@@ -12,5 +13,9 @@ function RootElementWrapper({ element }) {
 		</>
 	);
 }
+
+RootElementWrapper.propTypes = {
+	element: PropTypes.element.isRequired
+};
 
 export default RootElementWrapper;

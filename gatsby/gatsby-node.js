@@ -26,7 +26,8 @@ module.exports.sourceNodes = async ({ actions, cache, createNodeId, createConten
 		nodes.wpMenus(apiMethods),
 		nodes.files(apiMethods).then(() => {
 			nodes.wpMedia(apiMethods);
-		})
+		}),
+		nodes.wpCategories(apiMethods)
 	]);
 };
 
@@ -45,5 +46,5 @@ module.exports.createPages = async ({ actions, graphql }) => {
 		graphql
 	};
 
-	await Promise.all([pages.wpPages(apiMethods), pages.wpPosts(apiMethods)]);
+	await Promise.all([pages.wpPages(apiMethods), pages.wpPosts(apiMethods), pages.wpCategories(apiMethods)]);
 };

@@ -65,5 +65,14 @@ module.exports = {
 			url: `${process.env.WP_URL}/wp-json/wp/v2/media?_fields=${FIELDS.WP_MEDIA.join(',')}`
 		},
 		reduce: res => res
+	}),
+	categories: () => ({
+		id: 'WP_CATEGORIES',
+		handler: requestPagedWpData,
+		config: {
+			method: 'GET',
+			url: `${process.env.WP_URL}/wp-json/wp/v2/categories?_fields=${FIELDS.WP_CATEGORIES.join(',')}`
+		},
+		reduce: res => res
 	})
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import CommonLayout from '../components/layouts/CommonLayout';
+import PropTypes from 'prop-types';
 
 export const query = graphql`
 	query($wpId: Int!) {
@@ -27,5 +28,9 @@ function PageOnFront({ data }) {
 		</>
 	);
 }
+
+PageOnFront.propTypes = {
+	data: PropTypes.object.isRequired
+};
 
 export default PageOnFront;

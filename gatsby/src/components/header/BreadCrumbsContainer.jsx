@@ -33,7 +33,7 @@ function BreadCrumbsContainer(props) {
 	};
 
 	const renderLevel = (title, to = null, useGoBetween = true) => {
-		const goBetween = <> > </>;
+		const goBetween = <> &gt; </>;
 
 		return (
 			<>

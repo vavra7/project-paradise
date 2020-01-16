@@ -8,6 +8,7 @@ import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import { styler, value, tween, easing } from 'popmotion';
 import Logo from '../commons/logo/Logo';
+import PropTypes from 'prop-types';
 
 const DESKTOP_REVEAL_POINT = 300;
 const DESKTOP_BAR_EXTRA_OFFSET = 3;
@@ -15,6 +16,11 @@ const MOBILE_BAR_TWEEN_DURATION = 200;
 const RIGHT_BAR_SPEED_MODIFIER = 0.2;
 
 class FixedTopBars extends Component {
+	static propTypes = {
+		windowWidth: PropTypes.number.isRequired,
+		rightBarActive: PropTypes.bool.isRequired
+	};
+
 	//#region [ constructor ]
 
 	constructor(props) {

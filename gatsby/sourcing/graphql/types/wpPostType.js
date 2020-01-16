@@ -41,6 +41,10 @@ module.exports = {
 			type: 'String',
 			resolve: item => JSON.stringify(item.blocks)
 		},
+		categories: {
+			type: '[Category]',
+			resolve: item => item.categories
+		},
 		excerpt: {
 			type: 'String',
 			resolve: item => item.excerpt.rendered

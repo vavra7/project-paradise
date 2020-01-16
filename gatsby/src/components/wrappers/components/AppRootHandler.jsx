@@ -10,7 +10,9 @@ const SCROLL_CHECK_INTERVAL = 100;
 
 class AppRootHandler extends Component {
 	static propTypes = {
-		children: PropTypes.element.isRequired
+		children: PropTypes.element.isRequired,
+		appWidthHeight: PropTypes.func.isRequired,
+		rightBarActive: PropTypes.bool.isRequired
 	};
 
 	//#region [ constructor ]
@@ -231,7 +233,4 @@ const mapDispatchToProps = {
 	appWidthHeight
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(AppRootHandler);
+export default connect(mapStateToProps, mapDispatchToProps)(AppRootHandler);

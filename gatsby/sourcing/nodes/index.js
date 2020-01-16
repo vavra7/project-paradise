@@ -3,7 +3,7 @@ const { NODES } = require('./types');
 const { CACHE_KEYS } = require('../enums');
 const { requestFromApi } = require('../api/utils');
 const { createInternal, createNodes } = require('./utils');
-const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
+const { createRemoteFileNode } = require('gatsby-source-filesystem');
 
 module.exports = {
 	wpSettings: async apiMethods => {
@@ -77,7 +77,6 @@ module.exports = {
 	},
 	wpMedia: async apiMethods => {
 		const data = await apiMethods.cache.get(CACHE_KEYS.WP_MEDIA_DATA);
-
 		const nodeData = data.map(item =>
 			Object.assign({}, item, {
 				id: apiMethods.createNodeId(`${NODES.WP_MEDIA}${item.id}`),
@@ -85,6 +84,19 @@ module.exports = {
 				parent: null,
 				children: [],
 				internal: createInternal(apiMethods, NODES.WP_MEDIA, item)
+			})
+		);
+		createNodes(apiMethods, nodeData);
+	},
+	wpCategories: async apiMethods => {
+		const data = await requestFromApi(apiMethods, api.wp.categories());
+		const nodeData = data.map(item =>
+			Object.assign({}, item, {
+				id: apiMethods.createNodeId(`${NODES.WP_CATEGORY}${item.id}`),
+				wpId: item.id,
+				parent: null,
+				children: [],
+				internal: createInternal(apiMethods, NODES.WP_CATEGORY, item)
 			})
 		);
 		createNodes(apiMethods, nodeData);
