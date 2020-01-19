@@ -4,5 +4,6 @@ module.exports.NODES = {
 	WP_POST: 'wpPost',
 	WP_MENU: 'wpMenu',
 	WP_MEDIA: 'wpMedia',
-	WP_CATEGORY: 'wpCategory'
+	WP_CATEGORY: 'wpCategory',
+	WP_TAG: 'wpTag'
 };

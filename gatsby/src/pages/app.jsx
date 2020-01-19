@@ -7,19 +7,19 @@ import PropTypes from 'prop-types';
 export const query = graphql`
 	query {
 		wpSettings {
-			siteTitle
+			tagBase
 		}
 	}
 `;
 
 function App(props) {
-	const title = props.data.wpSettings.siteTitle;
+	const tagBase = props.data.wpSettings.tagBase;
 
 	return (
 		<div>
-			{title}
+			{tagBase}
 			<Router>
-				<WpPostsOfTags path={`/app/${title}`} />
+				<WpPostsOfTags path={`/app/${tagBase}`} />
 			</Router>
 		</div>
 	);

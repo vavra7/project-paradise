@@ -17,6 +17,10 @@ module.exports = {
 		postsPerPage: {
 			type: 'Int!',
 			resolve: item => item.posts_per_page
+		},
+		tagBase: {
+			type: 'String!',
+			resolve: item => item.tag_base
 		}
 	},
 	extensions: {

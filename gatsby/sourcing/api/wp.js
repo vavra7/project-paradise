@@ -74,5 +74,14 @@ module.exports = {
 			url: `${process.env.WP_URL}/wp-json/wp/v2/categories?_fields=${FIELDS.WP_CATEGORIES.join(',')}`
 		},
 		reduce: res => res
+	}),
+	tags: () => ({
+		id: 'WP_TAGS',
+		handler: requestPagedWpData,
+		config: {
+			method: 'GET',
+			url: `${process.env.WP_URL}/wp-json/wp/v2/tags?_fields=${FIELDS.WP_TAGS.join(',')}`
+		},
+		reduce: res => res
 	})
 };

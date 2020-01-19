@@ -6,7 +6,7 @@ module.exports = [
 		name: 'Media',
 		fields: {
 			id: {
-				type: 'Int',
+				type: 'Int!',
 				resolve: item => item
 			},
 			[getChildName(NODES.WP_MEDIA)]: {
@@ -20,14 +20,27 @@ module.exports = [
 		name: 'Category',
 		fields: {
 			id: {
-				type: 'Int',
+				type: 'Int!',
 				resolve: item => item
 			},
 			[getChildName(NODES.WP_CATEGORY)]: {
 				type: NODES.WP_CATEGORY,
-				resolve: (item, args, context, info) => 
+				resolve: (item, args, context, info) =>
 					context.nodeModel.getAllNodes({ type: NODES.WP_CATEGORY }).find(node => node.wpId === item)
-				
+			}
+		}
+	},
+	{
+		name: 'Tag',
+		fields: {
+			id: {
+				type: 'Int!',
+				resolve: item => item
+			},
+			[getChildName(NODES.WP_TAG)]: {
+				type: NODES.WP_TAG,
+				resolve: (item, args, context, info) =>
+					context.nodeModel.getAllNodes({ type: NODES.WP_TAG }).find(node => node.wpId === item)
 			}
 		}
 	}

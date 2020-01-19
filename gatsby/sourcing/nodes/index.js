@@ -100,5 +100,18 @@ module.exports = {
 			})
 		);
 		createNodes(apiMethods, nodeData);
+	},
+	wpTags: async apiMethods => {
+		const data = await requestFromApi(apiMethods, api.wp.tags());
+		const nodeData = data.map(item =>
+			Object.assign({}, item, {
+				id: apiMethods.createNodeId(`${NODES.WP_TAG}${item.id}`),
+				wpId: item.id,
+				parent: null,
+				children: [],
+				internal: createInternal(apiMethods, NODES.WP_TAG, item)
+			})
+		);
+		createNodes(apiMethods, nodeData);
 	}
 };

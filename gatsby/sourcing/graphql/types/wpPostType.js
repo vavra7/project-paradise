@@ -45,6 +45,10 @@ module.exports = {
 			type: '[Category]',
 			resolve: item => item.categories
 		},
+		tags: {
+			type: '[Tag]',
+			resolve: item => item.tags
+		},
 		excerpt: {
 			type: 'String',
 			resolve: item => item.excerpt.rendered

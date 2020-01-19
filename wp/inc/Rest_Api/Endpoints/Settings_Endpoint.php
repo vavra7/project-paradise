@@ -12,7 +12,7 @@ class Settings_Endpoint
 	{
 		if ($_SERVER['REQUEST_URI'] === '/wp-json/wp/v2/settings') {
 			$result['show_on_front'] = get_option('show_on_front');
-			$result['tag_base'] = get_option('tag_base');
+			$result['tag_base'] = get_option('tag_base') ?: 'tag';
 		}
 
 		return $result;

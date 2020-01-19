@@ -33,7 +33,8 @@ module.exports.sourceNodes = async ({ actions, cache, createNodeId, createConten
 		nodes.files(apiMethods).then(() => {
 			nodes.wpMedia(apiMethods);
 		}),
-		nodes.wpCategories(apiMethods)
+		nodes.wpCategories(apiMethods),
+		nodes.wpTags(apiMethods)
 	]);
 };
 
