@@ -17,8 +17,14 @@ module.exports.sourceNodes = async ({ actions, cache, createNodeId, createConten
 		reporter
 	};
 
+	/**
+	 * Generates and caches token for use during build time.
+	 */
 	await auth.generateToken(apiMethods);
 
+	/**
+	 * Fetches data from APIs and creates nodes.
+	 */
 	await Promise.all([
 		nodes.wpSettings(apiMethods),
 		nodes.wpPosts(apiMethods),
@@ -37,6 +43,9 @@ module.exports.createSchemaCustomization = ({ actions, schema }) => {
 		schema
 	};
 
+	/**
+	 * Applies graphql schema to data used in gatsby
+	 */
 	graphql.initCreateGraphqlTypes(apiMethods);
 };
 
@@ -46,5 +55,20 @@ module.exports.createPages = async ({ actions, graphql }) => {
 		graphql
 	};
 
+	/**
+	 * Creates static pages
+	 */
 	await pages.initCretePages(apiMethods);
+};
+
+exports.onCreatePage = async ({ page, actions }) => {
+	if (page.path.match(/^\/app/)) {
+		page.matchPath = '/app/*';
+
+		/**
+		 * Recreates page with value under key 'matchPath' saying this page
+		 * is at client side only route
+		 */
+		await actions.createPage(page);
+	}
 };
