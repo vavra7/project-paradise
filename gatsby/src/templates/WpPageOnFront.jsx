@@ -12,7 +12,7 @@ export const query = graphql`
 	}
 `;
 
-function PageOnFront({ data }) {
+function WpPageOnFront({ data }) {
 	return (
 		<>
 			<CommonLayout title="todo">
@@ -29,8 +29,8 @@ function PageOnFront({ data }) {
 	);
 }
 
-PageOnFront.propTypes = {
+WpPageOnFront.propTypes = {
 	data: PropTypes.object.isRequired
 };
 
-export default PageOnFront;
+export default WpPageOnFront;

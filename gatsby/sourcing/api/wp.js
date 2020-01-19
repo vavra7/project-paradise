@@ -3,7 +3,7 @@ const { FIELDS } = require('./fields');
 
 module.exports = {
 	generateToken: () => ({
-		id: 'GENERATE_TOKEN',
+		id: 'WP_GENERATE_TOKEN',
 		handler: request,
 		config: {
 			method: 'POST',

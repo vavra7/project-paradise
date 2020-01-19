@@ -21,7 +21,7 @@ module.exports = async ({ graphql, actions }) => {
 	if (showOnFront === SHOW_ON_FRONT.PAGE && pageOnFront) {
 		const pageOnFrontData = {
 			path: pageOnFront.path,
-			component: path.resolve('./src/templates/PageOnFront.jsx'),
+			component: path.resolve('./src/templates/WpPageOnFront.jsx'),
 			context: {
 				wpPage: pageOnFront.wpId
 			}

@@ -7,12 +7,9 @@ import CommonPagination from '../components/commons/pagination/CommonPagination'
 import PropTypes from 'prop-types';
 
 export const query = graphql`
-	query($wpPage: Int!, $skip: Int!, $limit: Int!) {
+	query($skip: Int!, $limit: Int!) {
 		wpSettings {
 			siteTitle
-		}
-		pageForPosts: wpPage(wpId: { eq: $wpPage }) {
-			title
 		}
 		pagePosts: allWpPost(sort: { fields: [date], order: DESC }, limit: $limit, skip: $skip) {
 			edges {
@@ -41,15 +38,15 @@ export const query = graphql`
 	}
 `;
 
-function PageForPosts(props) {
-	const title = props.data.pageForPosts.title;
+function WpPostsOnFront(props) {
+	const title = props.data.wpSettings.siteTitle;
 	const pagination = props.pageContext.pagination;
 	const currentPage = props.pageContext.currentPage;
 	const posts = props.data.pagePosts.edges.map(node => node.node);
 
 	return (
 		<>
-			<CommonLayout title={title} isPageForPosts>
+			<CommonLayout title={title} isPostsOnFront>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 
 				{posts.map(post => (
@@ -66,9 +63,9 @@ function PageForPosts(props) {
 	);
 }
 
-PageForPosts.propTypes = {
+WpPostsOnFront.propTypes = {
 	data: PropTypes.object.isRequired,
 	pageContext: PropTypes.object.isRequired
 };
 
-export default PageForPosts;
+export default WpPostsOnFront;
