@@ -1,9 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 import { BLOCKS } from '../../enums';
 import GeneralBlock from './GeneralBlock';
 import GatsbyImageBlock from './gatsbyBlocks/GatsbyImageBlock';
 import CoreGroupBlock from './coreBlocks/CoreGroupBlock';
+import PropTypes from 'prop-types';
+
+export const query = graphql`
+	fragment blocksRouter on wpPost {
+		blocks
+		media {
+			...gatsbyImageBlock
+		}
+	}
+`;
 
 function BlocksRouter(props) {
 	return (

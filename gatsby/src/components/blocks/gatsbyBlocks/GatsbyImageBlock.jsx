@@ -1,8 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 import { BLOCKS } from '../../../enums';
 import Img from 'gatsby-image';
 import { SETTINGS } from '../../../settings';
+import PropTypes from 'prop-types';
+
+export const query = graphql`
+	fragment gatsbyImageBlock on Media {
+		id
+		childWpMedia {
+			altText
+			childFile {
+				childImageSharp {
+					id
+					fluid(maxWidth: 1200, srcSetBreakpoints: [200, 340, 520, 890, 960, 1100]) {
+						...GatsbyImageSharpFluid_tracedSVG
+					}
+				}
+			}
+		}
+	}
+`;
 
 function GatsbyImageBlock(props) {
 	const imgSrc = props.media.find(item => item.id === props.block.attrs.id);

@@ -1,8 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FeaturedImage from './components/FeaturedImage';
-import { Link } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import scopedStyles from './PostPreview.module.scss';
+
+export const query = graphql`
+	fragment postPreview on wpPost {
+		title
+		path
+		excerpt
+		featuredMedia {
+			...featuredImage
+		}
+	}
+`;
 
 function PostPreview(props) {
 	const path = props.post.path;

@@ -15,23 +15,7 @@ export const query = graphql`
 			edges {
 				node {
 					wpId
-					title
-					path
-					excerpt
-					featuredMedia {
-						id
-						childWpMedia {
-							altText
-							childFile {
-								childImageSharp {
-									id
-									fluid(maxWidth: 1200, srcSetBreakpoints: [200, 340, 520, 890, 960, 1100]) {
-										...GatsbyImageSharpFluid_tracedSVG
-									}
-								}
-							}
-						}
-					}
+					...postPreview
 				}
 			}
 		}

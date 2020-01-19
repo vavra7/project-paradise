@@ -1,7 +1,16 @@
 import React from 'react';
+import { graphql } from 'gatsby';
 import FeaturedImage from './components/FeaturedImage';
-import PropTypes from 'prop-types';
 import scopedStyles from './Post.module.scss';
+import PropTypes from 'prop-types';
+
+export const query = graphql`
+	fragment post on wpPost {
+		featuredMedia {
+			...featuredImage
+		}
+	}
+`;
 
 function Post(props) {
 	return (

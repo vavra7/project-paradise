@@ -10,35 +10,8 @@ export const query = graphql`
 	query($wpPostId: Int!) {
 		wpPost(wpId: { eq: $wpPostId }) {
 			title
-			blocks
-			featuredMedia {
-				id
-				childWpMedia {
-					altText
-					childFile {
-						childImageSharp {
-							id
-							fluid(maxWidth: 1200, srcSetBreakpoints: [200, 340, 520, 890, 960, 1100]) {
-								...GatsbyImageSharpFluid_tracedSVG
-							}
-						}
-					}
-				}
-			}
-			media {
-				id
-				childWpMedia {
-					altText
-					childFile {
-						childImageSharp {
-							id
-							fluid(maxWidth: 1200, srcSetBreakpoints: [200, 340, 520, 890, 960, 1100]) {
-								...GatsbyImageSharpFluid_tracedSVG
-							}
-						}
-					}
-				}
-			}
+			...post
+			...blocksRouter
 		}
 	}
 `;
