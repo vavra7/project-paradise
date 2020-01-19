@@ -36,7 +36,7 @@ module.exports = async ({ graphql, actions }) => {
 				path: pagination[i],
 				component: path.resolve('./src/templates/WpPageForPosts.jsx'),
 				context: {
-					wpPage: pageForPosts.wpId,
+					wpPageId: pageForPosts.wpId,
 					limit: postsPerPage,
 					skip: (i - 1) * postsPerPage,
 					currentPage: i,

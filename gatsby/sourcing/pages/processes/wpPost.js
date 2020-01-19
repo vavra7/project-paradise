@@ -21,7 +21,7 @@ module.exports = async ({ graphql, actions }) => {
 				path: item.node.path,
 				component: path.resolve('./src/templates/WpPost.jsx'),
 				context: {
-					wpPost: item.node.wpId
+					wpPostId: item.node.wpId
 				}
 			};
 

@@ -7,8 +7,8 @@ import BlocksRouter from '../components/blocks/BlocksRouter';
 import PropTypes from 'prop-types';
 
 export const query = graphql`
-	query($wpPost: Int!) {
-		wpPost(wpId: { eq: $wpPost }) {
+	query($wpPostId: Int!) {
+		wpPost(wpId: { eq: $wpPostId }) {
 			title
 			blocks
 			featuredMedia {

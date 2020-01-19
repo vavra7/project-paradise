@@ -7,20 +7,29 @@ import CommonPagination from '../components/commons/pagination/CommonPagination'
 import PropTypes from 'prop-types';
 
 export const query = graphql`
-	query($wpPageId: Int!, $skip: Int!, $limit: Int!) {
-		wpSettings {
-			siteTitle
+	query($wpCategoryId: Int!, $limit: Int!, $skip: Int!) {
+		wpCategory(wpId: { eq: $wpCategoryId }) {
+			name
 		}
-		pageForPosts: wpPage(wpId: { eq: $wpPageId }) {
-			title
-		}
-		pagePosts: allWpPost(sort: { fields: [date], order: DESC }, limit: $limit, skip: $skip) {
+		pagePosts: allWpPost(
+			filter: { categories: { elemMatch: { id: { eq: $wpCategoryId } } } }
+			sort: { fields: date, order: DESC }
+			limit: $limit
+			skip: $skip
+		) {
 			edges {
 				node {
 					wpId
 					title
+					date
 					path
-					excerpt
+					categories {
+						id
+						childWpCategory {
+							name
+							path
+						}
+					}
 					featuredMedia {
 						id
 						childWpMedia {
@@ -41,15 +50,15 @@ export const query = graphql`
 	}
 `;
 
-function WpPageForPosts(props) {
-	const title = props.data.pageForPosts.title;
+function WpPostsOfCategory(props) {
+	const title = props.data.wpCategory.name;
 	const pagination = props.pageContext.pagination;
 	const currentPage = props.pageContext.currentPage;
 	const posts = props.data.pagePosts.edges.map(node => node.node);
 
 	return (
 		<>
-			<CommonLayout title={title} isPageForPosts>
+			<CommonLayout title={title}>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 
 				{posts.map(post => (
@@ -66,9 +75,9 @@ function WpPageForPosts(props) {
 	);
 }
 
-WpPageForPosts.propTypes = {
+WpPostsOfCategory.propTypes = {
 	data: PropTypes.object.isRequired,
 	pageContext: PropTypes.object.isRequired
 };
 
-export default WpPageForPosts;
+export default WpPostsOfCategory;

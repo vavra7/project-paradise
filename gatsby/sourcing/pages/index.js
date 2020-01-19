@@ -3,9 +3,9 @@ const wpPageOnFront = require('./processes/wpPageOnFront');
 const wpPageForPosts = require('./processes/wpPageForPosts');
 const wpPage = require('./processes/wpPage');
 const wpPost = require('./processes/wpPost');
-const wpCategory = require('./processes/wpCategory');
+const wpPostsOfCategory = require('./processes/wpPostsOfCategory');
 
-const templatesToProcess = [wpPostsOnFront, wpPageOnFront, wpPageForPosts, wpPage, wpPost, wpCategory];
+const templatesToProcess = [wpPostsOnFront, wpPageOnFront, wpPageForPosts, wpPage, wpPost, wpPostsOfCategory];
 
 const initCretePages = async apiMethods => {
 	const promises = templatesToProcess.map(templateProcess => templateProcess(apiMethods));

@@ -5,8 +5,8 @@ import CommonLayout from '../components/layouts/CommonLayout';
 import PropTypes from 'prop-types';
 
 export const query = graphql`
-	query($wpPage: Int!) {
-		wpPage(wpId: { eq: $wpPage }) {
+	query($wpPageId: Int!) {
+		wpPage(wpId: { eq: $wpPageId }) {
 			title
 		}
 	}

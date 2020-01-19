@@ -23,7 +23,7 @@ module.exports = async ({ graphql, actions }) => {
 			path: pageOnFront.path,
 			component: path.resolve('./src/templates/WpPageOnFront.jsx'),
 			context: {
-				wpPage: pageOnFront.wpId
+				wpPageId: pageOnFront.wpId
 			}
 		};
 
