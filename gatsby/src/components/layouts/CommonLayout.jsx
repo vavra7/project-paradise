@@ -12,7 +12,7 @@ function CommonLayout(props) {
 				<StaticTopBar />
 				<MainMenuContainer />
 				<BreadCrumbsContainer
-					isPageOnFront={props.isPageOnFront}
+					isPostsOnFront={props.isPostsOnFront}
 					isPageForPosts={props.isPageForPosts}
 					current={props.title}
 				/>
@@ -41,12 +41,12 @@ function CommonLayout(props) {
 CommonLayout.propTypes = {
 	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 	title: PropTypes.string.isRequired,
-	isPageOnFront: PropTypes.bool,
+	isPostsOnFront: PropTypes.bool,
 	isPageForPosts: PropTypes.bool
 };
 
 CommonLayout.defaultProps = {
-	isPageOnFront: false,
+	isPostsOnFront: false,
 	isPageForPosts: false
 };
 

@@ -49,9 +49,9 @@ function BreadCrumbsContainer(props) {
 
 	let breadCrumbs;
 
-	if (props.isPageOnFront && props.isPageForPosts) {
+	if (props.isPostsOnFront) {
 		return <></>;
-	} else if (!props.isPageOnFront && props.isPageForPosts) {
+	} else if (!props.isPostsOnFront && props.isPageForPosts) {
 		breadCrumbs = (
 			<>
 				{renderLevel(pageOnFront.title, pageOnFront.path, false)}
@@ -77,7 +77,7 @@ function BreadCrumbsContainer(props) {
 
 BreadCrumbsContainer.propTypes = {
 	current: PropTypes.string.isRequired,
-	isPageOnFront: PropTypes.bool.isRequired,
+	isPostsOnFront: PropTypes.bool.isRequired,
 	isPageForPosts: PropTypes.bool.isRequired
 };
 

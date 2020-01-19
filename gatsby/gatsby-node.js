@@ -46,5 +46,5 @@ module.exports.createPages = async ({ actions, graphql }) => {
 		graphql
 	};
 
-	await Promise.all([pages.wpPages(apiMethods), pages.wpPosts(apiMethods), pages.wpCategories(apiMethods)]);
+	await pages.initCretePages(apiMethods);
 };
