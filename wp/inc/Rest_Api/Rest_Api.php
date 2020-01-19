@@ -8,6 +8,7 @@ use Inc\Rest_Api\Endpoints\Posts_Endpoint;
 use Inc\Rest_Api\Endpoints\Pages_Endpoint;
 use Inc\Rest_Api\Endpoints\Categories_Endpoint;
 use Inc\Rest_Api\Endpoints\Settings_Endpoint;
+use Inc\Rest_Api\Endpoints\Tags_Endpoint;
 use Inc\Rest_Api\Includes\Jwt_Auth;
 
 class Rest_Api
@@ -22,6 +23,8 @@ class Rest_Api
 
 	private $categories_endpoint;
 
+	private $tags_endpoint;
+
 	private $generate_token_endpoint;
 
 	private $settings_endpoint;
@@ -33,6 +36,7 @@ class Rest_Api
 		$this->pages_endpoint = new Pages_Endpoint;
 		$this->menus_endpoint = new Menus_Endpoint;
 		$this->categories_endpoint = new Categories_Endpoint;
+		$this->tags_endpoint = new Tags_Endpoint;
 		$this->settings_endpoint = new Settings_Endpoint;
 		$this->generate_token_endpoint = new Generate_Token_Endpoint;
 
@@ -49,7 +53,7 @@ class Rest_Api
 	{
 		add_filter('determine_current_user', [$this->jwt_auth, 'determine_current_user']);
 		add_filter('rest_pre_dispatch', [$this->jwt_auth, 'return_jwt_error']);
-		add_filter('rest_pre_echo_response', [$this->settings_endpoint, 'add_field_show_on_front']);
+		add_filter('rest_pre_echo_response', [$this->settings_endpoint, 'add_custom_fields']);
 	}
 
 	public function on_rest_api_init(): void
@@ -62,5 +66,6 @@ class Rest_Api
 		$this->pages_endpoint->add_field_states();
 		$this->pages_endpoint->add_field_path();
 		$this->categories_endpoint->add_field_path();
+		$this->tags_endpoint->add_field_path();
 	}
 }

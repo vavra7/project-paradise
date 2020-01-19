@@ -2,16 +2,24 @@
 
 namespace Inc;
 
+use Inc\Blocks\Blocks;
+use Inc\Core\Menus;
+use Inc\Posts\Posts;
+use Inc\Rest_Api\Rest_Api;
+use Inc\Setup\Enqueue;
+use Inc\Setup\Setup;
+
 final class Init
 {
 	public static function get_services(): array
 	{
 		return [
-			Setup\Setup::class,
-			Setup\Enqueue::class,
-			Core\Menus::class,
-			Blocks\Blocks::class,
-			Rest_Api\Rest_Api::class
+			Setup::class,
+			Enqueue::class,
+			Menus::class,
+			Posts::class,
+			Blocks::class,
+			Rest_Api::class
 		];
 	}
 
