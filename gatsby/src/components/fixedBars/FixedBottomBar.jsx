@@ -82,7 +82,7 @@ class FixedBottomBar extends Component {
 					!this.state.active ? 'hide' : ''
 				} p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2`}
 			>
-				<MobileBottomMenu />
+				{/* <MobileBottomMenu /> */}
 			</div>
 		);
 	}
