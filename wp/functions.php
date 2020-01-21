@@ -6,7 +6,7 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 }
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->load(dirname(__FILE__) . '/.env');
 
 if (class_exists('Inc\\Init')) {
 	Inc\init::register_services();

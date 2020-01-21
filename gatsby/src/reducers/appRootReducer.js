@@ -13,7 +13,7 @@ const initialState = {
 
 const appRootReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case ACTIONS.APP.WIDTH_HEIGHT:
+		case ACTIONS.APP_ROOT.WIDTH_HEIGHT:
 			return { ...state, ...{ width: action.payload.width, height: action.payload.height } };
 		default:
 			return state;

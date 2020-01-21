@@ -65,7 +65,7 @@ class Jwt_Auth
 			]
 		];
 
-		return JWT::encode($payload, getenv('JWT_SECRET_KEY'));
+		return JWT::encode($payload, $_ENV['JWT_SECRET_KEY']);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Jwt_Auth
 		}
 
 		try {
-			$decoded_token = JWT::decode($encoded_token, getenv('JWT_SECRET_KEY'), array('HS256'));
+			$decoded_token = JWT::decode($encoded_token, $_ENV['JWT_SECRET_KEY'], array('HS256'));
 
 			if ($decoded_token->iss != get_site_url()) {
 				$this->jwt_error = new WP_Error(

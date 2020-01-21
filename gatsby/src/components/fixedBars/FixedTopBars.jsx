@@ -187,7 +187,7 @@ class FixedTopBars extends Component {
 }
 
 const mapStateToProps = state => ({
-	windowWidth: state.app.width,
+	windowWidth: state.appRoot.width,
 	rightBarActive: state.fixedBars.rightBarActive
 });
 

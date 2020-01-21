@@ -227,8 +227,8 @@ class FixedRightBar extends Component {
 }
 
 const mapStateToProps = state => ({
-	windowHeight: state.app.height,
-	windowWidth: state.app.width,
+	windowHeight: state.appRoot.height,
+	windowWidth: state.appRoot.width,
 	rightBarActive: state.fixedBars.rightBarActive
 });
 

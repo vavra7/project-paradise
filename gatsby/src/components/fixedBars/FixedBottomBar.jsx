@@ -89,7 +89,7 @@ class FixedBottomBar extends Component {
 }
 
 const mapStateToProps = state => ({
-	windowWidth: state.app.width
+	windowWidth: state.appRoot.width
 });
 
 export default connect(mapStateToProps, null)(FixedBottomBar);
