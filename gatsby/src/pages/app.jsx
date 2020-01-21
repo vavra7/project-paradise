@@ -22,6 +22,7 @@ function App(props) {
 	// const postsPerPage = props.data.wpSettings.postsPerPage;
 	// const defaultPostsPerPage = useSelector(state => state.settings.postsPerPage);
 	const tagBase = props.data.wpSettings.tagBase;
+	const postsPerPage = props.data.wpSettings.postsPerPage;
 
 	// useEffect(() => {
 	// 	if (postsPerPage !== defaultPostsPerPage) {
@@ -34,7 +35,7 @@ function App(props) {
 		<div>
 			<pre>{JSON.stringify(props.data, null, 2)}</pre>
 			<Router>
-				<WpPostsOfTags path={`/app/${tagBase}/:tagSlug`} />
+				<WpPostsOfTags postsPerPage={postsPerPage} path={`/app/${tagBase}/:tagSlug`} />
 				<Test path="/app/test" />
 			</Router>
 		</div>

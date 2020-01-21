@@ -6,9 +6,9 @@ import FixedBottomBar from '../fixedBars/FixedBottomBar';
 function PageElementWrapper({ element }) {
 	return (
 		<>
-			<FixedTopBars />
+			{/* <FixedTopBars /> */}
 			{element}
-			<FixedBottomBar />
+			{/* <FixedBottomBar /> */}
 		</>
 	);
 }

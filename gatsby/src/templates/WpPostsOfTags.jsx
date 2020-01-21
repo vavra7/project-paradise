@@ -17,9 +17,8 @@ class WpPostsOfTags extends Component {
 	render() {
 		return (
 			<div>
-				<pre>{JSON.stringify(this.props.postsPerPage, null, 2)}</pre>
-				<pre>tag slug: {this.props.tagSlug}</pre>
-				<pre>{JSON.stringify('test', null, 2)}</pre>
+				<pre>posts per page: {this.props.postsPerPage}</pre>
+				<pre>slug: {this.props.tagSlug}</pre>
 				<div
 					style={{
 						width: '100px',
@@ -34,8 +33,6 @@ class WpPostsOfTags extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	postsPerPage: state.settings.postsPerPage
-});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, null)(WpPostsOfTags);
