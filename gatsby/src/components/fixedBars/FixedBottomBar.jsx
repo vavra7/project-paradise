@@ -81,6 +81,7 @@ class FixedBottomBar extends Component {
 				// className={`${scopedStyles.fixedBottomBar} ${
 				// 	!this.state.active ? 'hide' : ''
 				// } p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2`}
+				className={`${scopedStyles.fixedBottomBar}`}
 			>
 				<MobileBottomMenu />
 			</div>
