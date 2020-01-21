@@ -60,16 +60,16 @@ class FixedBottomBar extends Component {
 
 	//#region [ lifeCycleMethods ]
 
-	// componentDidMount() {
-	// 	this.updateActive();
-	// 	this.styler = styler(this.ref.current);
-	// 	this.stylerY = value(0, v => this.styler.set('y', v));
-	// 	this.maxY = this.ref.current.offsetHeight + EXTRA_OFFSET;
-	// }
+	componentDidMount() {
+		this.updateActive();
+		this.styler = styler(this.ref.current);
+		this.stylerY = value(0, v => this.styler.set('y', v));
+		this.maxY = this.ref.current.offsetHeight + EXTRA_OFFSET;
+	}
 
-	// componentDidUpdate(prevProps) {
-	// 	if (prevProps.windowWidth !== this.props.windowWidth) this.updateActive();
-	// }
+	componentDidUpdate(prevProps) {
+		if (prevProps.windowWidth !== this.props.windowWidth) this.updateActive();
+	}
 
 	//#endregion
 
@@ -78,10 +78,11 @@ class FixedBottomBar extends Component {
 			<div
 				id="fixed-bottom-bar"
 				ref={this.ref}
-				className={`${scopedStyles.fixedBottomBar} 
-				 p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2`}
+				// className={`${scopedStyles.fixedBottomBar} ${
+				// 	!this.state.active ? 'hide' : ''
+				// } p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2`}
 			>
-				{/* <MobileBottomMenu /> */}
+				<MobileBottomMenu />
 			</div>
 		);
 	}
