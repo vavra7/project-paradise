@@ -60,16 +60,16 @@ class FixedBottomBar extends Component {
 
 	//#region [ lifeCycleMethods ]
 
-	componentDidMount() {
-		this.updateActive();
-		this.styler = styler(this.ref.current);
-		this.stylerY = value(0, v => this.styler.set('y', v));
-		this.maxY = this.ref.current.offsetHeight + EXTRA_OFFSET;
-	}
+	// componentDidMount() {
+	// 	this.updateActive();
+	// 	this.styler = styler(this.ref.current);
+	// 	this.stylerY = value(0, v => this.styler.set('y', v));
+	// 	this.maxY = this.ref.current.offsetHeight + EXTRA_OFFSET;
+	// }
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.windowWidth !== this.props.windowWidth) this.updateActive();
-	}
+	// componentDidUpdate(prevProps) {
+	// 	if (prevProps.windowWidth !== this.props.windowWidth) this.updateActive();
+	// }
 
 	//#endregion
 
