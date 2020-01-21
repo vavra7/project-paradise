@@ -7,8 +7,8 @@ function PageElementWrapper({ element }) {
 	return (
 		<>
 			{/* <FixedTopBars /> */}
-			{element}
 			<FixedBottomBar />
+			{element}
 		</>
 	);
 }
