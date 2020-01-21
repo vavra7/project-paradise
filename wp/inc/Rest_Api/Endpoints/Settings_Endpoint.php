@@ -39,7 +39,7 @@ class Settings_Endpoint
 	 */
 	public function default_value_for_fields($response)
 	{
-		if ($_SERVER['REQUEST_URI'] === '/wp-json/wp/v2/settings') {
+		if (strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/settings') === 0) {
 			if (array_key_exists(self::TAG_BASE, $response) && !$response[self::TAG_BASE]) {
 				$response[self::TAG_BASE] = 'tag';
 			}

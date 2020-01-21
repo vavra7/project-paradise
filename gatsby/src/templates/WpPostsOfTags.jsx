@@ -20,6 +20,15 @@ class WpPostsOfTags extends Component {
 				<pre>{JSON.stringify(this.props.postsPerPage, null, 2)}</pre>
 				<pre>tag slug: {this.props.tagSlug}</pre>
 				<pre>{JSON.stringify('test', null, 2)}</pre>
+				<div
+					style={{
+						width: '100px',
+						height: '100px',
+						background: 'red'
+					}}
+				>
+					test
+				</div>
 			</div>
 		);
 	}
