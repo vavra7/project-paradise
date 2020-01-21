@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 function PageElementWrapper({ element, props }) {
 	return (
 		<>
-			<FixedBarsLayout {...props}>{element}</FixedBarsLayout>
+			{/* <FixedBarsLayout {...props}> */}
+			{element}
+			{/* </FixedBarsLayout> */}
 		</>
 	);
 }
