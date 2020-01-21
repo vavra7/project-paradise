@@ -53,6 +53,7 @@ class Rest_Api
 	{
 		add_filter('determine_current_user', [$this->jwt_auth, 'determine_current_user']);
 		add_filter('rest_pre_dispatch', [$this->jwt_auth, 'return_jwt_error']);
+		add_filter('rest_pre_echo_response', [$this->settings_endpoint, 'default_value_for_fields']);
 	}
 
 	public function on_rest_api_init(): void
