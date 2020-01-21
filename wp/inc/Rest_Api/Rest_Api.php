@@ -53,7 +53,6 @@ class Rest_Api
 	{
 		add_filter('determine_current_user', [$this->jwt_auth, 'determine_current_user']);
 		add_filter('rest_pre_dispatch', [$this->jwt_auth, 'return_jwt_error']);
-		add_filter('rest_pre_echo_response', [$this->settings_endpoint, 'add_custom_fields']);
 	}
 
 	public function on_rest_api_init(): void
@@ -67,5 +66,7 @@ class Rest_Api
 		$this->pages_endpoint->add_field_path();
 		$this->categories_endpoint->add_field_path();
 		$this->tags_endpoint->add_field_path();
+		$this->settings_endpoint->add_field_show_on_front();
+		$this->settings_endpoint->add_field_tag_base();
 	}
 }

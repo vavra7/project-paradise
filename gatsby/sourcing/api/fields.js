@@ -1,4 +1,5 @@
 module.exports.FIELDS = {
+	WP_SETTINGS: ['title', 'show_on_front', 'posts_per_page', 'tag_base'],
 	WP_POSTS: [
 		'id',
 		'date_gmt',

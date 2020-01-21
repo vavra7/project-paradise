@@ -23,7 +23,7 @@ module.exports = {
 		handler: request,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/settings`,
+			url: `${process.env.WP_URL}/wp-json/wp/v2/settings?_fields=${FIELDS.WP_SETTINGS.join(',')}`,
 			headers: {
 				authorization: `Bearer ${token}`
 			}
