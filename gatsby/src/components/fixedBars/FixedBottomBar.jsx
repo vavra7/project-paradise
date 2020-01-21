@@ -22,7 +22,7 @@ class FixedBottomBar extends Component {
 		super(props);
 
 		this.state = {
-			active: true
+			active: false
 		};
 
 		this.ref = React.createRef();

@@ -27,7 +27,7 @@ class FixedTopBars extends Component {
 		super(props);
 
 		this.state = {
-			mobile: true,
+			mobile: false,
 			desktopBarActive: false
 		};
 
