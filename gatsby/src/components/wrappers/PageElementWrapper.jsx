@@ -1,13 +1,14 @@
 import React from 'react';
-import FixedBarsLayout from '../layouts/FixedBarsLayout';
 import PropTypes from 'prop-types';
+import FixedTopBars from '../fixedBars/FixedTopBars';
+import FixedBottomBar from '../fixedBars/FixedBottomBar';
 
-function PageElementWrapper({ element, props }) {
+function PageElementWrapper({ element }) {
 	return (
 		<>
-			{/* <FixedBarsLayout {...props}> */}
+			<FixedTopBars />
 			{element}
-			{/* </FixedBarsLayout> */}
+			<FixedBottomBar />
 		</>
 	);
 }
