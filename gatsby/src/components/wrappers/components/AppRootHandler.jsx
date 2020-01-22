@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appWidthHeight } from '../../../actions/appRootActions';
+import { setAppWidthHeight, setScrollEnabled } from '../../../actions/appRootActions';
 import { listen } from 'popmotion';
 import { event } from '../../../events';
 import { EVENTS } from '../../../events/types';
@@ -11,8 +11,9 @@ const SCROLL_CHECK_INTERVAL = 100;
 class AppRootHandler extends Component {
 	static propTypes = {
 		children: PropTypes.element.isRequired,
-		appWidthHeight: PropTypes.func.isRequired,
-		rightBarActive: PropTypes.bool.isRequired
+		setAppWidthHeight: PropTypes.func.isRequired,
+		scrollEnabled: PropTypes.bool.isRequired,
+		setScrollEnabled: PropTypes.func.isRequired
 	};
 
 	//#region [ constructor ]
@@ -26,8 +27,7 @@ class AppRootHandler extends Component {
 				inProgressY: false
 			},
 			scroll: {
-				inProgress: false,
-				enabled: true
+				inProgress: false
 			},
 			swipeScroll: {
 				inProgress: false
@@ -42,6 +42,14 @@ class AppRootHandler extends Component {
 		this.swipeEvaluationFinish = false;
 
 		this.listeners = {};
+
+		event.listen(EVENTS.APP_ROOT.SET_SCROLL_ENABLED, enable => {
+			if (enable) {
+				this.scrollEnable();
+			} else {
+				this.scrollDisable();
+			}
+		});
 	}
 
 	//#endregion
@@ -98,27 +106,17 @@ class AppRootHandler extends Component {
 	}
 
 	scrollEnable() {
-		if (this.state.scroll.enabled) return;
+		if (this.props.scrollEnabled) return;
 
 		document.body.classList.remove('scrollDisabled');
-		this.setState({
-			scroll: {
-				...this.state.scroll,
-				...{ enabled: true }
-			}
-		});
+		this.props.setScrollEnabled(true);
 	}
 
 	scrollDisable() {
-		if (!this.state.scroll.enabled) return;
+		if (!this.props.scrollEnabled) return;
 
 		document.body.classList.add('scrollDisabled');
-		this.setState({
-			scroll: {
-				...this.state.scroll,
-				...{ enabled: false }
-			}
-		});
+		this.props.setScrollEnabled(false);
 	}
 
 	scrollUpdate() {
@@ -177,7 +175,7 @@ class AppRootHandler extends Component {
 
 	componentDidMount() {
 		this.listeners.resize = listen(window, 'resize').start(() => {
-			this.props.appWidthHeight(window.innerWidth, window.innerHeight);
+			this.props.setAppWidthHeight(window.innerWidth, window.innerHeight);
 		});
 
 		this.listeners.touchstart = listen(document, 'touchstart').start(e => {
@@ -207,11 +205,6 @@ class AppRootHandler extends Component {
 		});
 	}
 
-	componentDidUpdate(prevProps) {
-		if (!prevProps.rightBarActive && this.props.rightBarActive) this.scrollDisable();
-		if (prevProps.rightBarActive && !this.props.rightBarActive) this.scrollEnable();
-	}
-
 	componentWillUnmount() {
 		Object.keys(this.listeners).forEach(listener => {
 			if (this.listeners[listener]) this.listeners[listener].stop();
@@ -226,11 +219,12 @@ class AppRootHandler extends Component {
 }
 
 const mapStateToProps = state => ({
-	rightBarActive: state.fixedBars.rightBarActive
+	scrollEnabled: state.appRoot.scrollEnabled
 });
 
 const mapDispatchToProps = {
-	appWidthHeight
+	setAppWidthHeight,
+	setScrollEnabled
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRootHandler);

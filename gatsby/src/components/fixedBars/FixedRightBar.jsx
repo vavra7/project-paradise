@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './FixedRightBar.module.scss';
 import { connect } from 'react-redux';
-import { rightBarSetActive } from '../../actions/fixedBarsActions';
+import { setRightBarEnabled, setRightBarActive } from '../../actions/fixedBarsActions';
 import { styler, value, listen, pointer, calc, chain, tween, easing, action, inertia } from 'popmotion';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
+import BREAKPOINTS from '../../../../common-styles/modules/_breakpoints.scss';
 
 const DIFF_HANDLER_UPDATE = 60;
 const OVER_DRAG_SPEED_MODIFIER = 0.15;
@@ -16,10 +17,12 @@ const TWEEN_DURATION = 250;
 class FixedRightBar extends Component {
 	static propTypes = {
 		children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+		rightBarEnabled: PropTypes.bool.isRequired,
 		rightBarActive: PropTypes.bool.isRequired,
 		windowHeight: PropTypes.number.isRequired,
 		windowWidth: PropTypes.number.isRequired,
-		rightBarSetActive: PropTypes.func.isRequired
+		setRightBarEnabled: PropTypes.func.isRequired,
+		setRightBarActive: PropTypes.func.isRequired
 	};
 
 	//#region [ constructor ]
@@ -61,12 +64,25 @@ class FixedRightBar extends Component {
 
 	//endregion
 
+	setEnabled() {
+		if (this.props.windowWidth <= BREAKPOINTS.SM_MAX && !this.props.rightBarEnabled) {
+			this.props.setRightBarEnabled(true);
+		} else if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.props.rightBarEnabled) {
+			this.props.setRightBarEnabled(false);
+			this.props.setRightBarActive(false);
+		}
+	}
+
 	setHandlerPosition() {
+		if (!this.props.rightBarEnabled) return;
+
 		if (Math.abs(this.state.handlerPosition - this.props.windowHeight / 2) > DIFF_HANDLER_UPDATE)
 			this.setState({ handlerPosition: this.props.windowHeight / 2 });
 	}
 
 	refreshRightBarPosition() {
+		if (!this.props.rightBarEnabled) return;
+
 		this.rightBar.styler.set('x', this.rightBar.ref.current.offsetWidth);
 	}
 
@@ -76,7 +92,7 @@ class FixedRightBar extends Component {
 
 		this.rightBar.inProgress.auto = false;
 		this.rightBar.inProgress.manual = true;
-		if (!this.props.rightBarActive) this.props.rightBarSetActive(true);
+		if (!this.props.rightBarActive) this.props.setRightBarActive(true);
 
 		const overDragPipe = v => {
 			if (v < 0) {
@@ -122,7 +138,7 @@ class FixedRightBar extends Component {
 	}
 
 	rightBarTween(from, to) {
-		if (!this.props.rightBarActive) this.props.rightBarSetActive(true);
+		if (!this.props.rightBarActive) this.props.setRightBarActive(true);
 		this.rightBar.inProgress.manual = false;
 		this.rightBar.inProgress.auto = true;
 		this.rightBar.directionOpen = !to;
@@ -135,7 +151,7 @@ class FixedRightBar extends Component {
 				ease: easing.linear
 			}),
 			action(action => {
-				this.props.rightBarSetActive(!to);
+				this.props.setRightBarActive(!to);
 				this.rightBar.inProgress.auto = false;
 				action.complete();
 			})
@@ -159,10 +175,10 @@ class FixedRightBar extends Component {
 			action(action => {
 				if (velocity > 0) {
 					this.rightBar.stylerX.update(this.rightBar.ref.current.offsetWidth);
-					this.props.rightBarSetActive(false);
+					this.props.setRightBarActive(false);
 				} else {
 					this.rightBar.stylerX.update(0);
-					this.props.rightBarSetActive(true);
+					this.props.setRightBarActive(true);
 				}
 				this.rightBar.inProgress.auto = false;
 				action.complete();
@@ -195,11 +211,21 @@ class FixedRightBar extends Component {
 		});
 
 		this.setHandlerPosition();
+		this.setEnabled();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.windowHeight !== this.props.windowHeight) this.setHandlerPosition();
-		if (prevProps.windowWidth !== this.props.windowWidth) this.refreshRightBarPosition();
+		if (prevProps.windowWidth !== this.props.windowWidth) {
+			this.setEnabled();
+			this.refreshRightBarPosition();
+		}
+
+		if (prevProps.rightBarActive && !this.props.rightBarActive) {
+			event.emit(EVENTS.APP_ROOT.SET_SCROLL_ENABLED, true);
+		} else if (!prevProps.rightBarActive && this.props.rightBarActive) {
+			event.emit(EVENTS.APP_ROOT.SET_SCROLL_ENABLED, false);
+		}
 	}
 
 	componentWillUnmount() {
@@ -212,8 +238,14 @@ class FixedRightBar extends Component {
 	//#endregion
 
 	render() {
+		const hide = this.props.rightBarEnabled ? '' : 'hide';
+
 		return (
-			<div id="fixed-right-bar" ref={this.rightBar.ref} className={`${scopedStyles.fixedRightBar} p-fixed d-flex`}>
+			<div
+				id="fixed-right-bar"
+				ref={this.rightBar.ref}
+				className={`${scopedStyles.fixedRightBar} ${hide} p-fixed d-flex`}
+			>
 				<div
 					ref={this.handler.ref}
 					className={`${scopedStyles.handlerContainer} p-absolute`}
@@ -229,11 +261,13 @@ class FixedRightBar extends Component {
 const mapStateToProps = state => ({
 	windowHeight: state.appRoot.height,
 	windowWidth: state.appRoot.width,
+	rightBarEnabled: state.fixedBars.rightBarEnabled,
 	rightBarActive: state.fixedBars.rightBarActive
 });
 
 const mapDispatchToProps = {
-	rightBarSetActive
+	setRightBarEnabled,
+	setRightBarActive
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FixedRightBar);

@@ -40,8 +40,7 @@ class FixedBottomBar extends Component {
 			this.setState({
 				active: true
 			});
-		}
-		if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.state.active) {
+		} else if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.state.active) {
 			this.setState({
 				active: false
 			});
