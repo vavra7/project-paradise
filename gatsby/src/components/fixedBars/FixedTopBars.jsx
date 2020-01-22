@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { setMobileTopBarEnabled } from '../../actions/fixedBarsActions';
 import MobileTopMenu from '../menus/MobileTopMenu';
 import DesktopTopMenu from '../menus/DesktopTopMenu';
 import scopedStyles from './FixedTopBars.module.scss';
@@ -11,14 +12,16 @@ import Logo from '../commons/logo/Logo';
 import PropTypes from 'prop-types';
 
 const DESKTOP_REVEAL_POINT = 300;
-const DESKTOP_BAR_EXTRA_OFFSET = 3;
+const MOBILE_BAR_HIDE_LENGTH = 30;
 const MOBILE_BAR_TWEEN_DURATION = 200;
 const RIGHT_BAR_SPEED_MODIFIER = 0.2;
 
 class FixedTopBars extends Component {
 	static propTypes = {
 		windowWidth: PropTypes.number.isRequired,
-		rightBarActive: PropTypes.bool.isRequired
+		rightBarActive: PropTypes.bool.isRequired,
+		mobileTopBarEnabled: PropTypes.bool.isRequired,
+		setMobileTopBarEnabled: PropTypes.func.isRequired
 	};
 
 	//#region [ constructor ]
@@ -27,7 +30,6 @@ class FixedTopBars extends Component {
 		super(props);
 
 		this.state = {
-			mobile: false,
 			desktopBarActive: false
 		};
 
@@ -52,22 +54,17 @@ class FixedTopBars extends Component {
 	//#endregion
 
 	updateMobileDesktop() {
-		if (this.props.windowWidth <= BREAKPOINTS.SM_MAX && !this.state.mobile) {
-			this.setState({
-				mobile: true
-			});
-		}
-		if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.state.mobile) {
-			this.setState({
-				mobile: false
-			});
+		if (this.props.windowWidth <= BREAKPOINTS.SM_MAX && !this.props.mobileTopBarEnabled) {
+			this.props.setMobileTopBarEnabled(true);
+		} else if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.props.mobileTopBarEnabled) {
+			this.props.setMobileTopBarEnabled(false);
 		}
 	}
 
 	//#region [ rgba(122, 249, 97, 0.04) ] Mobile Fixed Top Bar
 
 	mobileBarOnScroll() {
-		if (!this.state.mobile) return;
+		if (!this.props.mobileTopBarEnabled) return;
 
 		const diff = this.prevPageYOffset - window.pageYOffset;
 		const currentPosition = this.mobileTopBar.styler.get('y');
@@ -81,7 +78,7 @@ class FixedTopBars extends Component {
 	}
 
 	mobileBarFinish() {
-		if (!this.state.mobile) return;
+		if (!this.props.mobileTopBarEnabled) return;
 
 		const currentPosition = this.mobileTopBar.styler.get('y');
 
@@ -96,13 +93,13 @@ class FixedTopBars extends Component {
 	}
 
 	shouldOnRightBar() {
-		if (!this.state.mobile) return;
+		if (!this.props.mobileTopBarEnabled) return;
 
 		this.mobileTopBar.onRightBar = this.mobileTopBar.styler.get('y') === this.mobileTopBar.minY;
 	}
 
 	mobilBarOnRightBar(rightBarProgress) {
-		if (!this.state.mobile || !this.mobileTopBar.onRightBar || !this.mobileTopBar.ref.current) return;
+		if (!this.props.mobileTopBarEnabled || !this.mobileTopBar.onRightBar || !this.mobileTopBar.ref.current) return;
 
 		const v = rightBarProgress * RIGHT_BAR_SPEED_MODIFIER + this.mobileTopBar.minY;
 
@@ -120,7 +117,7 @@ class FixedTopBars extends Component {
 	//#region [ rgba(255, 242, 0, 0.04) ] Desktop Fixed Top Bar
 
 	updateDesktopBarActive() {
-		if (this.state.mobile) return;
+		if (this.props.mobileTopBarEnabled) return;
 
 		if (window.pageYOffset >= DESKTOP_REVEAL_POINT && !this.state.desktopBarActive) {
 			this.setState({
@@ -152,20 +149,21 @@ class FixedTopBars extends Component {
 		this.updateDesktopBarActive();
 		this.mobileTopBar.styler = styler(this.mobileTopBar.ref.current);
 		this.mobileTopBar.stylerY = value(0, v => this.mobileTopBar.styler.set('y', v));
-		this.mobileTopBar.minY = -this.mobileTopBar.ref.current.offsetHeight - DESKTOP_BAR_EXTRA_OFFSET;
+		this.mobileTopBar.minY = -this.mobileTopBar.ref.current.offsetHeight - MOBILE_BAR_HIDE_LENGTH;
 	}
 
 	//#endregion
 
 	render() {
+		const mobileHide = this.props.mobileTopBarEnabled ? '' : 'hide';
+		const desktopHide = this.props.mobileTopBarEnabled ? 'hide' : '';
+
 		return (
 			<>
 				<div
 					id="mobile-fixed-top-bar"
 					ref={this.mobileTopBar.ref}
-					className={`${scopedStyles.fixedTopBar} ${scopedStyles.mobile} p-fixed d-flex ${
-						this.state.mobile ? '' : 'hide'
-					}`}
+					className={`${scopedStyles.fixedTopBar} ${scopedStyles.mobile} p-fixed d-flex ${mobileHide}`}
 				>
 					<div className="container-fluid d-flex jc-space-between ai-center">
 						<Logo />
@@ -175,7 +173,7 @@ class FixedTopBars extends Component {
 
 				<div
 					id="desktop-fixed-top-bar"
-					className={`${scopedStyles.fixedTopBar} ${scopedStyles.desktop} p-fixed ${this.state.mobile ? 'hide' : ''} ${
+					className={`${scopedStyles.fixedTopBar} ${scopedStyles.desktop} p-fixed ${desktopHide} ${
 						this.state.desktopBarActive ? scopedStyles.desktopActive : ''
 					}`}
 				>
@@ -188,7 +186,12 @@ class FixedTopBars extends Component {
 
 const mapStateToProps = state => ({
 	windowWidth: state.appRoot.width,
-	rightBarActive: state.fixedBars.rightBarActive
+	rightBarActive: state.fixedBars.rightBarActive,
+	mobileTopBarEnabled: state.fixedBars.mobileTopBarEnabled
 });
 
-export default connect(mapStateToProps, null)(FixedTopBars);
+const mapDispatchToProps = {
+	setMobileTopBarEnabled
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FixedTopBars);
