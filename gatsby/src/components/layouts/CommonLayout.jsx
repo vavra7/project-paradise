@@ -4,11 +4,20 @@ import StaticTopBar from '../header/StaticTopBar';
 import MainMenuContainer from '../header/MainMenuContainer';
 import BreadCrumbsContainer from '../header/BreadCrumbsContainer';
 import PageTitleContainer from '../header/PageTitleContainer';
+import { useSelector } from 'react-redux';
+import { MOBILE_TOP_BAR_HEIGHT } from '../fixedBars/FixedTopBars.module.scss';
+import { BOTTOM_BAR_HEIGHT } from '../fixedBars/FixedBottomBar.module.scss';
 
 function CommonLayout(props) {
+	const mobileTopBarEnabled = useSelector(state => state.fixedBars.mobileTopBarEnabled);
+	const bottomBarEnabled = useSelector(state => state.fixedBars.bottomBarEnabled);
+
+	const topBarOffsetStyle = mobileTopBarEnabled ? { paddingTop: MOBILE_TOP_BAR_HEIGHT } : null;
+	const bottomBarOffsetStyle = bottomBarEnabled ? { paddingBottom: BOTTOM_BAR_HEIGHT } : null;
+
 	return (
 		<>
-			<header id="main-header">
+			<header id="main-header" style={topBarOffsetStyle}>
 				<StaticTopBar />
 				<MainMenuContainer />
 				<BreadCrumbsContainer
@@ -33,7 +42,7 @@ function CommonLayout(props) {
 
 			<section>Instagram section</section>
 
-			<footer id="main-footer">Footer</footer>
+			<footer id="main-footer" style={bottomBarOffsetStyle}>Footer</footer>
 		</>
 	);
 }

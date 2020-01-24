@@ -10,3 +10,7 @@ $BOTTOM_BAR_HEIGHT: 48px;
 	z-index: $zi-fixed-bottom-bar;
 	height: $BOTTOM_BAR_HEIGHT;
 }
+
+:export {
+	BOTTOM_BAR_HEIGHT: $BOTTOM_BAR_HEIGHT
+}

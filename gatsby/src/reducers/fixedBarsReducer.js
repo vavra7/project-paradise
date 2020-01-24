@@ -3,7 +3,8 @@ import { ACTIONS } from '../actions/types';
 const initialState = {
 	rightBarEnabled: true,
 	rightBarActive: false,
-	mobileTopBarEnabled: true
+	mobileTopBarEnabled: true,
+	bottomBarEnabled: true
 };
 
 const fixedBarsReducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ const fixedBarsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				mobileTopBarEnabled: action.payload.enabled
+			};
+		case ACTIONS.FIXED_BARS.SET_BOTTOM_BAR_ENABLED:
+			return {
+				...state,
+				bottomBarEnabled: action.payload.enabled
 			};
 		default:
 			return state;

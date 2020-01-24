@@ -5,6 +5,7 @@ import { styler, value } from 'popmotion';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import { connect } from 'react-redux';
+import { setBottomBarEnabled } from '../../actions/fixedBarsActions';
 import BREAKPOINTS from '../../../../common-styles/modules/_breakpoints.scss';
 import PropTypes from 'prop-types';
 
@@ -13,17 +14,15 @@ const SPEED_MODIFIER = 0.2;
 
 class FixedBottomBar extends Component {
 	static propTypes = {
-		windowWidth: PropTypes.number.isRequired
+		windowWidth: PropTypes.number.isRequired,
+		bottomBarEnabled: PropTypes.bool.isRequired,
+		setBottomBarEnabled: PropTypes.func.isRequired
 	};
 
 	//#region [ constructor ]
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			active: false
-		};
 
 		this.ref = React.createRef();
 		this.styler = null;
@@ -35,20 +34,16 @@ class FixedBottomBar extends Component {
 
 	//#endregion
 
-	updateActive() {
-		if (this.props.windowWidth <= BREAKPOINTS.SM_MAX && !this.state.active) {
-			this.setState({
-				active: true
-			});
-		} else if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.state.active) {
-			this.setState({
-				active: false
-			});
+	updateEnabled() {
+		if (this.props.windowWidth <= BREAKPOINTS.SM_MAX && !this.props.bottomBarEnabled) {
+			this.props.setBottomBarEnabled(true);
+		} else if (this.props.windowWidth > BREAKPOINTS.SM_MAX && this.props.bottomBarEnabled) {
+			this.props.setBottomBarEnabled(false);
 		}
 	}
 
 	onRightBar(rightBarProgress) {
-		if (!this.state.active || !this.ref.current) return;
+		if (!this.props.bottomBarEnabled || !this.ref.current) return;
 
 		const v = rightBarProgress * SPEED_MODIFIER;
 
@@ -60,14 +55,14 @@ class FixedBottomBar extends Component {
 	//#region [ lifeCycleMethods ]
 
 	componentDidMount() {
-		this.updateActive();
+		this.updateEnabled();
 		this.styler = styler(this.ref.current);
 		this.stylerY = value(0, v => this.styler.set('y', v));
 		this.maxY = this.ref.current.offsetHeight + EXTRA_OFFSET;
 	}
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.windowWidth !== this.props.windowWidth) this.updateActive();
+		if (prevProps.windowWidth !== this.props.windowWidth) this.updateEnabled();
 	}
 
 	//#endregion
@@ -78,7 +73,7 @@ class FixedBottomBar extends Component {
 				id="fixed-bottom-bar"
 				ref={this.ref}
 				className={`${scopedStyles.fixedBottomBar} ${
-					!this.state.active ? 'hide' : ''
+					!this.props.bottomBarEnabled ? 'hide' : ''
 				} p-fixed d-flex jc-flex-end fd-column bg-white shadow-t-3 line-t-2`}
 			>
 				<MobileBottomMenu />
@@ -88,7 +83,12 @@ class FixedBottomBar extends Component {
 }
 
 const mapStateToProps = state => ({
-	windowWidth: state.appRoot.width
+	windowWidth: state.appRoot.width,
+	bottomBarEnabled:  state.fixedBars.bottomBarEnabled
 });
 
-export default connect(mapStateToProps, null)(FixedBottomBar);
+const mapDispatchToProps = {
+	setBottomBarEnabled
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FixedBottomBar);
