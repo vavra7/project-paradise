@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import AppRootHandler from './components/AppRootHandler';
-import { store } from '../../store';
+import { store } from '../../store/store';
 import PropTypes from 'prop-types';
 
 function RootElementWrapper({ element }) {

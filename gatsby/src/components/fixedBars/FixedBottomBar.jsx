@@ -5,7 +5,7 @@ import { styler, value } from 'popmotion';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';
 import { connect } from 'react-redux';
-import { setBottomBarEnabled } from '../../actions/fixedBarsActions';
+import { setBottomBarEnabled } from '../../store/fixedBars/actions';
 import BREAKPOINTS from '../../../../common-styles/modules/_breakpoints.scss';
 import PropTypes from 'prop-types';
 

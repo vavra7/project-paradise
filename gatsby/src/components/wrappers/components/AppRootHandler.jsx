@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setAppWidthHeight, setScrollEnabled } from '../../../actions/appRootActions';
+import { setAppWidthHeight, setScrollEnabled } from '../../../store/appRoot/actions';
 import { listen } from 'popmotion';
 import { event } from '../../../events';
 import { EVENTS } from '../../../events/types';

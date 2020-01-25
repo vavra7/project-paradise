@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import scopedStyles from './FixedRightBar.module.scss';
 import { connect } from 'react-redux';
-import { setRightBarEnabled, setRightBarActive } from '../../actions/fixedBarsActions';
+import { setRightBarEnabled, setRightBarActive } from '../../store/fixedBars/actions';
 import { styler, value, listen, pointer, calc, chain, tween, easing, action, inertia } from 'popmotion';
 import { event } from '../../events';
 import { EVENTS } from '../../events/types';

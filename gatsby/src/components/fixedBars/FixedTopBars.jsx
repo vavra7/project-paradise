@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setMobileTopBarEnabled } from '../../actions/fixedBarsActions';
+import { setMobileTopBarEnabled } from '../../store/fixedBars/actions';
 import MobileTopMenu from '../menus/MobileTopMenu';
 import DesktopTopMenu from '../menus/DesktopTopMenu';
 import scopedStyles from './FixedTopBars.module.scss';
