@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchData } from '../store/tags/actions';
 
 class WpPostsOfTags extends Component {
 	static propTypes = {
 		tagSlug: PropTypes.string,
-		postsPerPage: PropTypes.number.isRequired
+		postsPerPage: PropTypes.number.isRequired,
+		fetchData: PropTypes.func
 	};
 
 	// constructor(props) {
@@ -17,8 +19,11 @@ class WpPostsOfTags extends Component {
 	render() {
 		return (
 			<div>
+				<button onClick={this.props.fetchData}>dispatch action</button>
 				<pre>posts per page: {this.props.postsPerPage}</pre>
 				<pre>slug: {this.props.tagSlug}</pre>
+				<pre>props: {JSON.stringify(this.props, null, 2)}</pre>
+
 				<div
 					style={{
 						width: '100px',
@@ -33,6 +38,12 @@ class WpPostsOfTags extends Component {
 	}
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+	wpTags: state.wpTags
+});
 
-export default connect(mapStateToProps, null)(WpPostsOfTags);
+const mapDispatchToProps = {
+	fetchData
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WpPostsOfTags);
