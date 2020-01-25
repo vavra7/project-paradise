@@ -12,7 +12,7 @@ import Logo from '../commons/logo/Logo';
 import PropTypes from 'prop-types';
 
 const DESKTOP_REVEAL_POINT = 300;
-const MOBILE_BAR_HIDE_LENGTH = 30;
+const MOBILE_BAR_HIDE_EXTRA_OFFSET = 5;
 const MOBILE_BAR_TWEEN_DURATION = 200;
 const RIGHT_BAR_SPEED_MODIFIER = 0.2;
 
@@ -149,7 +149,7 @@ class FixedTopBars extends Component {
 		this.updateDesktopBarActive();
 		this.mobileTopBar.styler = styler(this.mobileTopBar.ref.current);
 		this.mobileTopBar.stylerY = value(0, v => this.mobileTopBar.styler.set('y', v));
-		this.mobileTopBar.minY = -this.mobileTopBar.ref.current.offsetHeight - MOBILE_BAR_HIDE_LENGTH;
+		this.mobileTopBar.minY = -this.mobileTopBar.ref.current.offsetHeight - MOBILE_BAR_HIDE_EXTRA_OFFSET;
 	}
 
 	//#endregion
