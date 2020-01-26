@@ -9,6 +9,9 @@ module.exports = {
 		wpId: {
 			type: 'Int!'
 		},
+		slug: {
+			type: 'String!'
+		},
 		name: {
 			type: 'String!'
 		},

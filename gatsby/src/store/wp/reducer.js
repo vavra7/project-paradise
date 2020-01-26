@@ -1,15 +1,21 @@
 import { TAGS } from './types';
 
 const initialState = {
-	data: []
+	postsByTag: {}
 };
 
 const tagsReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case TAGS.SET_DATA:
+		case TAGS.SET_TAG_POSTS:
 			return {
 				...state,
-				data: action.payload
+				postsByTag: {
+					...state.postsByTag,
+					[action.payload.tagSlug]: {
+						...state.postsByTag[action.payload.tagSlug],
+						[action.payload.page]: action.payload.posts
+					}
+				}
 			};
 
 		default:

@@ -1,0 +1,4 @@
+export const TAGS = {
+	FETCH_TAG_POSTS: 'FETCH_TAG_POSTS',
+	SET_TAG_POSTS: 'SET_TAG_POSTS',
+};
