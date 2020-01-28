@@ -1,17 +1,17 @@
-import { API } from './types';
+import { REQUEST } from './types';
 
 const requestSent = data => ({
-	type: API.REQUEST_SENT,
+	type: REQUEST.SENT,
 	payload: data
 });
 
 const requestSuccess = data => ({
-	type: API.REQUEST_SUCCESS,
+	type: REQUEST.SUCCESS,
 	payload: data
 });
 
 const requestError = data => ({
-	type: API.REQUEST_ERROR,
+	type: REQUEST.ERROR,
 	payload: data
 });
 

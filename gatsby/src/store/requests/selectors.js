@@ -1,5 +1,5 @@
 const getState = (state, requestId) => {
-	const requestState = state.api[requestId];
+	const requestState = state.request[requestId];
 	const proxy = {
 		pending: null,
 		error: null

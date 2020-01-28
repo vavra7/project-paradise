@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { requestSent, requestSuccess, requestError } from '../store/api/actions';
+import { requestSent, requestSuccess, requestError } from '../store/requests/actions';
 
 const apiMiddleware = ({ dispatch }) => next => action => {
 	next(action);
@@ -28,7 +28,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
 				}
 
 				if (typeof onSuccess === 'function') {
-					dispatch(onSuccess({ data, payload: action.payload }));
+					dispatch(onSuccess({ data, action }));
 				}
 				dispatch(requestSuccess({ requestId }));
 			}, 1000);
@@ -39,7 +39,7 @@ const apiMiddleware = ({ dispatch }) => next => action => {
 			//#region [rgba(231, 76, 60, 0.03)]
 
 			if (typeof onError === 'function') {
-				dispatch(onError({ payload: action.payload }));
+				dispatch(onError({ action }));
 			}
 
 			dispatch(requestError({ requestId, error: err.message }));

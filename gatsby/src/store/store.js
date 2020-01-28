@@ -3,7 +3,7 @@ import apiMiddleware from '../api/apiMiddleware';
 
 import appRootReducer from './appRoot/reducer';
 import fixedBarsReducer from './fixedBars/reducer';
-import apiReducer from './api/reducer';
+import requestsReducer from './requests/reducer';
 import wpReducer from './wp/reducer';
 
 const composeEnhancers =
@@ -16,7 +16,7 @@ const enhancer = composeEnhancers(applyMiddleware(apiMiddleware));
 const rootReducer = combineReducers({
 	appRoot: appRootReducer,
 	fixedBars: fixedBarsReducer,
-	api: apiReducer,
+	request: requestsReducer,
 	wp: wpReducer
 });
 

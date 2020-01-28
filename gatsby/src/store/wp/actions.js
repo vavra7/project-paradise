@@ -1,7 +1,7 @@
 import { TAGS } from './types';
 import api from '../../api';
 
-const fetchTagPosts = ({requestId, params}) => ({
+const fetchTagPosts = ({ requestId, params }) => ({
 	apiRequest: true,
 	type: TAGS.FETCH_TAG_POSTS,
 	payload: {
@@ -13,11 +13,11 @@ const fetchTagPosts = ({requestId, params}) => ({
 	}
 });
 
-const setTagPosts = ({ data, payload }) => ({
+const setTagPosts = ({ data, action }) => ({
 	type: TAGS.SET_TAG_POSTS,
 	payload: {
-		page: payload.page,
-		tagSlug: payload.tagSlug,
+		page: action.payload.page,
+		tagSlug: action.payload.tagSlug,
 		posts: data.data
 	}
 });

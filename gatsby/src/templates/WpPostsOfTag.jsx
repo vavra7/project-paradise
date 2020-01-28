@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { fetchTagPosts } from '../store/wp/actions';
-import { getState } from '../store/api/selectors';
+import { getState } from '../store/requests/selectors';
 import { getTagPagePosts } from '../store/wp/selectors';
 
 const getRequestId = (tagSlug, page) => {
