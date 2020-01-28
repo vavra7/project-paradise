@@ -18,19 +18,20 @@ const apiMiddleware = ({ dispatch }) => next => action => {
 		.then(res => {
 			//#region [rgba(46, 204, 113, 0.03)]
 
-			let data;
+			setTimeout(() => {
+				let data;
 
-			if (typeof reduce === 'function') {
-				data = reduce(res);
-			} else {
-				data = res;
-			}
+				if (typeof reduce === 'function') {
+					data = reduce(res);
+				} else {
+					data = res;
+				}
 
-			if (typeof onSuccess === 'function') {
-				dispatch(onSuccess({ data, payload: action.payload }));
-			}
-
-			dispatch(requestSuccess({ requestId }));
+				if (typeof onSuccess === 'function') {
+					dispatch(onSuccess({ data, payload: action.payload }));
+				}
+				dispatch(requestSuccess({ requestId }));
+			}, 1000);
 		})
 
 		//#endregion
