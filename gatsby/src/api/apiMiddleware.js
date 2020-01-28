@@ -29,7 +29,14 @@ const apiMiddleware = ({ dispatch }) => next => action => {
 
 				if (typeof onSuccess === 'function') {
 					dispatch(onSuccess({ data, action }));
+				} else if (Array.isArray(onSuccess)) {
+					onSuccess.forEach(_onSuccess => {
+						if (typeof _onSuccess === 'function') {
+							dispatch(_onSuccess({ data, action }));
+						}
+					});
 				}
+
 				dispatch(requestSuccess({ requestId }));
 			}, 1000);
 		})

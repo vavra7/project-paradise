@@ -1,8 +1,8 @@
-import { REQUEST } from './types';
+import { REQUESTS } from './types';
 
 const apiReducer = (state = {}, action) => {
 	switch (action.type) {
-		case REQUEST.SENT:
+		case REQUESTS.REQUEST_SENT:
 			return {
 				...state,
 				[action.payload.requestId]: {
@@ -11,7 +11,7 @@ const apiReducer = (state = {}, action) => {
 				}
 			};
 
-		case REQUEST.SUCCESS:
+		case REQUESTS.REQUEST_SUCCESS:
 			return {
 				...state,
 				[action.payload.requestId]: {
@@ -20,7 +20,7 @@ const apiReducer = (state = {}, action) => {
 				}
 			};
 
-		case REQUEST.ERROR:
+		case REQUESTS.REQUEST_ERROR:
 			return {
 				...state,
 				[action.payload.requestId]: {

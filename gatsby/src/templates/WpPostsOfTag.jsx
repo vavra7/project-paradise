@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
+import { useStaticQuery, graphql, navigate } from 'gatsby';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useStaticQuery, graphql, navigate } from 'gatsby';
 import { fetchTagPosts } from '../store/wp/actions';
 import { getState } from '../store/requests/selectors';
-import { getTagPagePosts } from '../store/wp/selectors';
+import { getTagPagePosts, getTagPagination } from '../store/wp/selectors';
+import CommonLayout from '../components/layouts/CommonLayout';
+import CommonPagination from '../components/commons/pagination/CommonPagination';
+import FixedRightBar from '../components/fixedBars/FixedRightBar';
 
 const getRequestId = (tagSlug, page) => {
 	return `FETCH_TAG_POSTS__${tagSlug}__${page}`.toUpperCase();
@@ -21,6 +24,7 @@ function WpPostsOfTag(props) {
 					edges {
 						node {
 							wpId
+							name
 							slug
 						}
 					}
@@ -29,14 +33,15 @@ function WpPostsOfTag(props) {
 		`
 	);
 
-	const { fetchTagPosts, statePosts, posts, tagSlug } = props;
-	const tagId = queriedData.allWpTag.edges.find(node => node.node.slug === tagSlug)
-		? queriedData.allWpTag.edges.find(node => node.node.slug === tagSlug).node.wpId
-		: 0;
+	const { fetchTagPosts, pagination, location, statePosts, posts, tagSlug } = props;
+	const tagObject = queriedData.allWpTag.edges.find(node => node.node.slug === tagSlug);
 
-	if (!tagId) navigate('/404');
+	if (!tagObject) navigate('/404');
 
-	const page = props.page ? props.page : 1;
+	const tagId = tagObject ? tagObject.node.wpId : 0;
+	const title = tagObject ? tagObject.node.name : '';
+	const path = location.pathname;
+	const page = props.page ? parseInt(props.page) : 1;
 	const requestId = getRequestId(tagSlug, page);
 	const postsPerPage = queriedData.wpSettings.postsPerPage;
 
@@ -48,24 +53,35 @@ function WpPostsOfTag(props) {
 					postsPerPage,
 					page,
 					tagId,
-					tagSlug
+					tagSlug,
+					path
 				}
 			});
 		}
-	}, []);
+	}, [path]);
 
 	return (
-		<div>
-			<pre>{JSON.stringify(statePosts.pending, null, 2)}</pre>
-			<pre>{JSON.stringify(posts, null, 2)}</pre>
-		</div>
+		<>
+			<CommonLayout title={title}>
+				<CommonPagination pagination={pagination} currentPage={page} />
+				<pre>{JSON.stringify(statePosts.pending, null, 2)}</pre>
+				<pre>{JSON.stringify(posts, null, 2)}</pre>
+				<pre>{JSON.stringify(pagination, null, 2)}</pre>
+			</CommonLayout>
+
+			<FixedRightBar>
+				<div>test</div>
+			</FixedRightBar>
+		</>
 	);
 }
 
 WpPostsOfTag.propTypes = {
+	location: PropTypes.object.isRequired,
 	tagSlug: PropTypes.string.isRequired,
 	posts: PropTypes.array.isRequired,
 	statePosts: PropTypes.object.isRequired,
+	pagination: PropTypes.object.isRequired,
 	page: PropTypes.string,
 	fetchTagPosts: PropTypes.func.isRequired
 };
@@ -77,7 +93,8 @@ const mapStateToProps = (state, props) => {
 
 	return {
 		posts: getTagPagePosts(state, tagSlug, page),
-		statePosts: getState(state, requestId)
+		statePosts: getState(state, requestId),
+		pagination: getTagPagination(state, tagSlug)
 	};
 };
 
