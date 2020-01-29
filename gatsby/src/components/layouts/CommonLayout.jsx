@@ -7,6 +7,7 @@ import PageTitleContainer from '../header/PageTitleContainer';
 import { useSelector } from 'react-redux';
 import { MOBILE_TOP_BAR_HEIGHT } from '../fixedBars/FixedTopBars.module.scss';
 import { BOTTOM_BAR_HEIGHT } from '../fixedBars/FixedBottomBar.module.scss';
+import SearchInput from '../commons/inputs/SearchInput';
 
 function CommonLayout(props) {
 	const mobileTopBarEnabled = useSelector(state => state.fixedBars.mobileTopBarEnabled);
@@ -20,6 +21,7 @@ function CommonLayout(props) {
 			<header id="main-header" style={topBarOffsetStyle}>
 				<StaticTopBar />
 				<MainMenuContainer />
+				<SearchInput />
 				<BreadCrumbsContainer
 					isPostsOnFront={props.isPostsOnFront}
 					isPageForPosts={props.isPageForPosts}
