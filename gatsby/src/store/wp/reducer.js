@@ -1,4 +1,4 @@
-import { TAGS } from './types';
+import { WP } from './types';
 
 const initialState = {
 	postsByTag: {}
@@ -64,10 +64,10 @@ const setTagPostsPagination = (state, action) => {
 
 const tagsReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case TAGS.SET_TAG_POSTS:
+		case WP.SET_TAG_POSTS:
 			return setTagPosts(state, action);
 
-		case TAGS.SET_TAG_POSTS_PAGINATION:
+		case WP.SET_TAG_POSTS_PAGINATION:
 			return setTagPostsPagination(state, action);
 
 		default:

@@ -1,9 +1,9 @@
-import { TAGS } from './types';
+import { WP } from './types';
 import api from '../../api';
 
 const fetchTagPosts = ({ requestId, params }) => ({
 	apiRequest: true,
-	type: TAGS.FETCH_TAG_POSTS,
+	type: WP.FETCH_TAG_POSTS,
 	payload: {
 		...api.wp.fetchTagPosts(params),
 		requestId,
@@ -14,8 +14,16 @@ const fetchTagPosts = ({ requestId, params }) => ({
 	}
 });
 
+const getSearchResult = ({ postsPerPage, page, searchVal }) => ({
+	apiRequest: true,
+	type: WP.GET_SEARCH_RESULT,
+	payload: {
+		...api.wp.search({ postsPerPage, page, searchVal })
+	}
+});
+
 const setTagPosts = ({ data, action }) => ({
-	type: TAGS.SET_TAG_POSTS,
+	type: WP.SET_TAG_POSTS,
 	payload: {
 		page: action.payload.page,
 		tagSlug: action.payload.tagSlug,
@@ -24,7 +32,7 @@ const setTagPosts = ({ data, action }) => ({
 });
 
 const setTagPostsPagination = ({ data, action }) => ({
-	type: TAGS.SET_TAG_POSTS_PAGINATION,
+	type: WP.SET_TAG_POSTS_PAGINATION,
 	payload: {
 		tagSlug: action.payload.tagSlug,
 		path: action.payload.path,
@@ -32,4 +40,4 @@ const setTagPostsPagination = ({ data, action }) => ({
 	}
 });
 
-export { fetchTagPosts };
+export { fetchTagPosts, getSearchResult };
