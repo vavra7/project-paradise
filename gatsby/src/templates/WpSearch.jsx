@@ -3,13 +3,20 @@ import { useStaticQuery, graphql } from 'gatsby';
 import CommonLayout from '../components/layouts/CommonLayout';
 import { connect } from 'react-redux';
 import { getSearchResult } from '../store/wp/actions';
+import { getState } from '../store/requests/selectors';
 import PropTypes from 'prop-types';
+import { WP } from '../store/wp/types';
+
+const REQUEST_ID = WP.GET_SEARCH_RESULT;
 
 export class WpSearch extends Component {
 	static propTypes = {
 		location: PropTypes.object,
 		getSearchResult: PropTypes.func.isRequired,
-		queriedData: PropTypes.object.isRequired
+		queriedData: PropTypes.object.isRequired,
+		stateResult: PropTypes.object.isRequired,
+		result: PropTypes.array.isRequired,
+		pagination: PropTypes.object.isRequired
 	};
 
 	constructor(props) {
@@ -28,7 +35,8 @@ export class WpSearch extends Component {
 		this.props.getSearchResult({
 			postsPerPage,
 			page,
-			searchVal
+			searchVal,
+			href: this.props.location.href
 		});
 	}
 
@@ -45,12 +53,17 @@ export class WpSearch extends Component {
 		return page ? page : 1;
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.location.href !== this.props.location.href) {
 			this.setState({
 				searchVal: this.getSearchVal(this.props.location.href),
 				page: this.getPage(this.props.location.href)
 			});
+		}
+
+		if (prevState.searchVal !== this.state.searchVal) {
+			this.fetchData();
+		} else if (prevState.page !== this.state.page) {
 			this.fetchData();
 		}
 	}
@@ -61,17 +74,21 @@ export class WpSearch extends Component {
 
 	render() {
 		const { searchVal } = this.state;
+		const { stateResult, result, pagination } = this.props;
 
 		return (
 			<CommonLayout title={`search: ${searchVal}`}>
+				<pre>{JSON.stringify(stateResult, null, 2)}</pre>
 				<pre>{JSON.stringify(this.state, null, 2)}</pre>
+				<pre>{JSON.stringify(result, null, 2)}</pre>
+				<pre>{JSON.stringify(pagination, null, 2)}</pre>
 			</CommonLayout>
 		);
 	}
 }
 
 const WpSearchWrapper = props => {
-	const { location, getSearchResult } = props;
+	const { location, getSearchResult, stateResult, result, pagination } = props;
 	const queriedData = useStaticQuery(
 		graphql`
 			query {
@@ -82,16 +99,34 @@ const WpSearchWrapper = props => {
 		`
 	);
 
-	return <WpSearch queriedData={queriedData} location={location} getSearchResult={getSearchResult} />;
+	return (
+		<WpSearch
+			queriedData={queriedData}
+			location={location}
+			getSearchResult={getSearchResult}
+			stateResult={stateResult}
+			result={result}
+			pagination={pagination}
+		/>
+	);
 };
 
 WpSearchWrapper.propTypes = {
 	location: PropTypes.object,
-	getSearchResult: PropTypes.func.isRequired
+	getSearchResult: PropTypes.func.isRequired,
+	stateResult: PropTypes.object.isRequired,
+	result: PropTypes.array.isRequired,
+	pagination: PropTypes.object.isRequired
 };
+
+const mapStateToProps = state => ({
+	stateResult: getState(state, REQUEST_ID),
+	result: state.wp.searchResult.data,
+	pagination: state.wp.searchResult.pagination
+});
 
 const mapDispatchToProps = {
 	getSearchResult
 };
 
-export default connect(null, mapDispatchToProps)(WpSearchWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(WpSearchWrapper);

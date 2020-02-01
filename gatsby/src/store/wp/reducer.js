@@ -1,7 +1,11 @@
 import { WP } from './types';
 
 const initialState = {
-	postsByTag: {}
+	postsByTag: {},
+	searchResult: {
+		data: [],
+		pagination: {}
+	}
 };
 
 const getTagPosts = (state, action) => {
@@ -48,10 +52,43 @@ const getTagPosts = (state, action) => {
 	};
 };
 
+const getSearchResult = (state, action) => {
+	const getPagination = (href, numOfPages) => {
+		const url = new URL(href);
+		let _pagination = {};
+		let _path;
+
+		for (let i = 1; i <= numOfPages; i++) {
+			url.searchParams.set('page', i);
+			_path = `${url.pathname}${url.search}`;
+
+			_pagination[i] = _path;
+		}
+
+		return _pagination;
+	};
+
+	const posts = action.payload.response.data;
+	const numOfPages = parseInt(action.payload.response.headers['x-wp-totalpages']);
+	const href = action.payload.href;
+	const pagination = getPagination(href, numOfPages);
+
+	return {
+		...state,
+		searchResult: {
+			data: posts,
+			pagination
+		}
+	};
+};
+
 const tagsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case WP.GET_TAG_POSTS:
 			return getTagPosts(state, action);
+
+		case WP.GET_SEARCH_RESULT:
+			return getSearchResult(state, action);
 
 		default:
 			return state;

@@ -19,11 +19,18 @@ const getTagPosts = ({ requestId, postsPerPage, path, tagSlug, page, tagId }) =>
 	}
 });
 
-const getSearchResult = ({ postsPerPage, page, searchVal }) => ({
-	apiRequest: true,
+const getSearchResult = ({ postsPerPage, page, searchVal, href }) => ({
 	type: WP.GET_SEARCH_RESULT,
+	apiRequest: {
+		config: api.wp.search,
+		params: {
+			postsPerPage,
+			page,
+			searchVal
+		}
+	},
 	payload: {
-		...api.wp.search({ postsPerPage, page, searchVal })
+		href
 	}
 });
 

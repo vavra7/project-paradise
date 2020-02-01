@@ -10,6 +10,14 @@ export default {
 		}
 	}),
 	search: ({ postsPerPage, page, searchVal }) => ({
-		url: `${process.env.WP_URL}/wp-json/wp/v2/search?search=${searchVal}&_embed=1&_fields=id&per_page=${postsPerPage}&page=${page}`
+		url: `${process.env.WP_URL}/wp-json/wp/v2/search`,
+		method: 'GET',
+		params: {
+			per_page: postsPerPage,
+			page,
+			search: searchVal,
+			_embed: 1,
+			_fields: 'id'
+		}
 	})
 };
