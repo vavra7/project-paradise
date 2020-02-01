@@ -4,6 +4,7 @@ import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import PostPreview from '../components/post/PostPreview';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
+import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
 import PropTypes from 'prop-types';
 
 export const query = graphql`
@@ -33,7 +34,10 @@ function WpPageForPosts(props) {
 
 	return (
 		<>
-			<CommonLayout title={title} isPageForPosts>
+			<CommonLayout
+				title={title} //
+				breadCrumbs={<BreadCrumbsContainer current={title} />}
+			>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 
 				{posts.map(post => (

@@ -6,6 +6,8 @@ import { getSearchResult } from '../store/wp/actions';
 import { getState } from '../store/requests/selectors';
 import PropTypes from 'prop-types';
 import { WP } from '../store/wp/types';
+import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
+import CommonPagination from '../components/commons/pagination/CommonPagination';
 
 const REQUEST_ID = WP.GET_SEARCH_RESULT;
 
@@ -73,15 +75,20 @@ export class WpSearch extends Component {
 	}
 
 	render() {
-		const { searchVal } = this.state;
+		const { searchVal, page } = this.state;
 		const { stateResult, result, pagination } = this.props;
+		const level2 = { title: 'Hledat' };
 
 		return (
-			<CommonLayout title={`search: ${searchVal}`}>
+			<CommonLayout
+				title={`Hledat: ${searchVal}`} //
+				breadCrumbs={<BreadCrumbsContainer current={searchVal} level2={level2} />}
+			>
 				<pre>{JSON.stringify(stateResult, null, 2)}</pre>
 				<pre>{JSON.stringify(this.state, null, 2)}</pre>
 				<pre>{JSON.stringify(result, null, 2)}</pre>
 				<pre>{JSON.stringify(pagination, null, 2)}</pre>
+				<CommonPagination pagination={pagination} currentPage={page} />
 			</CommonLayout>
 		);
 	}

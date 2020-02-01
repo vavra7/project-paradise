@@ -1,35 +1,32 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import { PAGE_STATES } from '../../enums';
+import { SHOW_ON_FRONT } from '../../enums';
 
 function BreadCrumbsContainer(props) {
 	const data = useStaticQuery(
 		graphql`
 			query {
-				allWpPage(filter: { states: {regex: "/\\w+/i"}}) {
-					edges {
-						node {
-							path
-							title
-							states
-						}
-					}
+				wpSettings {
+					showOnFront
+				}
+				pageOnFront: wpPage(states: { eq: "page_on_front" }) {
+					title
+					path
 				}
 			}
 		`
 	);
-	const getPageOnFront = pagesWithState => {
-		let _pageOnFront = pagesWithState.find(page => page.states.includes(PAGE_STATES.PAGE_ON_FRONT));
 
-		if (!_pageOnFront) {
-			_pageOnFront = {
-				title: 'Domů',
-				path: '/'
-			};
+	const getLevel1 = () => {
+		const showOnFront = data.wpSettings.showOnFront;
+		const pageOnFront = data.pageOnFront;
+
+		if (showOnFront === SHOW_ON_FRONT.PAGE && pageOnFront) {
+			return { path: pageOnFront.path, title: pageOnFront.title };
+		} else {
+			return { path: '/', title: 'Domů' };
 		}
-
-		return _pageOnFront;
 	};
 
 	const renderLevel = (title, to = null, useGoBetween = true) => {
@@ -43,42 +40,21 @@ function BreadCrumbsContainer(props) {
 		);
 	};
 
-	const pagesWithState = data.allWpPage.edges.map(node => node.node);
-	const pageOnFront = getPageOnFront(pagesWithState);
-	const pageForPosts = pagesWithState.find(page => page.states.includes(PAGE_STATES.PAGE_FOR_POSTS));
-
-	let breadCrumbs;
-
-	if (props.isPostsOnFront) {
-		return <></>;
-	} else if (!props.isPostsOnFront && props.isPageForPosts) {
-		breadCrumbs = (
-			<>
-				{renderLevel(pageOnFront.title, pageOnFront.path, false)}
-				{renderLevel(props.current)}
-			</>
-		);
-	} else {
-		breadCrumbs = (
-			<>
-				{renderLevel(pageOnFront.title, pageOnFront.path, false)}
-				{pageForPosts && renderLevel(pageForPosts.title, pageForPosts.path)}
-				{renderLevel(props.current)}
-			</>
-		);
-	}
+	const level1 = getLevel1();
+	const { level2 } = props;
 
 	return (
 		<div id="bread-crumbs-container" className="container my-3">
-			{breadCrumbs}
+			{renderLevel(level1.title, level1.path, false)}
+			{level2 && renderLevel(level2.title, level2.path)}
+			{renderLevel(props.current)}
 		</div>
 	);
 }
 
 BreadCrumbsContainer.propTypes = {
-	current: PropTypes.string.isRequired,
-	isPostsOnFront: PropTypes.bool.isRequired,
-	isPageForPosts: PropTypes.bool.isRequired
+	level2: PropTypes.object,
+	current: PropTypes.string.isRequired
 };
 
 export default BreadCrumbsContainer;

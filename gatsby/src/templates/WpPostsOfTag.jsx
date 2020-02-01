@@ -8,6 +8,7 @@ import { getTagPagePosts, getTagPagination } from '../store/wp/selectors';
 import CommonLayout from '../components/layouts/CommonLayout';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
+import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
 
 const getRequestId = (tagSlug, page) => {
 	return `GET_TAG_POSTS__${tagSlug}__${page}`.toUpperCase();
@@ -44,6 +45,7 @@ function WpPostsOfTag(props) {
 	const page = props.page ? parseInt(props.page) : 1;
 	const requestId = getRequestId(tagSlug, page);
 	const postsPerPage = queriedData.wpSettings.postsPerPage;
+	const level2 = { title: 'Tag'};
 
 	useEffect(() => {
 		if (!posts.length) {
@@ -60,11 +62,14 @@ function WpPostsOfTag(props) {
 
 	return (
 		<>
-			<CommonLayout title={title}>
-				<CommonPagination pagination={pagination} currentPage={page} />
+			<CommonLayout
+				title={title} //
+				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
+			>
 				<pre>{JSON.stringify(statePosts.pending, null, 2)}</pre>
 				<pre>{JSON.stringify(posts, null, 2)}</pre>
 				<pre>{JSON.stringify(pagination, null, 2)}</pre>
+				<CommonPagination pagination={pagination} currentPage={page} />
 			</CommonLayout>
 
 			<FixedRightBar>

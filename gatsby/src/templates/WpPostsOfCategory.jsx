@@ -4,6 +4,7 @@ import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import PostPreview from '../components/post/PostPreview';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
+import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
 import PropTypes from 'prop-types';
 
 export const query = graphql`
@@ -32,10 +33,14 @@ function WpPostsOfCategory(props) {
 	const pagination = props.pageContext.pagination;
 	const currentPage = props.pageContext.currentPage;
 	const posts = props.data.pagePosts.edges.map(node => node.node);
+	const level2 = { title: 'Kategorie' };
 
 	return (
 		<>
-			<CommonLayout title={title}>
+			<CommonLayout
+				title={title} //
+				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
+			>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 
 				{posts.map(post => (
