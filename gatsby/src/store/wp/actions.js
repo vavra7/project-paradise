@@ -1,16 +1,21 @@
 import { WP } from './types';
 import api from '../../api';
 
-const fetchTagPosts = ({ requestId, params }) => ({
-	apiRequest: true,
-	type: WP.FETCH_TAG_POSTS,
+const getTagPosts = ({ requestId, postsPerPage, path, tagSlug, page, tagId }) => ({
+	type: WP.GET_TAG_POSTS,
+	apiRequest: {
+		id: requestId,
+		config: api.wp.fetchTagPosts,
+		params: {
+			postsPerPage,
+			page,
+			tagId
+		}
+	},
 	payload: {
-		...api.wp.fetchTagPosts(params),
-		requestId,
-		path: params.path,
-		tagSlug: params.tagSlug,
-		page: params.page,
-		onSuccess: [setTagPosts, setTagPostsPagination]
+		path,
+		tagSlug,
+		page
 	}
 });
 
@@ -22,22 +27,4 @@ const getSearchResult = ({ postsPerPage, page, searchVal }) => ({
 	}
 });
 
-const setTagPosts = ({ data, action }) => ({
-	type: WP.SET_TAG_POSTS,
-	payload: {
-		page: action.payload.page,
-		tagSlug: action.payload.tagSlug,
-		posts: data.data
-	}
-});
-
-const setTagPostsPagination = ({ data, action }) => ({
-	type: WP.SET_TAG_POSTS_PAGINATION,
-	payload: {
-		tagSlug: action.payload.tagSlug,
-		path: action.payload.path,
-		totalPages: parseInt(data.headers['x-wp-totalpages'])
-	}
-});
-
-export { fetchTagPosts, getSearchResult };
+export { getTagPosts, getSearchResult };

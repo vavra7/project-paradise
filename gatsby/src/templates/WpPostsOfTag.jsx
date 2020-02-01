@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchTagPosts } from '../store/wp/actions';
+import { getTagPosts } from '../store/wp/actions';
 import { getState } from '../store/requests/selectors';
 import { getTagPagePosts, getTagPagination } from '../store/wp/selectors';
 import CommonLayout from '../components/layouts/CommonLayout';
@@ -10,7 +10,7 @@ import CommonPagination from '../components/commons/pagination/CommonPagination'
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 
 const getRequestId = (tagSlug, page) => {
-	return `FETCH_TAG_POSTS__${tagSlug}__${page}`.toUpperCase();
+	return `GET_TAG_POSTS__${tagSlug}__${page}`.toUpperCase();
 };
 
 function WpPostsOfTag(props) {
@@ -33,7 +33,7 @@ function WpPostsOfTag(props) {
 		`
 	);
 
-	const { fetchTagPosts, pagination, location, statePosts, posts, tagSlug } = props;
+	const { getTagPosts, pagination, location, statePosts, posts, tagSlug } = props;
 	const tagObject = queriedData.allWpTag.edges.find(node => node.node.slug === tagSlug);
 
 	if (!tagObject) navigate('/404');
@@ -47,15 +47,13 @@ function WpPostsOfTag(props) {
 
 	useEffect(() => {
 		if (!posts.length) {
-			fetchTagPosts({
+			getTagPosts({
 				requestId,
-				params: {
-					postsPerPage,
-					page,
-					tagId,
-					tagSlug,
-					path
-				}
+				postsPerPage,
+				page,
+				tagId,
+				tagSlug,
+				path
 			});
 		}
 	}, [path]);
@@ -83,7 +81,7 @@ WpPostsOfTag.propTypes = {
 	statePosts: PropTypes.object.isRequired,
 	pagination: PropTypes.object.isRequired,
 	page: PropTypes.string,
-	fetchTagPosts: PropTypes.func.isRequired
+	getTagPosts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {
@@ -99,7 +97,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-	fetchTagPosts
+	getTagPosts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WpPostsOfTag);

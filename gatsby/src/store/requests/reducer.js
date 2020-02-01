@@ -5,7 +5,7 @@ const apiReducer = (state = {}, action) => {
 		case REQUESTS.REQUEST_SENT:
 			return {
 				...state,
-				[action.payload.requestId]: {
+				[action.payload.id]: {
 					pending: true,
 					error: ''
 				}
@@ -14,7 +14,7 @@ const apiReducer = (state = {}, action) => {
 		case REQUESTS.REQUEST_SUCCESS:
 			return {
 				...state,
-				[action.payload.requestId]: {
+				[action.payload.id]: {
 					pending: false,
 					error: ''
 				}
@@ -23,7 +23,7 @@ const apiReducer = (state = {}, action) => {
 		case REQUESTS.REQUEST_ERROR:
 			return {
 				...state,
-				[action.payload.requestId]: {
+				[action.payload.id]: {
 					pending: false,
 					error: action.payload.error
 				}

@@ -4,29 +4,36 @@ const initialState = {
 	postsByTag: {}
 };
 
-const getPagination = (path, numOfPages) => {
-	const cleanPath = path.replace(/\/page\/[\d]+\/?$/i, '');
+const getTagPosts = (state, action) => {
+	const getPagination = (path, numOfPages) => {
+		let pagination = state.postsByTag && state.postsByTag[tagSlug] && state.postsByTag[tagSlug].pagination;
+		if (!pagination) {
+			const cleanPath = path.replace(/\/page\/[\d]+\/?$/i, '');
+			let _pagination = {};
+			let _path;
 
-	let _pagination = {};
-	let _path;
+			for (let i = 1; i <= numOfPages; i++) {
+				if (i === 1) {
+					_path = cleanPath;
+				} else {
+					_path = `${cleanPath}/page/${i}`;
+				}
 
-	for (let i = 1; i <= numOfPages; i++) {
-		if (i === 1) {
-			_path = cleanPath;
-		} else {
-			_path = `${cleanPath}/page/${i}`;
+				_pagination[i] = _path;
+			}
+
+			pagination = _pagination;
 		}
 
-		_pagination[i] = _path;
-	}
+		return pagination;
+	};
 
-	return _pagination;
-};
-
-const setTagPosts = (state, action) => {
 	const tagSlug = action.payload.tagSlug;
 	const page = action.payload.page;
-	const posts = action.payload.posts;
+	const posts = action.payload.response.data;
+	const path = action.payload.path;
+	const numOfPages = parseInt(action.payload.response.headers['x-wp-totalpages']);
+	const pagination = getPagination(path, numOfPages);
 
 	return {
 		...state,
@@ -34,41 +41,17 @@ const setTagPosts = (state, action) => {
 			...state.postsByTag,
 			[tagSlug]: {
 				...state.postsByTag[tagSlug],
-				[page]: posts
+				[page]: posts,
+				pagination
 			}
 		}
 	};
 };
 
-const setTagPostsPagination = (state, action) => {
-	const tagSlug = action.payload.tagSlug;
-
-	if (state.postsByTag && state.postsByTag[tagSlug] && state.postsByTag[tagSlug].pagination) {
-		return state;
-	} else {
-		const path = action.payload.path;
-		const totalPages = action.payload.totalPages;
-
-		return {
-			...state,
-			postsByTag: {
-				...state.postsByTag,
-				[tagSlug]: {
-					...state.postsByTag[tagSlug],
-					pagination: getPagination(path, totalPages)
-				}
-			}
-		};
-	}
-};
-
 const tagsReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case WP.SET_TAG_POSTS:
-			return setTagPosts(state, action);
-
-		case WP.SET_TAG_POSTS_PAGINATION:
-			return setTagPostsPagination(state, action);
+		case WP.GET_TAG_POSTS:
+			return getTagPosts(state, action);
 
 		default:
 			return state;
