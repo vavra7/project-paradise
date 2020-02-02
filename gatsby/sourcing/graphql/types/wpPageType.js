@@ -20,6 +20,9 @@ module.exports = {
 		path: {
 			type: 'String!'
 		},
+		link: {
+			type: 'String!'
+		},
 		states: {
 			type: '[String]'
 		},

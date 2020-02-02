@@ -15,6 +15,9 @@ module.exports = {
 		path: {
 			type: 'String!'
 		},
+		link: {
+			type: 'String!'
+		},
 		count: {
 			type: 'Int!'
 		}

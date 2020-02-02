@@ -1,29 +1,42 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
+
 import CommonLayout from '../components/layouts/CommonLayout';
 import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
-import PropTypes from 'prop-types';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 export const query = graphql`
 	query($wpPageId: Int!) {
 		wpPage(wpId: { eq: $wpPageId }) {
 			title
+			link
 		}
 	}
 `;
 
-function WpPage({ data }) {
+function WpPage(props) {
+	const { data } = props;
 	const title = data.wpPage.title;
+	const link = data.wpPage.link;
+	const meta = {
+		title,
+		url: link
+	};
 
 	return (
-		<CommonLayout
-			title={title} //
-			breadCrumbs={<BreadCrumbsContainer current={title} />}
-		>
-			<div>
-				<pre>{JSON.stringify(data, null, 2)}</pre>
-			</div>
-		</CommonLayout>
+		<>
+			<PageMeta meta={meta} />
+
+			<CommonLayout
+				breadCrumbs={<BreadCrumbsContainer current={title} />} //
+				title={title}
+			>
+				<div>
+					<pre>{JSON.stringify(data, null, 2)}</pre>
+				</div>
+			</CommonLayout>
+		</>
 	);
 }
 

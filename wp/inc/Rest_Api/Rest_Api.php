@@ -69,5 +69,6 @@ class Rest_Api
 		$this->tags_endpoint->add_field_path();
 		$this->settings_endpoint->add_field_show_on_front();
 		$this->settings_endpoint->add_field_tag_base();
+		$this->settings_endpoint->add_field_home();
 	}
 }

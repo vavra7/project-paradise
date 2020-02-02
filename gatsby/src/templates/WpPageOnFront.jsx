@@ -1,21 +1,33 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
+
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import CommonLayout from '../components/layouts/CommonLayout';
-import PropTypes from 'prop-types';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 export const query = graphql`
 	query($wpPageId: Int!) {
 		wpPage(wpId: { eq: $wpPageId }) {
 			title
+			link
 		}
 	}
 `;
 
-function WpPageOnFront({ data }) {
+function WpPageOnFront(props) {
+	const { data } = props;
+	const title = data.wpPage.title;
+	const link = data.wpPage.link;
+	const meta = {
+		title,
+		url: link
+	};
 	return (
 		<>
-			<CommonLayout title="todo">
+			<PageMeta meta={meta} />
+
+			<CommonLayout title={title}>
 				<div>
 					<h1>Page On Front Template</h1>
 					<pre>{JSON.stringify(data, null, 2)}</pre>

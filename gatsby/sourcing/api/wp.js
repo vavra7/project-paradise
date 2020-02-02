@@ -1,5 +1,4 @@
 const { request, requestPagedWpData } = require('./utils');
-const { FIELDS } = require('./fields');
 
 module.exports = {
 	generateToken: () => ({
@@ -23,7 +22,7 @@ module.exports = {
 		handler: request,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/settings?_fields=${FIELDS.WP_SETTINGS.join(',')}`,
+			url: `${process.env.WP_URL}/wp-json/wp/v2/settings`,
 			headers: {
 				authorization: `Bearer ${token}`
 			}
@@ -35,7 +34,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/pages?_fields=${FIELDS.WP_PAGES.join(',')}`
+			url: `${process.env.WP_URL}/wp-json/wp/v2/pages`
 		},
 		reduce: res => res
 	}),
@@ -44,7 +43,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/posts?_fields=${FIELDS.WP_POSTS.join(',')}`
+			url: `${process.env.WP_URL}/wp-json/wp/v2/posts`
 		},
 		reduce: res => res
 	}),
@@ -62,7 +61,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/media?_fields=${FIELDS.WP_MEDIA.join(',')}`
+			url: `${process.env.WP_URL}/wp-json/wp/v2/media`
 		},
 		reduce: res => res
 	}),
@@ -71,7 +70,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/categories?_fields=${FIELDS.WP_CATEGORIES.join(',')}`
+			url: `${process.env.WP_URL}/wp-json/wp/v2/categories`
 		},
 		reduce: res => res
 	}),
@@ -80,7 +79,7 @@ module.exports = {
 		handler: requestPagedWpData,
 		config: {
 			method: 'GET',
-			url: `${process.env.WP_URL}/wp-json/wp/v2/tags?_fields=${FIELDS.WP_TAGS.join(',')}`
+			url: `${process.env.WP_URL}/wp-json/wp/v2/tags`
 		},
 		reduce: res => res
 	})

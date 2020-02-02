@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useStaticQuery, graphql, navigate } from 'gatsby';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { getTagPosts } from '../store/wp/actions';
 import { getState } from '../store/requests/selectors';
 import { getTagPagePosts, getTagPagination } from '../store/wp/selectors';
+
 import CommonLayout from '../components/layouts/CommonLayout';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 const getRequestId = (tagSlug, page) => {
 	return `GET_TAG_POSTS__${tagSlug}__${page}`.toUpperCase();
 };
 
 function WpPostsOfTag(props) {
-	const queriedData = useStaticQuery(
+	const data = useStaticQuery(
 		graphql`
 			query {
 				wpSettings {
@@ -35,7 +37,7 @@ function WpPostsOfTag(props) {
 	);
 
 	const { getTagPosts, pagination, location, statePosts, posts, tagSlug } = props;
-	const tagObject = queriedData.allWpTag.edges.find(node => node.node.slug === tagSlug);
+	const tagObject = data.allWpTag.edges.find(node => node.node.slug === tagSlug);
 
 	if (!tagObject) navigate('/404');
 
@@ -44,8 +46,11 @@ function WpPostsOfTag(props) {
 	const path = location.pathname;
 	const page = props.page ? parseInt(props.page) : 1;
 	const requestId = getRequestId(tagSlug, page);
-	const postsPerPage = queriedData.wpSettings.postsPerPage;
-	const level2 = { title: 'Tag'};
+	const postsPerPage = data.wpSettings.postsPerPage;
+	const level2 = { title: 'Tag' };
+	const meta = {
+		title,
+	};
 
 	useEffect(() => {
 		if (!posts.length) {
@@ -62,6 +67,8 @@ function WpPostsOfTag(props) {
 
 	return (
 		<>
+			<PageMeta meta={meta} />
+
 			<CommonLayout
 				title={title} //
 				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}

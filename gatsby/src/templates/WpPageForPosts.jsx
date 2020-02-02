@@ -1,11 +1,13 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
+
 import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import PostPreview from '../components/post/PostPreview';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
 import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
-import PropTypes from 'prop-types';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 export const query = graphql`
 	query($wpPageId: Int!, $skip: Int!, $limit: Int!) {
@@ -14,6 +16,7 @@ export const query = graphql`
 		}
 		pageForPosts: wpPage(wpId: { eq: $wpPageId }) {
 			title
+			link
 		}
 		pagePosts: allWpPost(sort: { fields: [date], order: DESC }, limit: $limit, skip: $skip) {
 			edges {
@@ -27,16 +30,24 @@ export const query = graphql`
 `;
 
 function WpPageForPosts(props) {
-	const title = props.data.pageForPosts.title;
-	const pagination = props.pageContext.pagination;
-	const currentPage = props.pageContext.currentPage;
-	const posts = props.data.pagePosts.edges.map(node => node.node);
+	const { data, pageContext } = props;
+	const title = data.pageForPosts.title;
+	const link = data.pageForPosts.link;
+	const pagination = pageContext.pagination;
+	const currentPage = pageContext.currentPage;
+	const posts = data.pagePosts.edges.map(node => node.node);
+	const meta = {
+		title,
+		url: link
+	};
 
 	return (
 		<>
+			<PageMeta meta={meta} />
+
 			<CommonLayout
-				title={title} //
-				breadCrumbs={<BreadCrumbsContainer current={title} />}
+				breadCrumbs={<BreadCrumbsContainer current={title} />} //
+				title={title}
 			>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 

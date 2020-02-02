@@ -18,6 +18,9 @@ module.exports = {
 			type: 'Date!',
 			resolve: item => item.modified_gmt
 		},
+		link: {
+			type: 'String!'
+		},
 		path: {
 			type: 'String!'
 		},

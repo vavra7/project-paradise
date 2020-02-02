@@ -5,11 +5,13 @@ namespace Inc\Rest_Api\Endpoints;
 class Settings_Endpoint
 {
 	public const OPTION_GROUP = 'custom_settings';
+	public const SHOW_ON_FRONT = 'show_on_front';
 	public const TAG_BASE = 'tag_base';
+	public const HOME = 'home';
 
 	/**
 	 * Adds show_on_front in setting endpoint.
-	 * It gives values 'page' or 'posts'
+	 * It returns values 'page' or 'posts'
 	 */
 	public function add_field_show_on_front()
 	{
@@ -18,7 +20,7 @@ class Settings_Endpoint
 			'default' => get_option('show_on_front'),
 			'show_in_rest' => true,
 		);
-		register_setting(self::OPTION_GROUP, 'show_on_front', $args);
+		register_setting(self::OPTION_GROUP, self::SHOW_ON_FRONT, $args);
 	}
 
 	/**
@@ -32,6 +34,19 @@ class Settings_Endpoint
 			'default' => get_option('tag_base'),
 		);
 		register_setting(self::OPTION_GROUP, self::TAG_BASE, $args);
+	}
+
+	/**
+	 * Adds home url (frontend) field
+	 */
+	public function add_field_home()
+	{
+		$args = array(
+			'type' => 'string',
+			'show_in_rest' => true,
+			'default' => get_option('home'),
+		);
+		register_setting(self::OPTION_GROUP, self::HOME, $args);
 	}
 
 	/**

@@ -1,10 +1,12 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
+
 import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import PostPreview from '../components/post/PostPreview';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
-import PropTypes from 'prop-types';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 export const query = graphql`
 	query($skip: Int!, $limit: Int!) {
@@ -23,13 +25,19 @@ export const query = graphql`
 `;
 
 function WpPostsOnFront(props) {
-	const title = props.data.wpSettings.siteTitle;
-	const pagination = props.pageContext.pagination;
-	const currentPage = props.pageContext.currentPage;
-	const posts = props.data.pagePosts.edges.map(node => node.node);
+	const { data, pageContext } = props;
+	const title = data.wpSettings.siteTitle;
+	const pagination = pageContext.pagination;
+	const currentPage = pageContext.currentPage;
+	const posts = data.pagePosts.edges.map(node => node.node);
+	const meta = {
+		title
+	};
 
 	return (
 		<>
+			<PageMeta meta={meta} />
+
 			<CommonLayout title={title} isPostsOnFront>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 

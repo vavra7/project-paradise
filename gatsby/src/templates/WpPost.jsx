@@ -1,12 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
+import { SHOW_ON_FRONT } from '../enums';
+
 import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import Post from '../components/post/Post';
 import BlocksRouter from '../components/blocks/BlocksRouter';
-import PropTypes from 'prop-types';
 import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
-import { SHOW_ON_FRONT } from '../enums';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 export const query = graphql`
 	query($wpPostId: Int!) {
@@ -19,6 +21,7 @@ export const query = graphql`
 		}
 		wpPost(wpId: { eq: $wpPostId }) {
 			title
+			link
 			...post
 			...blocksRouter
 		}
@@ -26,9 +29,11 @@ export const query = graphql`
 `;
 
 function WpPost(props) {
+	const { data } = props;
+
 	const getLevel2 = () => {
-		const showOnFront = props.data.wpSettings.showOnFront;
-		const pageForPosts = props.data.pageForPosts;
+		const showOnFront = data.wpSettings.showOnFront;
+		const pageForPosts = data.pageForPosts;
 
 		if (showOnFront === SHOW_ON_FRONT.PAGE && pageForPosts) {
 			return { path: pageForPosts.path, title: pageForPosts.title };
@@ -37,17 +42,25 @@ function WpPost(props) {
 		}
 	};
 
-	const title = props.data.wpPost.title;
-	const featuredMedia = props.data.wpPost.featuredMedia;
-	const media = props.data.wpPost.media;
-	const blocks = JSON.parse(props.data.wpPost.blocks);
+	const title = data.wpPost.title;
+	const link = data.wpPost.link;
+	const featuredMedia = data.wpPost.featuredMedia;
+	const media = data.wpPost.media;
+	const blocks = JSON.parse(data.wpPost.blocks);
 	const level2 = getLevel2();
+	const meta = {
+		title,
+		url: link,
+		type: 'article'
+	};
 
 	return (
 		<>
+			<PageMeta meta={meta} />
+
 			<CommonLayout
-				title={title} //
-				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
+				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />} //
+				title={title}
 			>
 				<Post featuredMedia={featuredMedia}>
 					<BlocksRouter blocks={blocks} media={media} />

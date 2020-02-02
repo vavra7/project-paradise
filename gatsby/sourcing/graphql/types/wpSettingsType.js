@@ -6,9 +6,17 @@ module.exports = {
 		id: {
 			type: 'ID!'
 		},
+		homeUrl: {
+			type: 'String!',
+			resolve: item => item.home
+		},
 		siteTitle: {
 			type: 'String',
 			resolve: item => item.title
+		},
+		siteDescription: {
+			type: 'String',
+			resolve: item => item.description
 		},
 		showOnFront: {
 			type: 'String',

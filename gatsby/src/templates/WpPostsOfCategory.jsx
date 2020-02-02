@@ -1,16 +1,19 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
+
 import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import PostPreview from '../components/post/PostPreview';
 import CommonPagination from '../components/commons/pagination/CommonPagination';
 import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
-import PropTypes from 'prop-types';
+import PageMeta from '../components/commons/meta/PageMeta';
 
 export const query = graphql`
 	query($wpCategoryId: Int!, $limit: Int!, $skip: Int!) {
 		wpCategory(wpId: { eq: $wpCategoryId }) {
 			name
+			link
 		}
 		pagePosts: allWpPost(
 			filter: { categories: { elemMatch: { id: { eq: $wpCategoryId } } } }
@@ -29,14 +32,22 @@ export const query = graphql`
 `;
 
 function WpPostsOfCategory(props) {
-	const title = props.data.wpCategory.name;
-	const pagination = props.pageContext.pagination;
-	const currentPage = props.pageContext.currentPage;
-	const posts = props.data.pagePosts.edges.map(node => node.node);
+	const { data, pageContext } = props;
+	const title = data.wpCategory.name;
+	const link = data.wpCategory.link;
+	const pagination = pageContext.pagination;
+	const currentPage = pageContext.currentPage;
+	const posts = data.pagePosts.edges.map(node => node.node);
 	const level2 = { title: 'Kategorie' };
+	const meta = {
+		title,
+		url: link
+	};
 
 	return (
 		<>
+			<PageMeta meta={meta} />
+
 			<CommonLayout
 				title={title} //
 				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
