@@ -25,10 +25,10 @@ export const query = graphql`
 	}
 `;
 
-function WpPost({ data }) {
+function WpPost(props) {
 	const getLevel2 = () => {
-		const showOnFront = data.wpSettings.showOnFront;
-		const pageForPosts = data.pageForPosts;
+		const showOnFront = props.data.wpSettings.showOnFront;
+		const pageForPosts = props.data.pageForPosts;
 
 		if (showOnFront === SHOW_ON_FRONT.PAGE && pageForPosts) {
 			return { path: pageForPosts.path, title: pageForPosts.title };
@@ -37,16 +37,17 @@ function WpPost({ data }) {
 		}
 	};
 
-	const title = data.wpPost.title;
-	const featuredMedia = data.wpPost.featuredMedia;
-	const media = data.wpPost.media;
-	const blocks = JSON.parse(data.wpPost.blocks);
+	const title = props.data.wpPost.title;
+	const featuredMedia = props.data.wpPost.featuredMedia;
+	const media = props.data.wpPost.media;
+	const blocks = JSON.parse(props.data.wpPost.blocks);
 	const level2 = getLevel2();
 
 	return (
 		<>
 			<CommonLayout
-				title={title} Něco jako home > Něco jako posty > Next Test Post
+				title={title} //
+				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
 			>
 				<Post featuredMedia={featuredMedia}>
 					<BlocksRouter blocks={blocks} media={media} />

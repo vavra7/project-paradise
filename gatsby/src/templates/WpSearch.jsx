@@ -52,7 +52,7 @@ export class WpSearch extends Component {
 		const url = new URL(href);
 		const page = url.searchParams.get('page');
 
-		return page ? page : 1;
+		return page ? parseInt(page) : 1;
 	}
 
 	componentDidUpdate(prevProps, prevState) {
