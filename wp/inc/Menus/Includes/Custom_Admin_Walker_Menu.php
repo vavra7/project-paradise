@@ -1,6 +1,6 @@
 <?php
 
-use Inc\Core\Menus;
+use Inc\Menus\Menus;
 
 /**
  * Copied and edited original class (Walker_Nav_Menu_Edit) wp-admin/includes/class-walker-nav-menu-edit.php
@@ -70,7 +70,7 @@ class Custom_Admin_Walker_Menu extends Walker_Nav_Menu
 			$submenu_text = 'style="display: none;"';
 		}
 
-		?>
+?>
 		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes); ?>">
 			<div class="menu-item-bar">
 				<div class="menu-item-handle">
@@ -80,38 +80,38 @@ class Custom_Admin_Walker_Menu extends Walker_Nav_Menu
 						<span class="item-order hide-if-js">
 							<a href="
 							<?php
-									echo wp_nonce_url(
-										add_query_arg(
-											array(
-												'action'    => 'move-up-menu-item',
-												'menu-item' => $item_id,
-											),
-											remove_query_arg($removed_args, admin_url('nav-menus.php'))
-										),
-										'move-menu_item'
-									);
-									?>
+							echo wp_nonce_url(
+								add_query_arg(
+									array(
+										'action'    => 'move-up-menu-item',
+										'menu-item' => $item_id,
+									),
+									remove_query_arg($removed_args, admin_url('nav-menus.php'))
+								),
+								'move-menu_item'
+							);
+							?>
 							" class="item-move-up" aria-label="<?php esc_attr_e('Move up'); ?>">&#8593;</a>
 							|
 							<a href="
 							<?php
-									echo wp_nonce_url(
-										add_query_arg(
-											array(
-												'action'    => 'move-down-menu-item',
-												'menu-item' => $item_id,
-											),
-											remove_query_arg($removed_args, admin_url('nav-menus.php'))
-										),
-										'move-menu_item'
-									);
-									?>
+							echo wp_nonce_url(
+								add_query_arg(
+									array(
+										'action'    => 'move-down-menu-item',
+										'menu-item' => $item_id,
+									),
+									remove_query_arg($removed_args, admin_url('nav-menus.php'))
+								),
+								'move-menu_item'
+							);
+							?>
 							" class="item-move-down" aria-label="<?php esc_attr_e('Move down'); ?>">&#8595;</a>
 						</span>
 						<a class="item-edit" id="edit-<?php echo $item_id; ?>" href="
 																	<?php
-																			echo (isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item']) ? admin_url('nav-menus.php') : add_query_arg('edit-menu-item', $item_id, remove_query_arg($removed_args, admin_url('nav-menus.php#menu-item-settings-' . $item_id)));
-																			?>
+																	echo (isset($_GET['edit-menu-item']) && $item_id == $_GET['edit-menu-item']) ? admin_url('nav-menus.php') : add_query_arg('edit-menu-item', $item_id, remove_query_arg($removed_args, admin_url('nav-menus.php#menu-item-settings-' . $item_id)));
+																	?>
 						" aria-label="<?php esc_attr_e('Edit menu item'); ?>"><span class="screen-reader-text"><?php _e('Edit'); ?></span></a>
 					</span>
 				</div>
@@ -133,8 +133,8 @@ class Custom_Admin_Walker_Menu extends Walker_Nav_Menu
 					</label>
 				</p>
 				<?php
-						$this->menus->menu_item_input($item);
-						?>
+				$this->menus->get_menu_item_input($item);
+				?>
 				<p class="field-title-attribute field-attr-title description description-wide">
 					<label for="edit-menu-item-attr-title-<?php echo $item_id; ?>">
 						<?php _e('Title Attribute'); ?><br />
@@ -163,7 +163,7 @@ class Custom_Admin_Walker_Menu extends Walker_Nav_Menu
 					<label for="edit-menu-item-description-<?php echo $item_id; ?>">
 						<?php _e('Description'); ?><br />
 						<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html($item->description); // textarea_escaped 
-																																																																																																			?></textarea>
+																																																																																																	?></textarea>
 						<span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
 					</label>
 				</p>
@@ -181,36 +181,36 @@ class Custom_Admin_Walker_Menu extends Walker_Nav_Menu
 					<?php if ('custom' != $item->type && $original_title !== false) : ?>
 						<p class="link-to-original">
 							<?php
-										/* translators: %s: original title */
-										printf(__('Original: %s'), '<a href="' . esc_attr($item->url) . '">' . esc_html($original_title) . '</a>');
-										?>
+							/* translators: %s: original title */
+							printf(__('Original: %s'), '<a href="' . esc_attr($item->url) . '">' . esc_html($original_title) . '</a>');
+							?>
 						</p>
 					<?php endif; ?>
 					<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="
 																						<?php
-																								echo wp_nonce_url(
-																									add_query_arg(
-																										array(
-																											'action'    => 'delete-menu-item',
-																											'menu-item' => $item_id,
-																										),
-																										admin_url('nav-menus.php')
-																									),
-																									'delete-menu_item_' . $item_id
-																								);
-																								?>
+																						echo wp_nonce_url(
+																							add_query_arg(
+																								array(
+																									'action'    => 'delete-menu-item',
+																									'menu-item' => $item_id,
+																								),
+																								admin_url('nav-menus.php')
+																							),
+																							'delete-menu_item_' . $item_id
+																						);
+																						?>
 					"><?php _e('Remove'); ?></a> <span class="meta-sep hide-if-no-js"> | </span> <a class="item-cancel submitcancel hide-if-no-js" id="cancel-<?php echo $item_id; ?>" href="
 					<?php
-							echo esc_url(
-								add_query_arg(
-									array(
-										'edit-menu-item' => $item_id,
-										'cancel'         => time(),
-									),
-									admin_url('nav-menus.php')
-								)
-							);
-							?>
+					echo esc_url(
+						add_query_arg(
+							array(
+								'edit-menu-item' => $item_id,
+								'cancel'         => time(),
+							),
+							admin_url('nav-menus.php')
+						)
+					);
+					?>
 						#menu-item-settings-<?php echo $item_id; ?>"><?php _e('Cancel'); ?></a>
 				</div>
 
@@ -223,6 +223,6 @@ class Custom_Admin_Walker_Menu extends Walker_Nav_Menu
 			</div><!-- .menu-item-settings-->
 			<ul class="menu-item-transport"></ul>
 	<?php
-			$output .= ob_get_clean();
-		}
+		$output .= ob_get_clean();
 	}
+}

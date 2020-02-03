@@ -1,10 +1,10 @@
 <?php
 
-namespace Inc\Callbacks\Gui;
+namespace Inc\Templates;
 
 class Menu_Templates
 {
-	public function menu_item_input_description_wide($input_id, $item_id, $label, $value, $args)
+	public static function menu_item_input_description_wide($input_id, $item_id, $label, $value, $args)
 	{
 ?>
 		<p class="field-<?php echo $input_id; ?> description description-wide">

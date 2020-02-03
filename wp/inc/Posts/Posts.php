@@ -11,7 +11,17 @@ class Posts
 
 	private function add_filters(): void
 	{
+		add_action('after_setup_theme', [$this, 'add_theme_support']);
 		add_filter('tag_link', [$this, 'new_tag_link']);
+	}
+
+
+	/**
+	 * Adds theme supports for posts
+	 */
+	public function add_theme_support()
+	{
+		add_theme_support('post-thumbnails', ['post']);
 	}
 
 	/**

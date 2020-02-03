@@ -6,8 +6,6 @@ final class Setup
 {
 	function __construct()
 	{
-		add_action('after_setup_theme', [$this, 'menus']);
-		add_action('after_setup_theme', [$this, 'themeSupport']);
 		add_action('init', [$this, 'activate_permalink']);
 		add_filter('rest_url', [$this, 'change_outgoing_url']);
 	}
@@ -36,24 +34,5 @@ final class Setup
 			update_option("rewrite_rules", false);
 			$wp_rewrite->flush_rules(true);
 		}
-	}
-
-	/**
-	 * Register menu locations
-	 */
-	public function menus(): void
-	{
-		register_nav_menus([
-			'desktop_top_menu' => 'Desktop Top Menu',
-			'mobile_bottom_menu' => 'Mobile Bottom Menu'
-		]);
-	}
-
-	/**
-	 * Adds theme supports
-	 */
-	public function themeSupport()
-	{
-		add_theme_support('post-thumbnails', ['post']);
 	}
 }

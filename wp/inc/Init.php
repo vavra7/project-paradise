@@ -3,7 +3,7 @@
 namespace Inc;
 
 use Inc\Blocks\Blocks;
-use Inc\Core\Menus;
+use Inc\Menus\Menus;
 use Inc\Posts\Posts;
 use Inc\Rest_Api\Rest_Api;
 use Inc\Setup\Enqueue;
