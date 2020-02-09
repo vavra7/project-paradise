@@ -8,17 +8,16 @@ class Blocks extends Enqueue
 {
 	function __construct()
 	{
-		add_action('enqueue_block_editor_assets', [$this, 'register_block_scripts']);
 		add_action('init', [$this, 'register_block_types']);
 		add_action('init', [$this, 'setup_blocks']);
 	}
 
 	/**
-	 * register blocks created in enqueued js file
+	 * register all blocks created in enqueued js file
 	 */
 	public function register_block_types(): void
 	{
-		register_block_type('namespace/slug-test', [
+		register_block_type('gatsby/all-custom-blocks', [
 			'editor_script' => self::BLOCK_SCRIPTS
 		]);
 	}

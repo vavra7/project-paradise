@@ -2,19 +2,20 @@
 
 namespace Inc\Posts;
 
+use Inc\Commons\Post_Meta;
+
 class Posts
 {
+	private $post_meta;
+
 	function __construct()
 	{
-		$this->add_filters();
-	}
+		$this->post_meta = new Post_Meta;
 
-	private function add_filters(): void
-	{
 		add_action('after_setup_theme', [$this, 'add_theme_support']);
+		add_action('init', [$this, 'register_meta_for_meta_panel']);
 		add_filter('tag_link', [$this, 'new_tag_link']);
 	}
-
 
 	/**
 	 * Adds theme supports for posts
@@ -34,5 +35,13 @@ class Posts
 		$new_tag_ling = sprintf('%s/app%s', $home_url, $path);
 
 		return $new_tag_ling;
+	}
+
+	/**
+	 * Register all meta for post needed by gutenberg panel "Post Meta"
+	 */
+	public function register_meta_for_meta_panel(): void
+	{
+		$this->post_meta->register_meta_for_meta_panel('post');
 	}
 }

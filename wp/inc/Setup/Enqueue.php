@@ -12,6 +12,7 @@ class Enqueue
 	{
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_style']);
 		add_action('wp_enqueue_scripts', [$this, 'enqueue_main_style']);
+		add_action('enqueue_block_editor_assets', [$this, 'register_block_scripts']);
 	}
 
 	/**
