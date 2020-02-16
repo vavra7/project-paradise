@@ -3,7 +3,7 @@ import { useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withSelect, withDispatch } from '@wordpress/data';
 
-const META_NAME = '_title';
+const META_NAME = '_og_title';
 
 function TitleInput(props) {
 	const { value, setValue } = props;
@@ -15,13 +15,8 @@ function TitleInput(props) {
 	};
 
 	return (
-		<PanelBody title="Title">
-			<TextControl
-				label="Write a custom title"
-				value={value}
-				help={`${count} / 50`}
-				onChange={onChange}
-			></TextControl>
+		<PanelBody title="Open Graph Title">
+			<TextControl label="Write an og:title" value={value} help={`${count} / 50`} onChange={onChange}></TextControl>
 		</PanelBody>
 	);
 }

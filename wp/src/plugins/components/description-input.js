@@ -1,9 +1,9 @@
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, TextareaControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withSelect, withDispatch } from '@wordpress/data';
 
-const META_NAME = '_title';
+const META_NAME = '_description';
 
 function TitleInput(props) {
 	const { value, setValue } = props;
@@ -15,13 +15,13 @@ function TitleInput(props) {
 	};
 
 	return (
-		<PanelBody title="Title">
-			<TextControl
-				label="Write a custom title"
+		<PanelBody title="Description">
+			<TextareaControl
+				label="Write a custom description"
 				value={value}
-				help={`${count} / 50`}
+				help={`${count} / 155`}
 				onChange={onChange}
-			></TextControl>
+			></TextareaControl>
 		</PanelBody>
 	);
 }

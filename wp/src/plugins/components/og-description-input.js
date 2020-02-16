@@ -1,9 +1,9 @@
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, TextareaControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withSelect, withDispatch } from '@wordpress/data';
 
-const META_NAME = '_title';
+const META_NAME = '_og_description';
 
 function TitleInput(props) {
 	const { value, setValue } = props;
@@ -15,13 +15,13 @@ function TitleInput(props) {
 	};
 
 	return (
-		<PanelBody title="Title">
-			<TextControl
-				label="Write a custom title"
+		<PanelBody title="Open Graph Description">
+			<TextareaControl
+				label="Write an og:description"
 				value={value}
-				help={`${count} / 50`}
+				help={`${count} / 260`}
 				onChange={onChange}
-			></TextControl>
+			></TextareaControl>
 		</PanelBody>
 	);
 }

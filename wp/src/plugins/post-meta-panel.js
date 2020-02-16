@@ -1,5 +1,9 @@
 import { PluginSidebarMoreMenuItem, PluginSidebar } from '@wordpress/edit-post';
-import TitleInput from './components/title-input'
+import TitleInput from './components/title-input';
+import OgTitleInput from './components/og-title-input';
+import DescriptionInput from './components/description-input'
+import OgDescriptionInput from './components/og-description-input'
+import OgImageInput from './components/og-image-input'
 
 const NAME = 'post-meta';
 const TITLE = 'Post Meta';
@@ -16,6 +20,10 @@ export function render() {
 
 			<PluginSidebar name={NAME} title={TITLE} className="post-meta-panel">
 				<TitleInput />
+				<DescriptionInput />
+				<OgTitleInput />
+				<OgDescriptionInput />
+				<OgImageInput />
 			</PluginSidebar>
 		</>
 	);
