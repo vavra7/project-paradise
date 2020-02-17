@@ -55,6 +55,10 @@ module.exports = {
 		excerpt: {
 			type: 'String',
 			resolve: item => item.excerpt.rendered
+		},
+		postMeta: {
+			type: 'PostMeta',
+			resolve: item => item.meta
 		}
 	},
 	extensions: {
