@@ -84,7 +84,7 @@ export class WpSearch extends Component {
 
 		return (
 			<>
-				<PageMeta />
+				<PageMeta meta={{ title }} />
 
 				<CommonLayout
 					title={`Hledat: ${searchVal}`} //
