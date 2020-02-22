@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import { SHOW_ON_FRONT } from '../enums';
+import { getWpPostMeta } from '../services/pagesMeta';
 
 import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
@@ -21,9 +22,9 @@ export const query = graphql`
 		}
 		wpPost(wpId: { eq: $wpPostId }) {
 			title
-			link
 			...post
 			...blocksRouter
+			...wpPostMeta
 		}
 	}
 `;
@@ -43,23 +44,18 @@ function WpPost(props) {
 	};
 
 	const title = data.wpPost.title;
-	const link = data.wpPost.link;
 	const featuredMedia = data.wpPost.featuredMedia;
 	const media = data.wpPost.media;
 	const blocks = JSON.parse(data.wpPost.blocks);
 	const level2 = getLevel2();
-	const meta = {
-		title,
-		url: link,
-		type: 'article'
-	};
+	const meta = getWpPostMeta(data.wpPost);
 
 	return (
 		<>
 			<PageMeta meta={meta} />
 
 			<CommonLayout
-				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />} //
+				breadCrumbsSlot={<BreadCrumbsContainer current={title} level2={level2} />} //
 				title={title}
 			>
 				<Post featuredMedia={featuredMedia}>

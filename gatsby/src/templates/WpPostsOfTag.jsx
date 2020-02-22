@@ -71,7 +71,7 @@ function WpPostsOfTag(props) {
 
 			<CommonLayout
 				title={title} //
-				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
+				breadCrumbsSlot={<BreadCrumbsContainer current={title} level2={level2} />}
 			>
 				<pre>{JSON.stringify(statePosts.pending, null, 2)}</pre>
 				<pre>{JSON.stringify(posts, null, 2)}</pre>

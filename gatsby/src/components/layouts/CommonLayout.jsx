@@ -9,7 +9,7 @@ import { BOTTOM_BAR_HEIGHT } from '../fixedBars/FixedBottomBar.module.scss';
 import SearchInput from '../commons/inputs/SearchInput';
 
 function CommonLayout(props) {
-	const { breadCrumbs, title, children } = props;
+	const { breadCrumbsSlot, title, children } = props;
 	const mobileTopBarEnabled = useSelector(state => state.fixedBars.mobileTopBarEnabled);
 	const bottomBarEnabled = useSelector(state => state.fixedBars.bottomBarEnabled);
 
@@ -21,7 +21,7 @@ function CommonLayout(props) {
 			<header id="main-header" style={topBarOffsetStyle}>
 				<StaticTopBar />
 				<MainMenuContainer />
-				{ breadCrumbs }
+				{ breadCrumbsSlot }
 				<PageTitleContainer title={title} />
 			</header>
 
@@ -50,7 +50,7 @@ function CommonLayout(props) {
 CommonLayout.propTypes = {
 	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 	title: PropTypes.string.isRequired,
-	breadCrumbs: PropTypes.element
+	breadCrumbsSlot: PropTypes.element
 };
 
 export default CommonLayout;

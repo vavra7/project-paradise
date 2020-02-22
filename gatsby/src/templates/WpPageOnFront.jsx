@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
+import { getWpPageOnFrontMeta } from '../services/pagesMeta';
 
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
 import CommonLayout from '../components/layouts/CommonLayout';
@@ -10,7 +11,7 @@ export const query = graphql`
 	query($wpPageId: Int!) {
 		wpPage(wpId: { eq: $wpPageId }) {
 			title
-			link
+			...wpPageOnFrontMeta
 		}
 	}
 `;
@@ -18,11 +19,8 @@ export const query = graphql`
 function WpPageOnFront(props) {
 	const { data } = props;
 	const title = data.wpPage.title;
-	const link = data.wpPage.link;
-	const meta = {
-		title,
-		url: link
-	};
+	const meta = getWpPageOnFrontMeta(data.wpPage);
+
 	return (
 		<>
 			<PageMeta meta={meta} />

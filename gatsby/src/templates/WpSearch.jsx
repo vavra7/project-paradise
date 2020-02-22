@@ -81,17 +81,14 @@ export class WpSearch extends Component {
 		const { stateResult, result, pagination } = this.props;
 		const title = `Hledat: ${searchVal}`;
 		const level2 = { title: 'Hledat' };
-		const meta = {
-			title
-		};
 
 		return (
 			<>
-				<PageMeta meta={meta} />
+				<PageMeta />
 
 				<CommonLayout
 					title={`Hledat: ${searchVal}`} //
-					breadCrumbs={<BreadCrumbsContainer current={searchVal} level2={level2} />}
+					breadCrumbsSlot={<BreadCrumbsContainer current={searchVal} level2={level2} />}
 				>
 					<pre>{JSON.stringify(stateResult, null, 2)}</pre>
 					<pre>{JSON.stringify(this.state, null, 2)}</pre>

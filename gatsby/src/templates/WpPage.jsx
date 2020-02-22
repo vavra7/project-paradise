@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
+import { getWpPageMeta } from '../services/pagesMeta';
 
 import CommonLayout from '../components/layouts/CommonLayout';
 import BreadCrumbsContainer from '../components/header/BreadCrumbsContainer';
@@ -10,7 +11,7 @@ export const query = graphql`
 	query($wpPageId: Int!) {
 		wpPage(wpId: { eq: $wpPageId }) {
 			title
-			link
+			...wpPageMeta
 		}
 	}
 `;
@@ -18,18 +19,14 @@ export const query = graphql`
 function WpPage(props) {
 	const { data } = props;
 	const title = data.wpPage.title;
-	const link = data.wpPage.link;
-	const meta = {
-		title,
-		url: link
-	};
+	const meta = getWpPageMeta(data.wpPage);
 
 	return (
 		<>
 			<PageMeta meta={meta} />
 
 			<CommonLayout
-				breadCrumbs={<BreadCrumbsContainer current={title} />} //
+				breadCrumbsSlot={<BreadCrumbsContainer current={title} />} //
 				title={title}
 			>
 				<div>

@@ -73,7 +73,7 @@ module.exports = [
 					if (media) {
 						const sizes = media.media_details.sizes;
 
-						return sizes.large ? sizes.large.source_url : sizes.full.source_url;
+						return sizes.medium_large ? sizes.medium_large.source_url : sizes.full.source_url;
 					} else {
 						return '';
 					}

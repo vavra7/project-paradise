@@ -30,13 +30,10 @@ function WpPostsOnFront(props) {
 	const pagination = pageContext.pagination;
 	const currentPage = pageContext.currentPage;
 	const posts = data.pagePosts.edges.map(node => node.node);
-	const meta = {
-		title
-	};
 
 	return (
 		<>
-			<PageMeta meta={meta} />
+			<PageMeta />
 
 			<CommonLayout title={title} isPostsOnFront>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />

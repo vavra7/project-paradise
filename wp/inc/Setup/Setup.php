@@ -8,6 +8,9 @@ final class Setup
 	{
 		add_action('init', [$this, 'activate_permalink']);
 		add_filter('rest_url', [$this, 'change_outgoing_url']);
+
+		add_filter('excerpt_more', [$this, 'new_excerpt_more']);
+		remove_filter('the_excerpt', 'wpautop');
 	}
 
 	/**
@@ -34,5 +37,13 @@ final class Setup
 			update_option("rewrite_rules", false);
 			$wp_rewrite->flush_rules(true);
 		}
+	}
+
+	/**
+	 * Replaces 'read more symbol' from excerpt
+	 */
+	public function new_excerpt_more()
+	{
+		return '';
 	}
 }

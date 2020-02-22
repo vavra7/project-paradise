@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
+import { getWpPostsOfCategoryMeta } from '../services/pagesMeta';
 
 import CommonLayout from '../components/layouts/CommonLayout';
 import FixedRightBar from '../components/fixedBars/FixedRightBar';
@@ -13,7 +14,7 @@ export const query = graphql`
 	query($wpCategoryId: Int!, $limit: Int!, $skip: Int!) {
 		wpCategory(wpId: { eq: $wpCategoryId }) {
 			name
-			link
+			...wpPostsOfCategoryMeta
 		}
 		pagePosts: allWpPost(
 			filter: { categories: { elemMatch: { id: { eq: $wpCategoryId } } } }
@@ -34,15 +35,11 @@ export const query = graphql`
 function WpPostsOfCategory(props) {
 	const { data, pageContext } = props;
 	const title = data.wpCategory.name;
-	const link = data.wpCategory.link;
 	const pagination = pageContext.pagination;
 	const currentPage = pageContext.currentPage;
 	const posts = data.pagePosts.edges.map(node => node.node);
 	const level2 = { title: 'Kategorie' };
-	const meta = {
-		title,
-		url: link
-	};
+	const meta = getWpPostsOfCategoryMeta(data.wpCategory);
 
 	return (
 		<>
@@ -50,7 +47,7 @@ function WpPostsOfCategory(props) {
 
 			<CommonLayout
 				title={title} //
-				breadCrumbs={<BreadCrumbsContainer current={title} level2={level2} />}
+				breadCrumbsSlot={<BreadCrumbsContainer current={title} level2={level2} />}
 			>
 				<CommonPagination pagination={pagination} currentPage={currentPage} />
 
