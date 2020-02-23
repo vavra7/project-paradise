@@ -10,6 +10,7 @@ use Inc\Rest_Api\Endpoints\Categories_Endpoint;
 use Inc\Rest_Api\Endpoints\Settings_Endpoint;
 use Inc\Rest_Api\Endpoints\Tags_Endpoint;
 use Inc\Rest_Api\Includes\Jwt_Auth;
+use Inc\Rest_Api\Endpoints\Sidebars_Endpoint;
 
 class Rest_Api
 {
@@ -29,6 +30,8 @@ class Rest_Api
 
 	private $settings_endpoint;
 
+	private $sidebars_endpoint;
+
 	function __construct()
 	{
 		$this->jwt_auth = new Jwt_Auth;
@@ -39,6 +42,7 @@ class Rest_Api
 		$this->tags_endpoint = new Tags_Endpoint;
 		$this->settings_endpoint = new Settings_Endpoint;
 		$this->generate_token_endpoint = new Generate_Token_Endpoint;
+		$this->sidebars_endpoint = new Sidebars_Endpoint;
 
 		$this->add_actions();
 		$this->add_filters();
@@ -60,6 +64,7 @@ class Rest_Api
 	{
 		$this->menus_endpoint->register_route();
 		$this->generate_token_endpoint->register_route();
+		$this->sidebars_endpoint->register_route();
 
 		$this->posts_endpoint->add_field_blocks();
 		$this->posts_endpoint->add_field_path();

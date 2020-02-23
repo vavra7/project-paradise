@@ -15,15 +15,22 @@ class Sidebars
 	 */
 	public function register_sidebars()
 	{
-		register_sidebar([
-			'name'              => 'Sidebar',
-			'id'                => 'sidebar',
-			'description'       => 'The website sidebar.',
-			'before_widget'     => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'      => '</section>',
-			'before_title'      => '<div class="widget-title-wrapper"><h3 class="widget-title">',
-			'after_title'       => '</h3></div>',
-		]);
+		$sidebars = [
+			[
+				'name'              => 'Sidebar',
+				'id'                => 'sidebar',
+				'description'       => 'The website sidebar.',
+			],
+			[
+				'name'              => 'Sidebar2',
+				'id'                => 'sidebar2',
+				'description'       => 'The website sidebar.',
+			]
+		];
+
+		foreach ($sidebars as $sidebar) {
+			register_sidebar($sidebar);
+		}
 	}
 
 	/**
@@ -33,15 +40,15 @@ class Sidebars
 	{
 		if (empty($GLOBALS['wp_widget_factory'])) return;
 
-		$filter_widgets = function ($widget_name) {
+		$callback = function ($widget_name) {
 			$allowed_widgets = [
-				'WP_Widget_Pages'
+				'WP_Widget_Recent_Posts'
 			];
 			return in_array($widget_name, $allowed_widgets);
 		};
 
 		$all_widgets = $GLOBALS['wp_widget_factory']->widgets;
-		$filtered_widgets = array_filter($all_widgets, $filter_widgets, ARRAY_FILTER_USE_KEY);
+		$filtered_widgets = array_filter($all_widgets, $callback, ARRAY_FILTER_USE_KEY);
 		$GLOBALS['wp_widget_factory']->widgets = $filtered_widgets;
 	}
 }

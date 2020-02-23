@@ -3,6 +3,7 @@
 namespace Inc\Rest_Api\Endpoints;
 
 use \WP_REST_Server;
+use \WP_REST_Response;
 use Inc\Rest_Api\Includes\Url_Extractor;
 
 class Menus_Endpoint
@@ -25,7 +26,7 @@ class Menus_Endpoint
 	/**
 	 * Generate data for endpoint menus
 	 */
-	public function get_location_menus(): array
+	public function get_location_menus(): WP_REST_Response
 	{
 		$location_menus = [];
 
@@ -61,7 +62,7 @@ class Menus_Endpoint
 			}
 		}
 
-		return $location_menus;
+		return new WP_REST_Response($location_menus, 200);
 	}
 
 	/**

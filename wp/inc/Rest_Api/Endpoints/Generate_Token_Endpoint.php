@@ -4,6 +4,7 @@ namespace Inc\Rest_Api\Endpoints;
 
 use Inc\Rest_Api\Includes\Jwt_Auth;
 use \WP_REST_Server;
+use \WP_REST_Response;
 use \WP_Error;
 
 
@@ -52,8 +53,10 @@ class Generate_Token_Endpoint
 			return $new_error;
 		}
 
-		return [
+		$data = [
 			'token' => $this->jwt_auth->generate_token($user)
 		];
+
+		return new WP_REST_Response($data, 200);
 	}
 }
