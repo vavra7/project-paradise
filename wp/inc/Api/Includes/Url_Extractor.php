@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Rest_Api\Includes;
+namespace Inc\Api\Includes;
 
 trait Url_Extractor
 {

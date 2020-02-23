@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Rest_Api\Endpoints;
+namespace Inc\Api\Endpoints;
 
-use Inc\Rest_Api\Includes\Jwt_Auth;
+use Inc\Api\Includes\Jwt_Auth;
 use \WP_REST_Server;
 use \WP_REST_Response;
 use \WP_Error;

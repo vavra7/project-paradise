@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Rest_Api\Includes;
+namespace Inc\Api\Includes;
 
 use \WP_Error;
 use \Exception;
@@ -16,7 +16,7 @@ class Jwt_Auth
 	 */
 	public function determine_current_user($user)
 	{
-		if (!$this->is_rest_api_request()) {
+		if (!$this->is_Api_request()) {
 			return $user;
 		}
 
@@ -132,10 +132,10 @@ class Jwt_Auth
 	/**
 	 * Determine if it is rest api request
 	 */
-	private function is_rest_api_request()
+	private function is_Api_request()
 	{
-		$rest_api_slug = rest_get_url_prefix();
-		$valid_api_uri = strpos($_SERVER['REQUEST_URI'], $rest_api_slug);
+		$Api_slug = rest_get_url_prefix();
+		$valid_api_uri = strpos($_SERVER['REQUEST_URI'], $Api_slug);
 
 		return $valid_api_uri;
 	}

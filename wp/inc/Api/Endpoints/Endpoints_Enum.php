@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Rest_Api\Endpoints;
+namespace Inc\Api\Endpoints;
 
 final class Endpoints_Enum
 {

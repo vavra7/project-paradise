@@ -1,18 +1,18 @@
 <?php
 
-namespace Inc\Rest_Api;
+namespace Inc\Api;
 
-use Inc\Rest_Api\Endpoints\Generate_Token_Endpoint;
-use Inc\Rest_Api\Endpoints\Menus_Endpoint;
-use Inc\Rest_Api\Endpoints\Posts_Endpoint;
-use Inc\Rest_Api\Endpoints\Pages_Endpoint;
-use Inc\Rest_Api\Endpoints\Categories_Endpoint;
-use Inc\Rest_Api\Endpoints\Settings_Endpoint;
-use Inc\Rest_Api\Endpoints\Tags_Endpoint;
-use Inc\Rest_Api\Includes\Jwt_Auth;
-use Inc\Rest_Api\Endpoints\Sidebars_Endpoint;
+use Inc\Api\Endpoints\Generate_Token_Endpoint;
+use Inc\Api\Endpoints\Menus_Endpoint;
+use Inc\Api\Endpoints\Posts_Endpoint;
+use Inc\Api\Endpoints\Pages_Endpoint;
+use Inc\Api\Endpoints\Categories_Endpoint;
+use Inc\Api\Endpoints\Settings_Endpoint;
+use Inc\Api\Endpoints\Tags_Endpoint;
+use Inc\Api\Includes\Jwt_Auth;
+use Inc\Api\Endpoints\Sidebars_Endpoint;
 
-class Rest_Api
+class Api
 {
 	private $jwt_auth;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Rest_Api\Endpoints;
+namespace Inc\Api\Endpoints;
 
-use Inc\Rest_Api\Includes\Url_Extractor;
+use Inc\Api\Includes\Url_Extractor;
 
 class Tags_Endpoint
 {

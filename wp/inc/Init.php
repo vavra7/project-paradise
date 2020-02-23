@@ -6,7 +6,7 @@ use Inc\Blocks\Blocks;
 use Inc\Menus\Menus;
 use Inc\Posts\Posts;
 use Inc\Pages\Pages;
-use Inc\Rest_Api\Rest_Api;
+use Inc\Api\Api;
 use Inc\Setup\Enqueue;
 use Inc\Sidebars\Sidebars;
 use Inc\Setup\Setup;
@@ -23,7 +23,7 @@ final class Init
 			Posts::class,
 			Pages::class,
 			Blocks::class,
-			Rest_Api::class
+			Api::class
 		];
 	}
 
