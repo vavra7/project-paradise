@@ -38,7 +38,7 @@ class Sidebars_Endpoint
 				array_values($GLOBALS['wp_registered_sidebars'])
 			);
 
-		return new WP_REST_Response( $data, 200 );
+		return new WP_REST_Response($data, 200);
 	}
 
 	/**
@@ -46,10 +46,10 @@ class Sidebars_Endpoint
 	 */
 	public function get_sidebar_widgets($sidebar_id)
 	{
-		$callback = function ($widget_id) {
+		$callback = function ($key, $value) {
 			global $wp_registered_widgets;
 
-			$widget = $wp_registered_widgets[$widget_id];
+			$widget = $wp_registered_widgets[$value];
 			$option_name = $widget['callback'][0]->option_name;
 			$param_number = $widget['params'][0]['number'];
 
@@ -62,7 +62,11 @@ class Sidebars_Endpoint
 		};
 
 		$widgets = wp_get_sidebars_widgets()[$sidebar_id];
-		$widgets = array_map($callback, $widgets);
+		$widgets = array_map(
+			$callback,
+			array_keys($widgets),
+			array_values($widgets)
+		);
 
 		return $widgets;
 	}

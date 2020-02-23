@@ -15,21 +15,13 @@ use Inc\Api\Endpoints\Sidebars_Endpoint;
 class Api
 {
 	private $jwt_auth;
-
 	private $posts_endpoint;
-
 	private $pages_endpoint;
-
 	private $menus_endpoint;
-
 	private $categories_endpoint;
-
 	private $tags_endpoint;
-
 	private $generate_token_endpoint;
-
 	private $settings_endpoint;
-
 	private $sidebars_endpoint;
 
 	function __construct()
