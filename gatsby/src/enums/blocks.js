@@ -4,7 +4,7 @@ export const BLOCKS = {
 		CLASS: 'wp-block-group'
 	},
 	GATSBY_IMAGE: {
-		NAME: 'gatsby/image',
+		NAME: 'project-paradise/gatsby-image',
 		CLASS: 'wp-block-gatsby-image'
 	}
 };

@@ -12,6 +12,10 @@ use Inc\Api\Endpoints\Tags_Endpoint;
 use Inc\Api\Includes\Jwt_Auth;
 use Inc\Api\Endpoints\Sidebars_Endpoint;
 
+if (!defined('WPINC')) {
+	die;
+}
+
 class Api
 {
 	private $jwt_auth;

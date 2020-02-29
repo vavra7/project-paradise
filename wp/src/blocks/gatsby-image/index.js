@@ -1,6 +1,7 @@
 import { Button } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 
+const NAME = 'gatsby-image';
 const TITLE = 'Image';
 
 const settings = {
@@ -102,4 +103,5 @@ export function save({ className, attributes }) {
 	return <img className={className} src={attributes.imgPrevUrl} alt={attributes.alt} />;
 }
 
+export { NAME };
 export default settings;

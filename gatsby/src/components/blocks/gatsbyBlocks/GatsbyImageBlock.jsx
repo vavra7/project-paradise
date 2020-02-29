@@ -25,6 +25,12 @@ export const query = graphql`
 function GatsbyImageBlock(props) {
 	const imgSrc = props.media.find(item => item.id === props.block.attrs.id);
 
+	try {
+		if (!imgSrc) throw new Error('It seems that ID of gatsby image is not on the media list.');
+	} catch (err) {
+		console.error(err);
+	}
+
 	return (
 		<div className={`${BLOCKS.GATSBY_IMAGE.CLASS}-wrapper`}>
 			<div className={BLOCKS.GATSBY_IMAGE.CLASS}>

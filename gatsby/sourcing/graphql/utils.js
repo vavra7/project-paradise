@@ -26,7 +26,7 @@ const getMediaIdsList = post => {
 
 	const addMediaFromBlocks = blocks => {
 		blocks.forEach(block => {
-			if (block.blockName === 'gatsby/image') {
+			if (block.blockName === 'project-paradise/gatsby-image') {
 				if (block.attrs.id) enlistId(block.attrs.id);
 			}
 

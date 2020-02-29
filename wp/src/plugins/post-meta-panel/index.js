@@ -5,7 +5,7 @@ import DescriptionInput from './components/description-input'
 import OgDescriptionInput from './components/og-description-input'
 import OgImageInput from './components/og-image-input'
 
-const NAME = 'post-meta';
+const NAME = 'post-meta-panel';
 const TITLE = 'Post Meta';
 
 const settings = {
