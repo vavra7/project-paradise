@@ -1,4 +1,4 @@
-import { PanelBody, PanelRow, ToggleControl, SelectControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, SelectControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withSelect, withDispatch } from '@wordpress/data';
 import { namespace } from '../../../config';

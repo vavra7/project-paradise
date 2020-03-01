@@ -39,6 +39,17 @@ const selectors = {
 		}));
 
 		return sidebarsList;
+	},
+	getWidgetList(state, sidebarId) {
+		const { sidebars } = state;
+		let getWidgetList = [];
+		const sidebar = sidebars.find(sidebar => sidebar.id === sidebarId);
+
+		if (sidebar && sidebar.widgets && sidebar.widgets.length) {
+			getWidgetList = sidebar.widgets;
+		}
+
+		return getWidgetList;
 	}
 };
 
@@ -50,6 +61,11 @@ const controls = {
 
 const resolvers = {
 	*getSidebarList() {
+		const data = yield actions.fetchSidebarData('/project-paradise/v1/sidebars/');
+
+		return actions.setSidebarsData(data);
+	},
+	*getWidgetList() {
 		const data = yield actions.fetchSidebarData('/project-paradise/v1/sidebars/');
 
 		return actions.setSidebarsData(data);

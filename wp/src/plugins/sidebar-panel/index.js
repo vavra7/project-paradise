@@ -1,5 +1,6 @@
 import { PluginSidebarMoreMenuItem, PluginSidebar } from '@wordpress/edit-post';
 import OverrideSidebar from './components/override-sidebar';
+import WidgetList from './components/widget-list';
 
 const NAME = 'sidebar-panel';
 const TITLE = 'Sidebar';
@@ -22,6 +23,7 @@ export function render() {
 
 			<PluginSidebar name={NAME} title={TITLE}>
 				<OverrideSidebar />
+				<WidgetList />
 			</PluginSidebar>
 		</>
 	);
