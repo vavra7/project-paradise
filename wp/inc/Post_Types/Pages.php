@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Pages;
+namespace Inc\Post_Types;
 
-use Inc\Commons\Post_Meta;
+use Inc\Post_Types\Includes\Post_Meta;
 use Inc\Templates\Pages_Templates;
 
 class Pages

@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Commons;
+namespace Inc\Post_Types\Includes;
 
 class Post_Meta
 {

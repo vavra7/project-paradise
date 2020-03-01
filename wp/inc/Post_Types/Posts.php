@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Posts;
+namespace Inc\Post_Types;
 
-use Inc\Commons\Post_Meta;
+use Inc\Post_Types\Includes\Post_Meta;
 
 class Posts
 {

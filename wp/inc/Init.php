@@ -4,8 +4,8 @@ namespace Inc;
 
 use Inc\Blocks\Blocks;
 use Inc\Menus\Menus;
-use Inc\Posts\Posts;
-use Inc\Pages\Pages;
+use Inc\Post_Types\Posts;
+use Inc\Post_Types\Pages;
 use Inc\Api\Api;
 use Inc\Setup\Enqueue;
 use Inc\Sidebars\Sidebars;
