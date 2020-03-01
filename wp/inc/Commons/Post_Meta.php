@@ -76,4 +76,28 @@ class Post_Meta
 			register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
 		}
 	}
+
+	/**
+	 * Define and register all meta needed by gutenberg panel "Sidebar"
+	 */
+	public function register_meta_for_sidebar_customization(string $post_type): void
+	{
+		$meta_fields = [
+			[
+				'name' => '_sidebar_override',
+				'args' => [
+					'show_in_rest' => true,
+					'single' => true,
+					'type' => 'string',
+					'auth_callback' => function () {
+						return current_user_can('edit_posts');
+					}
+				]
+			]
+		];
+
+		foreach ($meta_fields as $meta_field) {
+			register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
+		}
+	}
 }

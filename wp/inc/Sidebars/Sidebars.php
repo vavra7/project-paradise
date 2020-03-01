@@ -24,14 +24,19 @@ class Sidebars
 	{
 		$sidebars = [
 			[
-				'name' => 'Sidebar',
-				'id' => 'sidebar',
-				'description' => 'The website sidebar.',
+				'name' => 'General',
+				'id' => 'general',
+				'description' => 'General website sidebar.',
 			],
 			[
-				'name' => 'Sidebar2',
-				'id' => 'sidebar2',
-				'description' => 'The website sidebar.',
+				'name' => 'Sidebar 1',
+				'id' => 'sidebar_1',
+				'description' => 'Sidebar 1.',
+			],
+			[
+				'name' => 'Sidebar 2',
+				'id' => 'sidebar_2',
+				'description' => 'Sidebar 2.',
 			]
 		];
 

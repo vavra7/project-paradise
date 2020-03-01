@@ -13,7 +13,7 @@ class Posts
 		$this->post_meta = new Post_Meta;
 
 		add_action('after_setup_theme', [$this, 'add_theme_support']);
-		add_action('init', [$this, 'register_meta_for_meta_panel']);
+		add_action('init', [$this, 'register_post_meta']);
 		add_filter('tag_link', [$this, 'new_tag_link']);
 	}
 
@@ -38,10 +38,11 @@ class Posts
 	}
 
 	/**
-	 * Register all meta for post needed by gutenberg panel "Post Meta"
+	 * Register all post meta
 	 */
-	public function register_meta_for_meta_panel(): void
+	public function register_post_meta(): void
 	{
 		$this->post_meta->register_meta_for_meta_panel('post');
+		$this->post_meta->register_meta_for_sidebar_customization('post');
 	}
 }

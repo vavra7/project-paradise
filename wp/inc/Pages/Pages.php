@@ -11,17 +11,18 @@ class Pages
 	{
 		$this->post_meta = new Post_Meta;
 
-		add_action('init', [$this, 'register_meta_for_meta_panel']);
+		add_action('init', [$this, 'register_post_meta']);
 		add_action('add_meta_boxes_page', [$this, 'add_meta_boxes_on_page_for_posts']);
 		add_action('save_post', [$this, 'save_meta_on_page_for_posts']);
 	}
 
 	/**
-	 * Register all meta for page needed by gutenberg panel "Post Meta"
+	 * Register all post meta
 	 */
-	public function register_meta_for_meta_panel(): void
+	public function register_post_meta(): void
 	{
 		$this->post_meta->register_meta_for_meta_panel('page');
+		$this->post_meta->register_meta_for_sidebar_customization('page');
 	}
 
 	/**
