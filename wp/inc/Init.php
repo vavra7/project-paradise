@@ -10,8 +10,9 @@ use Inc\Api\Api;
 use Inc\Setup\Enqueue;
 use Inc\Sidebars\Sidebars;
 use Inc\Setup\Setup;
+use Inc\Admin\Admin;
 
-final class Init
+class Init
 {
 	public static function get_services(): array
 	{
@@ -23,7 +24,8 @@ final class Init
 			Posts::class,
 			Pages::class,
 			Blocks::class,
-			Api::class
+			Api::class,
+			Admin::class,
 		];
 	}
 
