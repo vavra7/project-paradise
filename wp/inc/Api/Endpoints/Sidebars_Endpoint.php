@@ -4,11 +4,21 @@ namespace Inc\Api\Endpoints;
 
 use \WP_REST_Server;
 use \WP_REST_Response;
+use Inc\Admin\Sidebars\Options as Sidebars_Options;
 
 class Sidebars_Endpoint
 {
 	private const ENDPOINT = 'sidebars';
+	private $sidebars_options;
 
+	function __construct()
+	{
+		$this->sidebars_options = new Sidebars_Options;
+	}
+
+	/**
+	 * Register route
+	 */
 	public function register_route(): void
 	{
 		register_rest_route(Endpoints_Enum::NAMESPACE, self::ENDPOINT, [
@@ -31,12 +41,14 @@ class Sidebars_Endpoint
 			];
 		};
 
-		$data =
-			array_map(
+		$data = [
+			'default_sidebars' => get_option($this->sidebars_options::OPTION_NAME, json_decode('{}')),
+			'sidebar_list' => array_map(
 				$callback,
 				array_keys($GLOBALS['wp_registered_sidebars']),
 				array_values($GLOBALS['wp_registered_sidebars'])
-			);
+			)
+		];
 
 		return new WP_REST_Response($data, 200);
 	}

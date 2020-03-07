@@ -2,12 +2,13 @@ import apiFetch from '@wordpress/api-fetch';
 
 const NAME = 'sidebars';
 
-function reducer(state = { sidebars: [] }, action) {
+function reducer(state = { sidebarList: [], defaultSidebars: {} }, action) {
 	switch (action.type) {
 		case 'SET_SIDEBARS_DATA':
 			return {
 				...state,
-				sidebars: action.sidebars
+				defaultSidebars: action.payload.default_sidebars,
+				sidebarList: action.payload.sidebar_list
 			};
 		default:
 			return state;
@@ -15,10 +16,10 @@ function reducer(state = { sidebars: [] }, action) {
 }
 
 const actions = {
-	setSidebarsData(sidebars) {
+	setSidebarsData(data) {
 		return {
 			type: 'SET_SIDEBARS_DATA',
-			sidebars
+			payload: data
 		};
 	},
 	fetchSidebarData(path) {
@@ -31,25 +32,28 @@ const actions = {
 
 const selectors = {
 	getSidebarList(state) {
-		const { sidebars } = state;
-		const sidebarsList = sidebars.map(sidebar => ({
+		const sidebarList = state.sidebarList.map(sidebar => ({
 			id: sidebar.id,
 			name: sidebar.name,
 			description: sidebar.description
 		}));
 
-		return sidebarsList;
+		return sidebarList;
 	},
 	getWidgetList(state, sidebarId) {
-		const { sidebars } = state;
 		let getWidgetList = [];
-		const sidebar = sidebars.find(sidebar => sidebar.id === sidebarId);
+		const sidebar = state.sidebarList.find(sidebar => sidebar.id === sidebarId);
 
 		if (sidebar && sidebar.widgets && sidebar.widgets.length) {
 			getWidgetList = sidebar.widgets;
 		}
 
 		return getWidgetList;
+	},
+	getDefaultSidebar(state, location) {
+		const { defaultSidebars } = state;
+
+		return defaultSidebars[location];
 	}
 };
 
@@ -66,6 +70,11 @@ const resolvers = {
 		return actions.setSidebarsData(data);
 	},
 	*getWidgetList() {
+		const data = yield actions.fetchSidebarData('/project-paradise/v1/sidebars/');
+
+		return actions.setSidebarsData(data);
+	},
+	*getDefaultSidebar() {
 		const data = yield actions.fetchSidebarData('/project-paradise/v1/sidebars/');
 
 		return actions.setSidebarsData(data);

@@ -1,4 +1,5 @@
 import { PluginSidebarMoreMenuItem, PluginSidebar } from '@wordpress/edit-post';
+import { select } from '@wordpress/data';
 import OverrideSidebar from './components/override-sidebar';
 import WidgetList from './components/widget-list';
 
@@ -17,6 +18,11 @@ const settings = {
 };
 
 export function render() {
+	const postType = select('core/editor').getCurrentPostType();
+	if (!['post'].includes(postType)) {
+		return null;
+	}
+
 	return (
 		<>
 			<PluginSidebarMoreMenuItem target={NAME}>{TITLE}</PluginSidebarMoreMenuItem>
