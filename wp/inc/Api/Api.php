@@ -49,7 +49,7 @@ class Api
 	{
 		add_filter('determine_current_user', [$this->jwt_auth, 'determine_current_user']);
 		add_filter('rest_pre_dispatch', [$this->jwt_auth, 'return_jwt_error']);
-		add_filter('rest_pre_echo_response', [$this->settings_endpoint, 'default_value_for_fields']);
+		add_filter('rest_pre_get_setting', [$this->settings_endpoint, 'default_value_for_fields'], 10, 2);
 	}
 
 	public function on_rest_api_init(): void

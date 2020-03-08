@@ -52,14 +52,12 @@ class Settings_Endpoint
 	/**
 	 * Assigns default value if field empty
 	 */
-	public function default_value_for_fields($response)
+	public function default_value_for_fields($value, $name)
 	{
-		if (strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/settings') === 0) {
-			if (array_key_exists(self::TAG_BASE, $response) && !$response[self::TAG_BASE]) {
-				$response[self::TAG_BASE] = 'tag';
-			}
+		if (self::TAG_BASE === $name && !$value) {
+			$value = 'tag';
 		}
 
-		return $response;
+		return $value;
 	}
 }
