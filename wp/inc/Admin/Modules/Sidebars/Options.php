@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Admin\Sidebars;
+namespace Inc\Admin\Modules\Sidebars;
 
-use Inc\Admin\Sidebars\Handler;
+use Inc\Admin\Modules\Sidebars\Handler;
 
 class Options
 {
@@ -27,8 +27,7 @@ class Options
 				'option_group' => self::OPTION_GROUP,
 				'option_name' => self::OPTION_NAME,
 				'args' => [
-					'type' => 'string',
-					'show_in_rest' => true
+					'show_in_rest' => false
 				]
 			]
 		];

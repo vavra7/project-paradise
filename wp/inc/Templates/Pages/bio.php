@@ -1,10 +1,10 @@
 <?php
-use Inc\Admin\Modules\Sidebars\Pages;
-use Inc\Admin\Modules\Sidebars\Options;
+use Inc\Admin\Modules\Bio\Pages;
+use Inc\Admin\Modules\Bio\Options;
 ?>
 
 <div class="wrap">
-	<h1>Sidebars</h1>
+	<h1>Bio</h1>
 
 	<?php settings_errors(); ?>
 

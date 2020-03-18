@@ -5,14 +5,16 @@ namespace Inc\Setup;
 class Enqueue
 {
 	const ADMIN_STYLE = 'admin-style';
-	const MAIN_STYLE = 'main-style';
-	const BLOCK_SCRIPTS = 'block-scripts';
+	const WP_STYLE = 'wp-style';
+	const ADMIN_SCRIPT = 'admin-script';
+	const GUTENBERG_SCRIPT = 'gutenberg-script';
 
 	function __construct()
 	{
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_style']);
-		add_action('wp_enqueue_scripts', [$this, 'enqueue_main_style']);
-		add_action('enqueue_block_editor_assets', [$this, 'register_block_scripts']);
+		add_action('wp_enqueue_scripts', [$this, 'enqueue_wp_style']);
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_script']);
+		add_action('enqueue_block_editor_assets', [$this, 'register_gutenberg_scripts']);
 	}
 
 	/**
@@ -20,12 +22,12 @@ class Enqueue
 	 */
 	public function enqueue_admin_style(): void
 	{
-		if (file_exists(get_template_directory() . '/build/admin.asset.php')) {
-			$asset_file = include(get_template_directory() . '/build/admin.asset.php');
+		if (file_exists(get_template_directory() . '/build/adminStyle.asset.php')) {
+			$asset_file = include(get_template_directory() . '/build/adminStyle.asset.php');
 
 			wp_enqueue_style(
 				self::ADMIN_STYLE,
-				get_template_directory_uri() . '/build/admin.css',
+				get_template_directory_uri() . '/build/adminStyle.css',
 				[],
 				$asset_file['version'],
 				'all'
@@ -36,14 +38,14 @@ class Enqueue
 	/**
 	 * Enqueueing main wp styles
 	 */
-	public function enqueue_main_style(): void
+	public function enqueue_wp_style(): void
 	{
-		if (file_exists(get_template_directory() . '/build/style.asset.php')) {
-			$asset_file = include(get_template_directory() . '/build/style.asset.php');
+		if (file_exists(get_template_directory() . '/build/wpStyle.asset.php')) {
+			$asset_file = include(get_template_directory() . '/build/wpStyle.asset.php');
 
 			wp_enqueue_style(
-				self::MAIN_STYLE,
-				get_template_directory_uri() . '/build/style.css',
+				self::WP_STYLE,
+				get_template_directory_uri() . '/build/wpStyle.css',
 				[],
 				$asset_file['version'],
 				'all'
@@ -52,18 +54,36 @@ class Enqueue
 	}
 
 	/**
-	 * Enqueueing block scripts
+	 * Register gutenberg scripts
 	 */
-	public function register_block_scripts(): void
+	public function register_gutenberg_scripts(): void
 	{
-		if (file_exists(get_template_directory() . '/build/index.asset.php')) {
-			$asset_file = include(get_template_directory() . '/build/index.asset.php');
+		if (file_exists(get_template_directory() . '/build/gutenberg.asset.php')) {
+			$asset_file = include(get_template_directory() . '/build/gutenberg.asset.php');
 
 			wp_register_script(
-				self::BLOCK_SCRIPTS,
-				get_template_directory_uri() . '/build/index.js',
+				self::GUTENBERG_SCRIPT,
+				get_template_directory_uri() . '/build/gutenberg.js',
 				$asset_file['dependencies'],
 				$asset_file['version']
+			);
+		}
+	}
+
+	/**
+	 * Enqueueing admin scripts
+	 */
+	public function enqueue_admin_script(): void
+	{
+		if (file_exists(get_template_directory() . '/build/adminScript.asset.php')) {
+			$asset_file = include(get_template_directory() . '/build/adminScript.asset.php');
+
+			wp_enqueue_script(
+				self::ADMIN_SCRIPT,
+				get_template_directory_uri() . '/build/adminScript.js',
+				['jquery'],
+				$asset_file['version'],
+				true
 			);
 		}
 	}

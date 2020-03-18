@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Admin\Bio;
+namespace Inc\Admin\Modules\Bio;
 
 class Pages
 {
@@ -17,7 +17,7 @@ class Pages
 			'capability' => 'manage_options',
 			'menu_slug' => self::PAGE,
 			'callback' => function () {
-				require_once(get_template_directory() . '/inc/Templates/Pages/sidebars.php');
+				require_once(get_template_directory() . '/inc/Templates/Pages/bio.php');
 			},
 			'position' => 4,
 		];

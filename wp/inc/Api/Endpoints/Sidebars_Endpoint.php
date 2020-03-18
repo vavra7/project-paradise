@@ -4,7 +4,7 @@ namespace Inc\Api\Endpoints;
 
 use \WP_REST_Server;
 use \WP_REST_Response;
-use Inc\Admin\Sidebars\Options as Sidebars_Options;
+use Inc\Admin\Modules\Sidebars\Options as Sidebars_Options;
 
 class Sidebars_Endpoint
 {

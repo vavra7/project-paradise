@@ -9,23 +9,24 @@ const production = process.env.NODE_ENV === '';
 module.exports = {
 	...defaultConfig,
 	entry: {
-		index: path.resolve(process.cwd(), 'src', 'index.js'),
-		admin: path.resolve(process.cwd(), 'src', 'admin.scss'),
-		style: path.resolve(process.cwd(), 'src', 'style.scss')
+		gutenberg: path.resolve(process.cwd(), 'src/scripts', 'gutenberg.js'),
+		adminScript: path.resolve(process.cwd(), 'src/scripts', 'adminScript.js'),
+		adminStyle: path.resolve(process.cwd(), 'src/styles', 'adminStyle.scss'),
+		wpStyle: path.resolve(process.cwd(), 'src/styles', 'wpStyle.scss')
 	},
 	optimization: {
 		...defaultConfig.optimization,
 		splitChunks: {
 			cacheGroups: {
-				admin: {
-					name: 'admin',
-					test: /admin\.(sc|sa|c)ss$/,
+				adminStyle: {
+					name: 'adminStyle',
+					test: /adminStyle\.(sc|sa|c)ss$/,
 					chunks: 'all',
 					enforce: true
 				},
-				style: {
-					name: 'style',
-					test: /style\.(sc|sa|c)ss$/,
+				wpStyle: {
+					name: 'wpStyle',
+					test: /wpStyle\.(sc|sa|c)ss$/,
 					chunks: 'all',
 					enforce: true
 				},
@@ -85,6 +86,6 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new IgnoreEmitPlugin(['admin.js', 'style.js'])
+		new IgnoreEmitPlugin(['adminStyle.js', 'wpStyle.js'])
 	]
 };
