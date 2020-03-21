@@ -13,8 +13,8 @@ class Enqueue
 	{
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_style']);
 		add_action('wp_enqueue_scripts', [$this, 'enqueue_wp_style']);
-		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_script']);
 		add_action('enqueue_block_editor_assets', [$this, 'register_gutenberg_scripts']);
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_script']);
 	}
 
 	/**
@@ -77,6 +77,8 @@ class Enqueue
 	{
 		if (file_exists(get_template_directory() . '/build/adminScript.asset.php')) {
 			$asset_file = include(get_template_directory() . '/build/adminScript.asset.php');
+
+			wp_enqueue_media();
 
 			wp_enqueue_script(
 				self::ADMIN_SCRIPT,

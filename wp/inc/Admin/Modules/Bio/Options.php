@@ -141,6 +141,18 @@ class Options
 				]
 			],
 			[
+				'id' => 'image_t',
+				'title'	=> 'Image',
+				'callback' => [$this->handler, 'bio_image_input'],
+				'page' => Pages::PAGE,
+				'section'	=> self::SECTION_T,
+				'args' => [
+					'label_for' => 'image_t',
+					'option_name'	=> self::OPTION_NAME_T,
+					'value_key' => self::VALUE_KEY_IMAGE
+				]
+			],
+			[
 				'id' => 'title_t',
 				'title'	=> 'Title',
 				'callback' => [$this->handler, 'bio_title_input'],
@@ -162,6 +174,18 @@ class Options
 					'label_for' => 'text_t',
 					'option_name'	=> self::OPTION_NAME_T,
 					'value_key' => self::VALUE_KEY_TEXT
+				]
+			],
+			[
+				'id' => 'image_k',
+				'title'	=> 'Image',
+				'callback' => [$this->handler, 'bio_image_input'],
+				'page' => Pages::PAGE,
+				'section'	=> self::SECTION_K,
+				'args' => [
+					'label_for' => 'image_k',
+					'option_name'	=> self::OPTION_NAME_K,
+					'value_key' => self::VALUE_KEY_IMAGE
 				]
 			],
 			[

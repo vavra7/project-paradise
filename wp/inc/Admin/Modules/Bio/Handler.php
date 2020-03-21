@@ -21,12 +21,9 @@ class Handler
 	{
 		$output = [
 			Options::VALUE_KEY_TITLE => sanitize_text_field($input[Options::VALUE_KEY_TITLE]),
-			Options::VALUE_KEY_TEXT => sanitize_textarea_field($input[Options::VALUE_KEY_TEXT])
+			Options::VALUE_KEY_TEXT => sanitize_textarea_field($input[Options::VALUE_KEY_TEXT]),
+			Options::VALUE_KEY_IMAGE => $input[Options::VALUE_KEY_IMAGE]
 		];
-
-		if (array_key_exists(Options::VALUE_KEY_IMAGE, $input)) {
-			$output[Options::VALUE_KEY_IMAGE] = $input[Options::VALUE_KEY_IMAGE];
-		}
 
 		return $output;
 	}

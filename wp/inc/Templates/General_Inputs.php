@@ -68,17 +68,18 @@ class General_Inputs
 	{
 		$option_name = $args['option_name'] ?? '';
 		$id = $args['label_for'] ?? '';
-		$options = $args['options'] ?? '';
 		$value = $args['value'] ?? '';
 		$class = $args['class'] ?? '';
+		$src = wp_get_attachment_image_src($value)[0];
 
-		$image_id = 36;
-
+		// debug(wp_get_attachment_image_src($value)[0]);
 	?>
-		<img alt="" src="http://0.gravatar.com/avatar/62a9fc77b58226b8af523bc42df50448?s=96&amp;d=mm&amp;r=g" srcset="http://0.gravatar.com/avatar/62a9fc77b58226b8af523bc42df50448?s=192&amp;d=mm&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96">
-		<input type="hidden" name="myprefix_image_id" id="myprefix_image_id" value="<?php echo esc_attr( $image_id ); ?>" class="regular-text" />
- <input type='button' class="button-primary" value="<?php esc_attr_e( 'Select a image', 'mytextdomain' ); ?>" id="myprefix_media_manager"/>
-</p>
+		<img id="<?php echo $id; ?>" src="<?php echo get_template_directory_uri() . '/assets/avatar.png'; ?>" class="avatar avatar-96 photo" height="96" width="96">
+		<img id="<?php echo $id; ?>" src="<?php echo $src; ?>" class="avatar avatar-96 photo" height="96" width="96">
+
+		<input id="<?php echo $id; ?>" name="<?php echo $option_name; ?>" value="<?php echo $value; ?>" class="<?php echo $class; ?>" />
+
+		<button id="<?php echo $id; ?>" class="button button-secondary">Click</button>
 <?php
 	}
 }

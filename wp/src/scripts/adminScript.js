@@ -1,65 +1,71 @@
-// jQuery(document).ready( function($) {
+class MediaFrame {
+	constructor(options, selectors) {
+		this.frame = wp.media(options);
+		this.selectors = selectors;
+		this.onSelect = this.onSelect.bind(this);
+		this.onOpen = this.onOpen.bind(this);
+		this.frame.on('open', this.onOpen);
+		this.frame.on('select', this.onSelect);
+		this.initListeners();
+	}
 
-// 	jQuery('input#myprefix_media_manager').click(function(e) {
+	initListeners() {
+		const { button } = this.selectors;
 
-// 				 e.preventDefault();
-// 				 var image_frame;
-// 				 if(image_frame){
-// 						 image_frame.open();
-// 				 }
-// 				 // Define image_frame as wp.media object
-// 				 image_frame = wp.media({
-// 											 title: 'Select Media',
-// 											 multiple : false,
-// 											 library : {
-// 														type : 'image',
-// 												}
-// 									 });
+		button.addEventListener('click', e => {
+			e.preventDefault();
+			this.frame.open();
+		});
+	}
 
-// 									 image_frame.on('close',function() {
-// 											// On close, get selections and save to the hidden input
-// 											// plus other AJAX stuff to refresh the image preview
-// 											var selection =  image_frame.state().get('selection');
-// 											var gallery_ids = new Array();
-// 											var my_index = 0;
-// 											selection.each(function(attachment) {
-// 												 gallery_ids[my_index] = attachment['id'];
-// 												 my_index++;
-// 											});
-// 											var ids = gallery_ids.join(",");
-// 											jQuery('input#myprefix_image_id').val(ids);
-// 											Refresh_Image(ids);
-// 									 });
+	onOpen() {
+		const { input } = this.selectors;
 
-// 									image_frame.on('open',function() {
-// 										// On open, get the id from the hidden input
-// 										// and select the appropiate images in the media manager
-// 										var selection =  image_frame.state().get('selection');
-// 										var ids = jQuery('input#myprefix_image_id').val().split(',');
-// 										ids.forEach(function(id) {
-// 											var attachment = wp.media.attachment(id);
-// 											attachment.fetch();
-// 											selection.add( attachment ? [ attachment ] : [] );
-// 										});
+		const value = input.getAttribute('value');
+		const media = wp.media.attachment(value);
+		const selection = this.frame.state().get('selection');
 
-// 									});
+		if (media) {
+			selection.push(media);
+		}
+	}
 
-// 								image_frame.open();
-//  });
+	onSelect() {
+		const { input, img } = this.selectors;
+		const selection = this.frame
+			.state()
+			.get('selection')
+			.first();
 
-// });
+		input.setAttribute('value', selection.id);
+		img.setAttribute('src', selection.attributes.sizes.thumbnail.url);
+	}
+}
 
-// // Ajax request to refresh the image preview
-// function Refresh_Image(the_id){
-// 		var data = {
-// 				action: 'myprefix_get_image',
-// 				id: the_id
-// 		};
+const options = {
+	title: 'Select Image',
+	multiple: false,
+	library: {
+		type: 'image'
+	}
+};
 
-// 		jQuery.get(ajaxurl, data, function(response) {
+document.addEventListener('DOMContentLoaded', () => {
+	new MediaFrame(options, {
+		button: document.querySelector('button#image_us'),
+		input: document.querySelector('input#image_us'),
+		img: document.querySelector('img#image_us')
+	});
 
-// 				if(response.success === true) {
-// 						jQuery('#myprefix-preview-image').replaceWith( response.data.image );
-// 				}
-// 		});
-// }
+	new MediaFrame(options, {
+		button: document.querySelector('button#image_t'),
+		input: document.querySelector('input#image_t'),
+		img: document.querySelector('img#image_t')
+	});
+
+	new MediaFrame(options, {
+		button: document.querySelector('button#image_k'),
+		input: document.querySelector('input#image_k'),
+		img: document.querySelector('img#image_k')
+	});
+});
