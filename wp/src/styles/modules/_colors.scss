@@ -1,11 +1,19 @@
 $wp-light-grey: #f3f3f4;
+$wp-destructive: #d94f4f;
 
 $color-list: (
-	'wp-light-grey': $wp-light-grey
+	'wp-light-grey': $wp-light-grey,
+	'wp-destructive': $wp-destructive
 );
 
 @each $color-name, $color in $color-list {
 	.bg-#{$color-name} {
 		background-color: $color;
+	}
+}
+
+@each $color-name, $color in $color-list {
+	.color-#{$color-name} {
+		color: $color;
 	}
 }

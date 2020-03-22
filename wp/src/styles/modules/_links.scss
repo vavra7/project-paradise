@@ -1,0 +1,16 @@
+.link {
+	cursor: pointer;
+}
+
+.link-destructive {
+	@extend .link;
+	color: $wp-destructive;
+
+	&:hover {
+		color: lighten($wp-destructive, 10%);
+	}
+
+	&:focus {
+		color: darken($wp-destructive, 10%);
+	}
+}

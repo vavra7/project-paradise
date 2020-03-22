@@ -31,6 +31,14 @@ $spaces: (
 	.mr-#{$space} {
 		margin-right: $size;
 	}
+	
+	.mb-#{$space} {
+		margin-bottom: $size;
+	}
+
+	.ml-#{$space} {
+		margin-left: $size;
+	}
 
 	.pa-#{$space} {
 		padding: $size;

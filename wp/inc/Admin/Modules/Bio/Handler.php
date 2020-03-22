@@ -4,6 +4,7 @@ namespace Inc\Admin\Modules\Bio;
 
 use Inc\Templates\General_Inputs;
 use Inc\Admin\Includes\Helper;
+use Inc\Assets\Assets;
 
 class Handler
 {
@@ -36,7 +37,8 @@ class Handler
 		$new_args = array_merge($args, [
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
 			'value' => $this->helper->get_array_option($args['option_name'], $args['value_key']),
-			'class' => 'regular-text'
+			'class' => 'regular-text',
+			'default_src' => Assets::get_asset('avatar')['url']
 		]);
 
 		General_Inputs::render_img($new_args);

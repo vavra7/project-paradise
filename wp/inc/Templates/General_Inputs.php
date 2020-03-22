@@ -70,16 +70,23 @@ class General_Inputs
 		$id = $args['label_for'] ?? '';
 		$value = $args['value'] ?? '';
 		$class = $args['class'] ?? '';
-		$src = wp_get_attachment_image_src($value)[0];
+		$default_src = $args['default_src'] ?? '';
 
-		// debug(wp_get_attachment_image_src($value)[0]);
+		if ($value && wp_get_attachment_image_src($value)) {
+			$src = wp_get_attachment_image_src($value)[0];
+		} else {
+			$src = $default_src;
+		}
+
 	?>
-		<img id="<?php echo $id; ?>" src="<?php echo get_template_directory_uri() . '/assets/avatar.png'; ?>" class="avatar avatar-96 photo" height="96" width="96">
-		<img id="<?php echo $id; ?>" src="<?php echo $src; ?>" class="avatar avatar-96 photo" height="96" width="96">
-
-		<input id="<?php echo $id; ?>" name="<?php echo $option_name; ?>" value="<?php echo $value; ?>" class="<?php echo $class; ?>" />
-
-		<button id="<?php echo $id; ?>" class="button button-secondary">Click</button>
+		<div class="d-flex">
+			<img id="<?php echo $id; ?>" src="<?php echo $src; ?>" class="avatar avatar-96 photo link" height="96" width="96">
+			<div class="ml-3 d-flex fd-column" style="align-self: flex-end;">
+				<input id="<?php echo $id; ?>" name="<?php echo $option_name; ?>" type="hidden" value="<?php echo $value; ?>" class="<?php echo $class; ?>" />
+				<button id="<?php echo $id; ?>" class="button button-secondary" type="button">Select Image</button>
+				<a id="<?php echo $id; ?>" class="link-destructive mt-1" href="#">Remove Image</a>
+			</div>
+		</div>
 <?php
 	}
 }

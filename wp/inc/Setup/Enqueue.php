@@ -2,6 +2,8 @@
 
 namespace Inc\Setup;
 
+use Inc\Assets\Assets;
+
 class Enqueue
 {
 	const ADMIN_STYLE = 'admin-style';
@@ -86,6 +88,15 @@ class Enqueue
 				['jquery'],
 				$asset_file['version'],
 				true
+			);
+
+			wp_localize_script(
+				self::ADMIN_SCRIPT,
+				'wpData',
+				[
+					'screenId' => get_current_screen()->id,
+					'assets' => Assets::get_all_assets(),
+				]
 			);
 		}
 	}
