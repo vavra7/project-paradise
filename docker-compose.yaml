@@ -1,37 +1,38 @@
-version: '3.3'
-services:
-  db:
-    image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
-    container_name: wp-db
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-    volumes:
-      - wp-db:/var/lib/mysql
-    ports:
-      - '6033:3306'
-    networks:
-      - wp
+version: '3'
 
-  wp:
+services:
+  wordpress:
     image: wordpress:php7.4
-    container_name: wp
-    depends_on:
-      - db
+    ports:
+      - '8069:80'
+    volumes:
+      - ./wp:/var/www/html/wp-content/themes/project-paradise
+      - ./wp/_wp-files:/var/www/html
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_NAME: wp
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DEBUG: 1
-    volumes:
-      - ./wp:/var/www/html/wp-content/themes/project-paradise
-      - ./wp/_wp-files:/var/www/html
-    ports:
-      - '8069:80'
+    depends_on:
+      - mysql
     networks:
       - wp
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - '6033:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: "wp"
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - wp
+
 networks:
   wp:
 volumes:
-  wp-db:
+  db-data:

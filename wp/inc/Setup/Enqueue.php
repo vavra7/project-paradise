@@ -70,6 +70,8 @@ class Enqueue
 				$asset_file['version']
 			);
 		}
+
+		wp_set_script_translations(self::GUTENBERG_SCRIPT, TEXT_DOMAIN);
 	}
 
 	/**

@@ -1,3 +1,4 @@
+const TEXT_DOMAIN = 'project-paradise'; 
 const namespace = 'project-paradise';
 
-export { namespace };
+export { TEXT_DOMAIN, namespace };

@@ -6,11 +6,20 @@ final class Setup
 {
 	function __construct()
 	{
+		add_action('after_setup_theme', [$this, 'load_theme_localization']);
 		add_action('init', [$this, 'activate_permalink']);
 		add_filter('rest_url', [$this, 'change_outgoing_url']);
 
 		add_filter('excerpt_more', [$this, 'new_excerpt_more']);
 		remove_filter('the_excerpt', 'wpautop');
+	}
+
+	/**
+	 * Loading all localization files for theme
+	 */
+	public function load_theme_localization()
+	{
+		load_theme_textdomain('project-paradise', get_template_directory() . '/languages');
 	}
 
 	/**

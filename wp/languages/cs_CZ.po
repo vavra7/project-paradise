@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: project-paradise\n"
+"POT-Creation-Date: 2020-03-26 14:14+0100\n"
+"PO-Revision-Date: 2020-03-26 14:17+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SearchPath-0: inc\n"
+"X-Poedit-SearchPath-1: src/scripts\n"
+"X-Poedit-SearchPathExcluded-0: inc/Menus/Includes/Custom_Admin_Walker_Menu.php\n"
+
+#: Admin/Modules/Bio/Options.php:74
+msgid "About Us"
+msgstr "O nás"
+
+#: Admin/Modules/Bio/Options.php:76
+msgid "Settings of bio widget about website authors."
+msgstr "Oba nastavení."
+
+#: Admin/Modules/Bio/Options.php:84
+msgid "Settings of bio widget about author Tomáš."
+msgstr "Tomáš nastavení."
+
+#: Admin/Modules/Bio/Options.php:92
+msgid "Settings of bio widget about author Klára."
+msgstr "Klára nastavení."
+
+#: Admin/Modules/Bio/Options.php:111 Admin/Modules/Bio/Options.php:147
+#: Admin/Modules/Bio/Options.php:183
+msgid "Image"
+msgstr ""
+
+#: Admin/Modules/Bio/Options.php:123 Admin/Modules/Bio/Options.php:159
+#: Admin/Modules/Bio/Options.php:195
+msgid "Title"
+msgstr ""
+
+#: Admin/Modules/Bio/Options.php:135 Admin/Modules/Bio/Options.php:171
+#: Admin/Modules/Bio/Options.php:207
+msgid "Text"
+msgstr ""

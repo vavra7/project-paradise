@@ -7,5 +7,6 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 	$dotenv->load(dirname(__FILE__) . '/.env');
 }
 
+define('TEXT_DOMAIN', 'project-paradise');
 define('WP_SITEURL', $_ENV['WP_SITEURL']);
 define('WP_HOME', $_ENV['WP_HOME']);

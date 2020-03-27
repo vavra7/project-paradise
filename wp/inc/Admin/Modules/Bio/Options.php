@@ -66,12 +66,14 @@ class Options
 	 */
 	public function register_sections()
 	{
+		
+
 		$sections = [
 			[
 				'id' => self::SECTION_US,
-				'title' => 'About Us',
+				'title' => __('About Us', TEXT_DOMAIN),
 				'callback' => function () {
-					echo 'Tadadadadadadaaaa dsfd sfaafs.';
+					_e('Settings of bio widget about website authors.', TEXT_DOMAIN);
 				},
 				'page' => Pages::PAGE
 			],
@@ -79,7 +81,7 @@ class Options
 				'id' => self::SECTION_T,
 				'title' => 'Tomáš',
 				'callback' => function () {
-					echo 'Tadadadadadadaaaa dasf asfas dfasfs .';
+					_e('Settings of bio widget about author Tomáš.', TEXT_DOMAIN);
 				},
 				'page' => Pages::PAGE
 			],
@@ -87,7 +89,7 @@ class Options
 				'id' => self::SECTION_K,
 				'title' => 'Klára',
 				'callback' => function () {
-					echo 'Tadadadadadadaaaaasd asdf dfsaf affdssfas .';
+					_e('Settings of bio widget about author Klára.', TEXT_DOMAIN);
 				},
 				'page' => Pages::PAGE
 			]
@@ -106,7 +108,7 @@ class Options
 		$fields = [
 			[
 				'id' => 'image_us',
-				'title'	=> 'Image',
+				'title'	=> __('Image', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_image_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_US,
@@ -118,7 +120,7 @@ class Options
 			],
 			[
 				'id' => 'title_us',
-				'title'	=> 'Title',
+				'title'	=> __('Title', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_title_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_US,
@@ -130,7 +132,7 @@ class Options
 			],
 			[
 				'id' => 'text_us',
-				'title'	=> 'Text',
+				'title'	=> __('Text', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_text_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_US,
@@ -142,7 +144,7 @@ class Options
 			],
 			[
 				'id' => 'image_t',
-				'title'	=> 'Image',
+				'title'	=> __('Image', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_image_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_T,
@@ -154,7 +156,7 @@ class Options
 			],
 			[
 				'id' => 'title_t',
-				'title'	=> 'Title',
+				'title'	=> __('Title', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_title_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_T,
@@ -166,7 +168,7 @@ class Options
 			],
 			[
 				'id' => 'text_t',
-				'title'	=> 'Text',
+				'title'	=> __('Text', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_text_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_T,
@@ -178,7 +180,7 @@ class Options
 			],
 			[
 				'id' => 'image_k',
-				'title'	=> 'Image',
+				'title'	=> __('Image', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_image_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_K,
@@ -190,7 +192,7 @@ class Options
 			],
 			[
 				'id' => 'title_k',
-				'title'	=> 'Title',
+				'title'	=> __('Title', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_title_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_K,
@@ -202,7 +204,7 @@ class Options
 			],
 			[
 				'id' => 'text_k',
-				'title'	=> 'Text',
+				'title'	=> __('Text', TEXT_DOMAIN),
 				'callback' => [$this->handler, 'bio_text_input'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION_K,
