@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+  wordpress:
+    image: wordpress:5-php7.4-apache
+    container_name: project-paradise_wordpress
+    ports:
+      - '8069:80'
+    volumes:
+      - type: bind
+        source: ./wp-app
+        target: /var/www/html
+      - type: bind
+        source: ./project-paradise
+        target: /var/www/html/wp-content/themes/project-paradise
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: wp
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DEBUG: 1
+    depends_on:
+      - mysql
+    networks:
+      - wp
+
+  wp-cli:
+    image: wordpress:cli-2.4-php7.4
+    container_name: project-paradise_wp-cli
+    volumes:
+      - type: bind
+        source: ./wp-app
+        target: /var/www/html
+      - type: bind
+        target: /var/www/html/wp-content/themes/project-paradise
+        source: ./project-paradise
+    environment:
+      APACHE_RUN_USER: www-data
+      APACHE_RUN_GROUP: www-data
+    depends_on:
+      - wordpress
+      - mysql
+    networks:
+      - wp
+
+  mysql:
+    image: mysql:latest
+    container_name: project-paradise_mysql
+    ports:
+      - '6033:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+    environment:
+      MYSQL_DATABASE: "wp"
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - wp
+
+networks:
+  wp:
+volumes:
+  db-data:

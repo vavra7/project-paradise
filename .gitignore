@@ -1,20 +1,20 @@
-wp/_wp-files/
-wp/node_modules/
-wp/build/
-wp/vendor/
+wordpress/wp-app/
+wordpress/project-paradise/node_modules/
+wordpress/project-paradise/build/
+wordpress/project-paradise/vendor/
 
-!wp/_wp-files/
-wp/_wp-files/*
-!wp/_wp-files/wp-includes/
-wp/_wp-files/wp-includes/*
-!wp/_wp-files/wp-includes/css/
-wp/_wp-files/wp-includes/css/*
-!wp/_wp-files/wp-includes/css/dist
-wp/_wp-files/wp-includes/css/dist/*
-!wp/_wp-files/wp-includes/css/dist/block-library/
-wp/_wp-files/wp-includes/css/dist/block-library/*
-!wp/_wp-files/wp-includes/css/dist/block-library/theme.min.css
-!wp/_wp-files/wp-includes/css/dist/block-library/style.min.css
+!wordpress/wp-app/
+wordpress/wp-app/*
+!wordpress/wp-app/wp-includes/
+wordpress/wp-app/wp-includes/*
+!wordpress/wp-app/wp-includes/css/
+wordpress/wp-app/wp-includes/css/*
+!wordpress/wp-app/wp-includes/css/dist
+wordpress/wp-app/wp-includes/css/dist/*
+!wordpress/wp-app/wp-includes/css/dist/block-library/
+wordpress/wp-app/wp-includes/css/dist/block-library/*
+!wordpress/wp-app/wp-includes/css/dist/block-library/theme.min.css
+!wordpress/wp-app/wp-includes/css/dist/block-library/style.min.css
 
 
 gatsby/public/

@@ -2,8 +2,8 @@
 @import '../../../common-styles/commons';
 
 // wp general block styles
-@import '../../../wp/_wp-files/wp-includes/css/dist/block-library/theme.min.css';
-@import '../../../wp/_wp-files/wp-includes/css/dist/block-library/style.min.css';
+@import '../../../wordpress/wp-app/wp-includes/css/dist/block-library/theme.min.css';
+@import '../../../wordpress/wp-app/wp-includes/css/dist/block-library/style.min.css';
 
 // gatsby style modules
 @import './modules/fonts';
