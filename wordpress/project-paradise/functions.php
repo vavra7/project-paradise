@@ -14,7 +14,7 @@ if (class_exists('Inc\\Init')) {
 
 function debug($input, $die = false)
 {
-	echo '<pre>';
+	echo '<pre style="margin-left: 165px;">';
 	print_r($input);
 	echo '</pre>';
 

@@ -1,13 +1,24 @@
 # Project Paradise
 ## Set Up
+
+### Launch Wordpress in Wordpress folder
+```
+docker-compose up
+```
+
 ### Change directory owner for Wordpress (Linux only)
 ```
-sudo chown www-data -R ./wp
+sudo chown www-data -R ./
 ```
 
 ### Change directory rights (Linux only)
 ```
-sudo chmod 777 -R ./wp
+sudo chmod 777 -R ./
+```
+
+### Install wordpress
+```
+docker-compose run --rm wp-cli core install --url="localhost:8069" --title="Project Paradise" --admin_user=root --admin_password=password --admin_email=project@test.wp
 ```
 
 ### Install composer packages in Wordpress theme
@@ -17,22 +28,21 @@ composer install
 ```
 
 ### Install npm packages in Wordpress theme
-In wp folder run:
+In wp theme folder run:
 ```
 npm install
 ```
 
 ### Build scripts and styles for Wordpress in theme folder
-In wp folder run: 
+In wp theme folder run:
 ```
 npm run build
 ```
 
-### Install Wordpress
-on `localhost:8069` go over setup
-
 ### Change Wordpress Theme
-In Wordpress menu change theme to "Project Paradise"
+```
+docker-compose run --rm wp-cli theme activate project-paradise
+```
 
 ### Allow authorization headers
 Add following lines in Wordpress in .htaccess file under line with: "# END WordPress"
@@ -54,11 +64,6 @@ if (file_exists(__DIR__ . '/wp-content/themes/project-paradise/wp-config.extend.
 In gatsby folder run:
 ```
 npm install
-```
-
-### Launch Wordpress in Wordpress folder
-```
-docker-compose up
 ```
 
 ## Languages for wordpress (javascript)
