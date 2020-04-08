@@ -1,9 +1,9 @@
 <?php
 
-namespace Inc\Admin\Modules\Bio;
+namespace Inc\Admin_Pages\Modules\Bio;
 
 use Inc\Templates\General_Inputs;
-use Inc\Admin\Includes\Helper;
+use Inc\Admin_Pages\Includes\Helper;
 use Inc\Assets\Assets;
 
 class Handler

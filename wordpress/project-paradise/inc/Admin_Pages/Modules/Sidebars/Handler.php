@@ -1,9 +1,9 @@
 <?php
 
-namespace Inc\Admin\Modules\Sidebars;
+namespace Inc\Admin_Pages\Modules\Sidebars;
 
 use Inc\Templates\General_Inputs;
-use Inc\Admin\Includes\Helper;
+use Inc\Admin_Pages\Includes\Helper;
 
 class Handler
 {

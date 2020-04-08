@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Admin\Modules\Bio;
+namespace Inc\Admin_Pages\Modules\Bio;
 
 class Pages
 {

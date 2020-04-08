@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Admin\Includes;
+namespace Inc\Admin_Pages\Includes;
 
 class Helper
 {

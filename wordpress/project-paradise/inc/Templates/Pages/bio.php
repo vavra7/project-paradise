@@ -1,6 +1,6 @@
 <?php
-use Inc\Admin\Modules\Bio\Pages;
-use Inc\Admin\Modules\Bio\Options;
+use Inc\Admin_Pages\Modules\Bio\Pages;
+use Inc\Admin_Pages\Modules\Bio\Options;
 ?>
 
 <div class="wrap">

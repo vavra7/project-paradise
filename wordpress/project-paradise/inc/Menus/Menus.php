@@ -2,29 +2,36 @@
 
 namespace Inc\Menus;
 
-use Inc\Templates\Menu_Templates;
+use Inc\Templates\Menus_Inputs;
 
 class Menus
 {
-	private const new_items = [
-		[
-			'id' => 'icon',
-			'label' => 'Icon',
-			'meta_key' => '_menu_item_icon',
-			'args' => [
-				'code' => true
-			]
-		]
-	];
+	public $icon_field;
 
 	function __construct()
 	{
+		$this->init();
+
 		add_action('after_setup_theme', [$this, 'register_menu_locations']);
+
 		add_action('wp_update_nav_menu_item', [$this, 'on_save_menu_items'], 10, 3);
 
 		add_filter('wp_setup_nav_menu_item', [$this, 'add_items_in_menu_object']);
 		add_filter('manage_nav-menus_columns', [$this, 'setup_menu_columns'], 99);
-		add_filter('wp_edit_nav_menu_walker', [$this, 'custom_admin_walker_menu'], 10);
+
+		add_action('wp_nav_menu_item_custom_fields', [$this, 'handle_icon_input'], 10, 2);
+	}
+
+	/**
+	 * Initialize class' variables
+	 */
+	public function init()
+	{
+		$this->icon_field = [
+			'id' => 'icon',
+			'label' => __('Icon', 'project-paradise'),
+			'meta_key' => '_menu_item_icon',
+		];
 	}
 
 	/**
@@ -33,8 +40,8 @@ class Menus
 	public function register_menu_locations(): void
 	{
 		register_nav_menus([
-			'desktop_top_menu' => 'Desktop Top Menu',
-			'mobile_bottom_menu' => 'Mobile Bottom Menu'
+			'desktop_top_menu' => __('Desktop Top Menu', 'project-paradise'),
+			'mobile_bottom_menu' => __('Mobile Bottom Menu', 'project-paradise')
 		]);
 	}
 
@@ -44,32 +51,23 @@ class Menus
 	public function on_save_menu_items($menu_id, $post_id, $args)
 	{
 		if (defined('DOING_AJAX') && DOING_AJAX) return;
-
 		check_admin_referer('update-nav_menu', 'update-nav-menu-nonce');
 
-		foreach (self::new_items as $new_item) {
-			$name = sprintf('menu-item-%s', $new_item['id']);
-			$value = $_POST[$name][$post_id];
-			$value = trim(sanitize_text_field($value));
+		$name = sprintf('menu-item-%s', $this->icon_field['id']);
+		$value = $_POST[$name][$post_id];
+		$value = trim(sanitize_text_field($value));
 
-			if ($value) {
-				update_post_meta($post_id, $new_item['meta_key'], $value);
-			} else {
-				delete_post_meta($post_id, $new_item['meta_key']);
-			}
-		}
+		update_post_meta($post_id, $this->icon_field['meta_key'], $value);
 	}
 
 	/**
 	 * Adds custom fields into object of menu items
-	 * and assign its value
+	 * and assigns its value
 	 */
 	public function add_items_in_menu_object($menu_item)
 	{
-		foreach (self::new_items as $new_item) {
-			$new_item_id = $new_item['id'];
-			$menu_item->$new_item_id = get_post_meta($menu_item->ID, $new_item['meta_key'], true);
-		}
+		$field_id = $this->icon_field['id'];
+		$menu_item->$field_id = get_post_meta($menu_item->ID, $this->icon_field['meta_key'], true);
 
 		return $menu_item;
 	}
@@ -80,39 +78,25 @@ class Menus
 	public function setup_menu_columns($columns)
 	{
 		$new_columns = [];
-
-		foreach (self::new_items as $new_item) {
-			$new_columns[$new_item['id']] = $new_item['label'];
-		}
+		$new_columns[$this->icon_field['id']] = $this->icon_field['label'];
 
 		return array_merge($columns, $new_columns);
 	}
 
 	/**
-	 * Sets class with output which replaces default admin menu UI
+	 * Handles rendering of input
 	 */
-	public function custom_admin_walker_menu()
+	public function handle_icon_input($item_id, $item)
 	{
-		require_once dirname(__FILE__) . '/Includes/Custom_Admin_Walker_Menu.php';
+		$field_id = $this->icon_field['id'];
 
-		return 'Custom_Admin_Walker_Menu';
-	}
+		$args = [
+			'field_id' => $field_id,
+			'item_id' => $item_id,
+			'label' => $this->icon_field['label'],
+			'value' => $item->$field_id
+		];
 
-	/**
-	 * Renders input fields for walker menu class
-	 */
-	public function get_menu_item_input($item)
-	{
-		foreach (self::new_items as $new_item) {
-			$id = $new_item['id'];
-
-			Menu_Templates::menu_item_input_description_wide(
-				$id,
-				$item->ID,
-				$new_item['label'],
-				$item->$id,
-				$new_item['args']
-			);
-		}
+		Menus_Inputs::render_icon_input($args);
 	}
 }

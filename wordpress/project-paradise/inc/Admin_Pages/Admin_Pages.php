@@ -1,13 +1,13 @@
 <?php
 
-namespace Inc\Admin;
+namespace Inc\Admin_Pages;
 
-use Inc\Admin\Modules\Sidebars\Pages as Sidebars_Pages;
-use Inc\Admin\Modules\Sidebars\Options as Sidebars_Options;
-use Inc\Admin\Modules\Bio\Pages as Bio_Pages;
-use Inc\Admin\Modules\Bio\Options as Bio_Options;
+use Inc\Admin_Pages\Modules\Sidebars\Pages as Sidebars_Pages;
+use Inc\Admin_Pages\Modules\Sidebars\Options as Sidebars_Options;
+use Inc\Admin_Pages\Modules\Bio\Pages as Bio_Pages;
+use Inc\Admin_Pages\Modules\Bio\Options as Bio_Options;
 
-class Admin
+class Admin_Pages
 {
 	private $sidebars_pages;
 	private $sidebars_options;

@@ -10,7 +10,7 @@ use Inc\Api\Api;
 use Inc\Setup\Enqueue;
 use Inc\Sidebars\Sidebars;
 use Inc\Setup\Setup;
-use Inc\Admin\Admin;
+use Inc\Admin_Pages\Admin_Pages;
 
 class Init
 {
@@ -25,7 +25,7 @@ class Init
 			Pages::class,
 			Blocks::class,
 			Api::class,
-			Admin::class,
+			Admin_Pages::class,
 		];
 	}
 

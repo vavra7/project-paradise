@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Admin\Modules\Sidebars;
+namespace Inc\Admin_Pages\Modules\Sidebars;
 
 class Pages
 {

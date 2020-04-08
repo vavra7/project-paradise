@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Admin\Modules\Bio;
+namespace Inc\Admin_Pages\Modules\Bio;
 
-use Inc\Admin\Modules\Bio\Handler;
+use Inc\Admin_Pages\Modules\Bio\Handler;
 
 class Options
 {
