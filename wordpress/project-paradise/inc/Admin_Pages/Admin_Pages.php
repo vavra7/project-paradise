@@ -30,8 +30,8 @@ class Admin_Pages
 	 */
 	public function create_pages()
 	{
-		$this->sidebars_pages->register_page();
-		$this->bio_pages->register_page();
+		$this->sidebars_pages->register_pages();
+		$this->bio_pages->register_pages();
 	}
 
 	/**

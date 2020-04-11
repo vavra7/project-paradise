@@ -9,7 +9,7 @@ class Pages
 	/**
 	 * Register sidebars page
 	 */
-	public function register_page()
+	public function register_pages()
 	{
 		$page = [
 			'page_title' => __('Sidebars', 'project-paradise'),

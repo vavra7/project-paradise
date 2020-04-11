@@ -7,7 +7,7 @@ use Inc\Templates\Pages_Templates;
 
 class Pages
 {
-	public function __construct()
+	function __construct()
 	{
 		$this->post_meta = new Post_Meta;
 

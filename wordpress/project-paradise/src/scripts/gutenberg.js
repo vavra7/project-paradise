@@ -1,6 +1,6 @@
-import './store';
-import './blocks';
-import './plugins';
+import './gutenberg/store';
+import './gutenberg/blocks';
+import './gutenberg/plugins';
 
 import { addFilter } from '@wordpress/hooks';
 

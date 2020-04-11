@@ -5,7 +5,9 @@ namespace Inc;
 use Inc\Blocks\Blocks;
 use Inc\Menus\Menus;
 use Inc\Post_Types\Posts;
+use Inc\Post_Types\Posts_En;
 use Inc\Post_Types\Pages;
+use Inc\Post_Types\Pages_En;
 use Inc\Api\Api;
 use Inc\Setup\Enqueue;
 use Inc\Sidebars\Sidebars;
@@ -22,7 +24,9 @@ class Init
 			Sidebars::class,
 			Menus::class,
 			Posts::class,
+			Posts_En::class,
 			Pages::class,
+			Pages_En::class,
 			Blocks::class,
 			Api::class,
 			Admin_Pages::class,
