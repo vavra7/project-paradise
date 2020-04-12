@@ -13,12 +13,9 @@ class Menus
 		$this->init();
 
 		add_action('after_setup_theme', [$this, 'register_menu_locations']);
-
 		add_action('wp_update_nav_menu_item', [$this, 'on_save_menu_items'], 10, 3);
-
 		add_filter('wp_setup_nav_menu_item', [$this, 'add_items_in_menu_object']);
 		add_filter('manage_nav-menus_columns', [$this, 'setup_menu_columns'], 99);
-
 		add_action('wp_nav_menu_item_custom_fields', [$this, 'handle_icon_input'], 10, 2);
 	}
 
@@ -41,7 +38,9 @@ class Menus
 	{
 		register_nav_menus([
 			'desktop_top_menu' => __('Desktop Top Menu', 'project-paradise'),
-			'mobile_bottom_menu' => __('Mobile Bottom Menu', 'project-paradise')
+			'desktop_top_menu_en' => __('Desktop Top Menu (en)', 'project-paradise'),
+			'mobile_bottom_menu' => __('Mobile Bottom Menu', 'project-paradise'),
+			'mobile_bottom_menu_en' => __('Mobile Bottom Menu (en)', 'project-paradise')
 		]);
 	}
 

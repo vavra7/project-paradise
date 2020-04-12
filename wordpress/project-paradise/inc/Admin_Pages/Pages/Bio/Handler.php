@@ -1,6 +1,6 @@
 <?php
 
-namespace Inc\Admin_Pages\Modules\Bio;
+namespace Inc\Admin_Pages\Pages\Bio;
 
 use Inc\Templates\General_Inputs;
 use Inc\Admin_Pages\Includes\Helper;
@@ -21,9 +21,9 @@ class Handler
 	public function bio_sanitize_setting(array $input): array
 	{
 		$output = [
-			Options::VALUE_KEY_TITLE => sanitize_text_field($input[Options::VALUE_KEY_TITLE]),
-			Options::VALUE_KEY_TEXT => sanitize_textarea_field($input[Options::VALUE_KEY_TEXT]),
-			Options::VALUE_KEY_IMAGE => $input[Options::VALUE_KEY_IMAGE]
+			Options::VALUE_KEYS['IMAGE'] => $input[Options::VALUE_KEYS['IMAGE']],
+			Options::VALUE_KEYS['TITLE'] => sanitize_text_field($input[Options::VALUE_KEYS['TITLE']]),
+			Options::VALUE_KEYS['TEXT'] => sanitize_textarea_field($input[Options::VALUE_KEYS['TEXT']])
 		];
 
 		return $output;

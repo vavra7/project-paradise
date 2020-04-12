@@ -2,10 +2,10 @@
 
 namespace Inc\Admin_Pages;
 
-use Inc\Admin_Pages\Modules\Sidebars\Pages as Sidebars_Pages;
-use Inc\Admin_Pages\Modules\Sidebars\Options as Sidebars_Options;
-use Inc\Admin_Pages\Modules\Bio\Pages as Bio_Pages;
-use Inc\Admin_Pages\Modules\Bio\Options as Bio_Options;
+use Inc\Admin_Pages\Pages\Sidebars\Pages as Sidebars_Pages;
+use Inc\Admin_Pages\Pages\Sidebars\Options as Sidebars_Options;
+use Inc\Admin_Pages\Pages\Bio\Pages as Bio_Pages;
+use Inc\Admin_Pages\Pages\Bio\Options as Bio_Options;
 
 class Admin_Pages
 {

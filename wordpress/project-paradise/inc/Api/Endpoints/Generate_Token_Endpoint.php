@@ -8,7 +8,7 @@ use \WP_REST_Response;
 use \WP_Error;
 
 
-class Generate_Token_Endpoint
+class Generate_Token_Endpoint extends Endpoints
 {
 	private const ENDPOINT = 'generate-token';
 
@@ -24,7 +24,7 @@ class Generate_Token_Endpoint
 	 */
 	public function register_route(): void
 	{
-		register_rest_route(Endpoints_Enum::NAMESPACE, self::ENDPOINT, [
+		register_rest_route(self::NAMESPACE, self::ENDPOINT, [
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => [$this, 'get_response']
 		]);

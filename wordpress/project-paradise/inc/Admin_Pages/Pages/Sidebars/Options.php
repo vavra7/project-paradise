@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Admin_Pages\Modules\Sidebars;
+namespace Inc\Admin_Pages\Pages\Sidebars;
 
-use Inc\Admin_Pages\Modules\Sidebars\Handler;
+use Inc\Admin_Pages\Pages\Sidebars\Handler;
 
 class Options
 {

@@ -1,6 +1,6 @@
 <?php
-use Inc\Admin_Pages\Modules\Sidebars\Pages;
-use Inc\Admin_Pages\Modules\Sidebars\Options;
+use Inc\Admin_Pages\Pages\Sidebars\Pages;
+use Inc\Admin_Pages\Pages\Sidebars\Options;
 ?>
 
 <div class="wrap">

@@ -2,7 +2,7 @@
 
 namespace Inc\Api\Endpoints;
 
-final class Endpoints_Enum
+class Endpoints
 {
 	public const NAMESPACE = 'project-paradise/v1';
 }

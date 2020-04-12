@@ -6,7 +6,7 @@ use \WP_REST_Server;
 use \WP_REST_Response;
 use Inc\Api\Includes\Url_Extractor;
 
-class Menus_Endpoint
+class Menus_Endpoint extends Endpoints
 {
 	use Url_Extractor;
 
@@ -17,7 +17,7 @@ class Menus_Endpoint
 	 */
 	public function register_route(): void
 	{
-		register_rest_route(Endpoints_Enum::NAMESPACE, self::ENDPOINT, [
+		register_rest_route(self::NAMESPACE, self::ENDPOINT, [
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => [$this, 'get_location_menus']
 		]);

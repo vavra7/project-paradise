@@ -4,9 +4,9 @@ namespace Inc\Api\Endpoints;
 
 use \WP_REST_Server;
 use \WP_REST_Response;
-use Inc\Admin_Pages\Modules\Sidebars\Options as Sidebars_Options;
+use Inc\Admin_Pages\Pages\Sidebars\Options as Sidebars_Options;
 
-class Sidebars_Endpoint
+class Sidebars_Endpoint extends Endpoints
 {
 	private const ENDPOINT = 'sidebars';
 	private $sidebars_options;
@@ -21,7 +21,7 @@ class Sidebars_Endpoint
 	 */
 	public function register_route(): void
 	{
-		register_rest_route(Endpoints_Enum::NAMESPACE, self::ENDPOINT, [
+		register_rest_route(self::NAMESPACE, self::ENDPOINT, [
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => [$this, 'get_sidebars']
 		]);

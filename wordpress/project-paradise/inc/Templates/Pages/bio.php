@@ -1,11 +1,11 @@
 <?php
 
-use Inc\Admin_Pages\Modules\Bio\Pages;
-use Inc\Admin_Pages\Modules\Bio\Options;
+use Inc\Admin_Pages\Pages\Bio\Pages;
+use Inc\Admin_Pages\Pages\Bio\Options;
 ?>
 
 <div class="wrap">
-	<h1>Bio</h1>
+	<h1><?php _e('Bio', 'project-paradise'); ?></h1>
 
 	<hr class="wp-header-end">
 
@@ -22,7 +22,7 @@ use Inc\Admin_Pages\Modules\Bio\Options;
 
 	<form method="post" action="options.php">
 		<?php
-		settings_fields(Options::OPTION_GROUP);
+		settings_fields(Options::OPTIONS['GROUPS']['CZ']);
 		do_settings_sections(Pages::PAGE);
 		submit_button();
 		?>
