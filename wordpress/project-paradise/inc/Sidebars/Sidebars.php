@@ -29,14 +29,9 @@ class Sidebars
 				'description' => __('General website sidebar.', 'project-paradise'),
 			],
 			[
-				'name' => __('Sidebar 1', 'project-paradise'),
-				'id' => 'sidebar_1',
-				'description' => __('Sidebar 1.', 'project-paradise'),
-			],
-			[
-				'name' => __('Sidebar 2', 'project-paradise'),
-				'id' => 'sidebar_2',
-				'description' => __('Sidebar 2.', 'project-paradise'),
+				'name' => __('General (en)', 'project-paradise'),
+				'id' => 'general_en',
+				'description' => __('General website sidebar for English version.', 'project-paradise'),
 			]
 		];
 

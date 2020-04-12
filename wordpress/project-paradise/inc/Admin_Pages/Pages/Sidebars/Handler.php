@@ -22,6 +22,11 @@ class Handler
 	 */
 	public function get_sidebars_options()
 	{
+		$this->sidebars_options[] = [
+			'value' => '',
+			'label' => __('— Select —', 'project-paradise')
+		];
+
 		foreach ($GLOBALS['wp_registered_sidebars'] as $sidebar) {
 			$this->sidebars_options[] = [
 				'value' => $sidebar['id'],

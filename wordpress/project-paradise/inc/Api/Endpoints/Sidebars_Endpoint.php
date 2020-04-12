@@ -9,12 +9,6 @@ use Inc\Admin_Pages\Pages\Sidebars\Options as Sidebars_Options;
 class Sidebars_Endpoint extends Endpoints
 {
 	private const ENDPOINT = 'sidebars';
-	private $sidebars_options;
-
-	function __construct()
-	{
-		$this->sidebars_options = new Sidebars_Options;
-	}
 
 	/**
 	 * Register route
@@ -32,7 +26,21 @@ class Sidebars_Endpoint extends Endpoints
 	 */
 	public function get_sidebars(): WP_REST_Response
 	{
-		$callback = function ($key, $value) {
+		$default_sidebars_callback = function () {
+			$default_sidebars = get_option(Sidebars_Options::OPTION_NAME, []);
+			$default_sidebars_response = [];
+
+			foreach (Sidebars_Options::VALUE_KEYS as $key => $location) {
+				$default_sidebars_response[] = [
+					'location_slug' => $location,
+					'sidebar' => array_key_exists($location, $default_sidebars) ? $default_sidebars[$location] : ''
+				];
+			}
+
+			return $default_sidebars_response;
+		};
+
+		$sidebar_list_callback = function ($key, $value) {
 			return [
 				'id' => $value['id'],
 				'name' => $value['name'],
@@ -42,9 +50,10 @@ class Sidebars_Endpoint extends Endpoints
 		};
 
 		$data = [
-			'default_sidebars' => get_option($this->sidebars_options::OPTION_NAME, json_decode('{}')),
+			// 'default_sidebars' => get_option($this->sidebars_options::OPTION_NAME, json_decode('{}')),
+			'default_sidebars' => $default_sidebars_callback(),
 			'sidebar_list' => array_map(
-				$callback,
+				$sidebar_list_callback,
 				array_keys($GLOBALS['wp_registered_sidebars']),
 				array_values($GLOBALS['wp_registered_sidebars'])
 			)

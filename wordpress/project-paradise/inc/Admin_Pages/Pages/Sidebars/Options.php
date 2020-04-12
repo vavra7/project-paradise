@@ -9,6 +9,11 @@ class Options
 	public const OPTION_GROUP = 'default_sidebars';
 	public const OPTION_NAME = 'default_sidebars';
 	public const SECTION = 'default_sidebars';
+	public const VALUE_KEYS = [
+		'POSTS' => 'posts',
+		'POSTS_EN' => 'posts_en',
+		'BLOG' => 'blog'
+	];
 
 	private $handler;
 
@@ -65,24 +70,35 @@ class Options
 	{
 		$fields = [
 			[
-				'id' => 'post',
-				'title'	=> __('Post', 'project-paradise'),
+				'id' => self::VALUE_KEYS['POSTS'],
+				'title'	=> __('Posts', 'project-paradise'),
 				'callback' => [$this->handler, 'default_sidebar_select'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION,
 				'args' => [
-					'label_for' => 'post',
+					'label_for' => self::VALUE_KEYS['POSTS'],
 					'option_name'	=> self::OPTION_NAME,
 				]
 			],
 			[
-				'id' => 'blog',
+				'id' => self::VALUE_KEYS['POSTS_EN'],
+				'title'	=> __('Posts (en)', 'project-paradise'),
+				'callback' => [$this->handler, 'default_sidebar_select'],
+				'page' => Pages::PAGE,
+				'section'	=> self::SECTION,
+				'args' => [
+					'label_for' => self::VALUE_KEYS['POSTS_EN'],
+					'option_name'	=> self::OPTION_NAME,
+				]
+			],
+			[
+				'id' => self::VALUE_KEYS['BLOG'],
 				'title'	=> __('Blog', 'project-paradise'),
 				'callback' => [$this->handler, 'default_sidebar_select'],
 				'page' => Pages::PAGE,
 				'section'	=> self::SECTION,
 				'args' => [
-					'label_for' => 'blog',
+					'label_for' => self::VALUE_KEYS['BLOG'],
 					'option_name'	=> self::OPTION_NAME,
 				]
 			]
