@@ -2,6 +2,7 @@
 
 namespace Inc\Api;
 
+use Inc\Api\Endpoints\Bio_Endpoint;
 use Inc\Api\Endpoints\Generate_Token_Endpoint;
 use Inc\Api\Endpoints\Menus_Endpoint;
 use Inc\Api\Endpoints\Posts_Endpoint;
@@ -14,6 +15,7 @@ use Inc\Api\Endpoints\Sidebars_Endpoint;
 
 class Api
 {
+	private $bio_endpoint;
 	private $jwt_auth;
 	private $posts_endpoint;
 	private $pages_endpoint;
@@ -26,6 +28,7 @@ class Api
 
 	function __construct()
 	{
+		$this->bio_endpoint = new Bio_Endpoint;
 		$this->jwt_auth = new Jwt_Auth;
 		$this->posts_endpoint = new Posts_Endpoint;
 		$this->pages_endpoint = new Pages_Endpoint;
@@ -54,6 +57,7 @@ class Api
 
 	public function on_rest_api_init(): void
 	{
+		$this->bio_endpoint->register_route();
 		$this->menus_endpoint->register_route();
 		$this->generate_token_endpoint->register_route();
 		$this->sidebars_endpoint->register_route();

@@ -3,16 +3,17 @@
 namespace Inc\Admin_Pages\Pages\Sidebars;
 
 use Inc\Templates\General_Inputs;
-use Inc\Admin_Pages\Includes\Helper;
+use Inc\Helper_Trait;
 
 class Handler
 {
+	use Helper_Trait;
+
 	private $helper;
 	private $sidebars_options = [];
 
 	function __construct()
 	{
-		$this->helper = new Helper;
 		add_action('init', [$this, 'get_sidebars_options']);
 	}
 
@@ -37,7 +38,7 @@ class Handler
 		$new_args = array_merge($args, [
 			'options' => $this->sidebars_options,
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['label_for']),
-			'value' => $this->helper->get_array_option(Options::OPTION_NAME, $args['label_for']),
+			'value' => $this->get_array_option(Options::OPTION_NAME, $args['label_for']),
 		]);
 
 		General_Inputs::render_select($new_args);

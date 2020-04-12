@@ -3,17 +3,14 @@
 namespace Inc\Admin_Pages\Pages\Bio;
 
 use Inc\Templates\General_Inputs;
-use Inc\Admin_Pages\Includes\Helper;
 use Inc\Assets\Assets;
+use Inc\Helper_Trait;
 
 class Handler
 {
-	private $helper;
+	use Helper_Trait;
 
-	function __construct()
-	{
-		$this->helper = new Helper;
-	}
+	private $helper;
 
 	/**
 	 * Sanitize user's input
@@ -21,7 +18,7 @@ class Handler
 	public function bio_sanitize_setting(array $input): array
 	{
 		$output = [
-			Options::VALUE_KEYS['IMAGE'] => $input[Options::VALUE_KEYS['IMAGE']],
+			Options::VALUE_KEYS['IMAGE'] => (int) $input[Options::VALUE_KEYS['IMAGE']],
 			Options::VALUE_KEYS['TITLE'] => sanitize_text_field($input[Options::VALUE_KEYS['TITLE']]),
 			Options::VALUE_KEYS['TEXT'] => sanitize_textarea_field($input[Options::VALUE_KEYS['TEXT']])
 		];
@@ -36,7 +33,7 @@ class Handler
 	{
 		$new_args = array_merge($args, [
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
-			'value' => $this->helper->get_array_option($args['option_name'], $args['value_key']),
+			'value' => $this->get_array_option($args['option_name'], $args['value_key']),
 			'class' => 'regular-text',
 			'default_src' => Assets::get_asset('avatar')['url']
 		]);
@@ -51,7 +48,7 @@ class Handler
 	{
 		$new_args = array_merge($args, [
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
-			'value' => $this->helper->get_array_option($args['option_name'], $args['value_key']),
+			'value' => $this->get_array_option($args['option_name'], $args['value_key']),
 			'class' => 'regular-text'
 		]);
 
@@ -65,7 +62,7 @@ class Handler
 	{
 		$new_args = array_merge($args, [
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
-			'value' => $this->helper->get_array_option($args['option_name'], $args['value_key']),
+			'value' => $this->get_array_option($args['option_name'], $args['value_key']),
 			'class' => 'regular-text'
 		]);
 

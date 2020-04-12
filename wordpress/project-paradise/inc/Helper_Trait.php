@@ -1,8 +1,8 @@
 <?php
 
-namespace Inc\Admin_Pages\Includes;
+namespace Inc;
 
-class Helper
+trait Helper_Trait
 {
 	/**
 	 * gets value from array option
