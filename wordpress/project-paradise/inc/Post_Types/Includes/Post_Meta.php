@@ -7,8 +7,10 @@ class Post_Meta
 	/**
 	 * Define and register all meta needed by gutenberg panel "Post Meta"
 	 */
-	public function register_meta_for_meta_panel(string $post_type): void
+	public function register_meta_for_meta_panel($post_types): void
 	{
+		if (!is_array($post_types)) $post_types = [$post_types];
+
 		$meta_fields = [
 			[
 				'name' => '_title',
@@ -72,16 +74,20 @@ class Post_Meta
 			]
 		];
 
-		foreach ($meta_fields as $meta_field) {
-			register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
+		foreach ($post_types as $post_type) {
+			foreach ($meta_fields as $meta_field) {
+				register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
+			}
 		}
 	}
 
 	/**
 	 * Define and register all meta needed by gutenberg panel "Sidebar"
 	 */
-	public function register_meta_for_sidebar_customization(string $post_type): void
+	public function register_meta_for_sidebar_customization($post_types): void
 	{
+		if (!is_array($post_types)) $post_types = [$post_types];
+
 		$meta_fields = [
 			[
 				'name' => '_sidebar_override',
@@ -96,8 +102,10 @@ class Post_Meta
 			]
 		];
 
-		foreach ($meta_fields as $meta_field) {
-			register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
+		foreach ($post_types as $post_type) {
+			foreach ($meta_fields as $meta_field) {
+				register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
+			}
 		}
 	}
 }

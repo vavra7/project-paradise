@@ -1,20 +1,20 @@
 <?php
 
-namespace Inc\Post_Types;
+namespace Inc\Post_Types\Posts;
 
-class Posts_En
+use Inc\Post_Types\Post_Types;
+
+class Post_En extends Post_Types
 {
-	const POSTS_EN = 'posts_en';
-
 	function __construct()
 	{
-		add_action('init', [$this, 'register_posts_en']);
+		add_action('init', [$this, 'register_post_en']);
 	}
 
 	/**
 	 * Register custom post type for en pages.
 	 */
-	public function register_posts_en()
+	public function register_post_en()
 	{
 		$labels = [
 			'name' => __('Posts (en)', 'project-paradise'),
@@ -27,9 +27,17 @@ class Posts_En
 			'public' => true,
 			'hierarchical' => false,
 			'show_in_rest' => true,
-			'rest_base' => self::POSTS_EN,
+			'rest_base' => 'posts_en',
 			'menu_position' => 5,
 			'menu_icon' => 'dashicons-admin-post',
+			'supports' => [
+				'title',
+				'editor',
+				'thumbnail',
+				'custom-fields',
+				'excerpt',
+				'comments'
+			],
 			'has_archive' => true,
 			'taxonomies' => [
 				'category',
@@ -41,6 +49,6 @@ class Posts_En
 			]
 		];
 
-		register_post_type(self::POSTS_EN, $args);
+		register_post_type(self::POST_TYPES['POST_EN'], $args);
 	}
 }

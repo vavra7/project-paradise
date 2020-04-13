@@ -1,28 +1,19 @@
 <?php
 
-namespace Inc\Post_Types;
+namespace Inc\Post_Types\Posts;
 
 use Inc\Post_Types\Includes\Post_Meta;
 use Inc\Templates\Pages_Templates;
+use Inc\Post_Types\Post_Types;
 
-class Pages
+class Page extends Post_Types
 {
 	function __construct()
 	{
 		$this->post_meta = new Post_Meta;
 
-		add_action('init', [$this, 'register_post_meta']);
 		add_action('add_meta_boxes_page', [$this, 'add_meta_boxes_on_page_for_posts']);
 		add_action('save_post', [$this, 'save_meta_on_page_for_posts']);
-	}
-
-	/**
-	 * Register all post meta
-	 */
-	public function register_post_meta(): void
-	{
-		$this->post_meta->register_meta_for_meta_panel('page');
-		$this->post_meta->register_meta_for_sidebar_customization('page');
 	}
 
 	/**
@@ -36,21 +27,13 @@ class Pages
 				'id' => '_custom_title',
 				'title' => 'Title',
 				'callback' => [Pages_Templates::class, 'custom_title_input'],
-				'screen' => 'page',
+				'screen' => self::POST_TYPES['PAGE'],
 				'context' => 'side',
 				'priority' => 'default',
 				'args' => []
 			];
 
-			add_meta_box(
-				$meta_description['id'],
-				$meta_description['title'],
-				$meta_description['callback'],
-				$meta_description['screen'],
-				$meta_description['context'],
-				$meta_description['priority'],
-				$meta_description['args']
-			);
+			add_meta_box(...array_values($meta_description));
 		}
 	}
 
