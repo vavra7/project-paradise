@@ -44,6 +44,41 @@ class Options
 	}
 
 	/**
+	 * Returns array of all bio options with translations
+	 */
+	public function get_bio_options(): array
+	{
+		$options = [
+			[
+				'id' => self::OPTIONS['NAMES']['US'],
+				'label' => __('O nás', 'project-paradise')
+			],
+			[
+				'id' => self::OPTIONS['NAMES']['US_EN'],
+				'label' => __('O nás (en)', 'project-paradise')
+			],
+			[
+				'id' => self::OPTIONS['NAMES']['T'],
+				'label' => __('Tomáš', 'project-paradise')
+			],
+			[
+				'id' => self::OPTIONS['NAMES']['T_EN'],
+				'label' => __('Tomáš (en)', 'project-paradise')
+			],
+			[
+				'id' => self::OPTIONS['NAMES']['K'],
+				'label' => __('Klára', 'project-paradise')
+			],
+			[
+				'id' => self::OPTIONS['NAMES']['K_EN'],
+				'label' => __('Klára (en)', 'project-paradise')
+			],
+		];
+
+		return $options;
+	}
+
+	/**
 	 * Register settings
 	 */
 	public function register_settings()

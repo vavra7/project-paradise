@@ -13,6 +13,13 @@ class Bio_Endpoint extends Endpoints
 
 	private const ENDPOINT = 'bio';
 
+	private $bio_options;
+
+	function __construct()
+	{
+		$this->bio_options = new Bio_Options();
+	}
+
 	/**
 	 * Adds new endpoint in REST api
 	 */
@@ -29,23 +36,20 @@ class Bio_Endpoint extends Endpoints
 	 */
 	public function get_bio_data(): WP_REST_Response
 	{
-		$bio_data = [];
-
-		foreach (Bio_Options::OPTIONS['NAMES'] as $key => $option_name) {
-			$item = [
-				'id' => $option_name
-			];
-
-			foreach (Bio_Options::VALUE_KEYS as $key => $value_key) {
-				if ($value_key === Bio_Options::VALUE_KEYS['IMAGE']) {
-					$item[$value_key] = $this->get_array_option($option_name, $value_key, 0);
-				} else {
-					$item[$value_key] = $this->get_array_option($option_name, $value_key, '');
+		$bio_data = array_map(
+			function ($item) {
+				foreach (Bio_Options::VALUE_KEYS as $key => $value_key) {
+					if ($value_key === Bio_Options::VALUE_KEYS['IMAGE']) {
+						$item[$value_key] = $this->get_array_option($item['id'], $value_key, 0);
+					} else {
+						$item[$value_key] = $this->get_array_option($item['id'], $value_key, '');
+					}
 				}
-			}
 
-			$bio_data[] = $item;
-		}
+				return $item;
+			},
+			$this->bio_options->get_bio_options()
+		);
 
 		return new WP_REST_Response($bio_data, 200);
 	}

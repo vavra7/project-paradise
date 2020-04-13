@@ -9,7 +9,7 @@ class General_Inputs
 	 */
 	public static function render_text_input($args = [])
 	{
-		$id = $args['label_for'] ?? '';
+		$id = $args['id'] ?? '';
 		$option_name = $args['option_name'] ?? '';
 		$value = $args['value'] ?? '';
 		$class = $args['class'] ?? '';
@@ -24,7 +24,7 @@ class General_Inputs
 	 */
 	public static function render_text_area($args = [])
 	{
-		$id = $args['label_for'] ?? '';
+		$id = $args['id'] ?? '';
 		$option_name = $args['option_name'] ?? '';
 		$value = $args['value'] ?? '';
 		$class = $args['class'] ?? '';
@@ -41,7 +41,7 @@ class General_Inputs
 	public static function render_select($args = [])
 	{
 		$option_name = $args['option_name'] ?? '';
-		$id = $args['label_for'] ?? '';
+		$id = $args['id'] ?? '';
 		$options = $args['options'] ?? '';
 		$value = $args['value'] ?? '';
 		$class = $args['class'] ?? '';
@@ -67,7 +67,7 @@ class General_Inputs
 	public static function render_img($args = [])
 	{
 		$option_name = $args['option_name'] ?? '';
-		$id = $args['label_for'] ?? '';
+		$id = $args['id'] ?? '';
 		$value = $args['value'] ?? '';
 		$class = $args['class'] ?? '';
 		$default_src = $args['default_src'] ?? '';

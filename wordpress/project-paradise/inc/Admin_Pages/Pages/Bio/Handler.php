@@ -10,8 +10,6 @@ class Handler
 {
 	use Helper_Trait;
 
-	private $helper;
-
 	/**
 	 * Sanitize user's input
 	 */
@@ -32,6 +30,7 @@ class Handler
 	public function bio_image_input(array $args)
 	{
 		$new_args = array_merge($args, [
+			'id' => $args['label_for'],
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
 			'value' => $this->get_array_option($args['option_name'], $args['value_key']),
 			'class' => 'regular-text',
@@ -47,6 +46,7 @@ class Handler
 	public function bio_title_input(array $args)
 	{
 		$new_args = array_merge($args, [
+			'id' => $args['label_for'],
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
 			'value' => $this->get_array_option($args['option_name'], $args['value_key']),
 			'class' => 'regular-text'
@@ -61,6 +61,7 @@ class Handler
 	public function bio_text_input(array $args)
 	{
 		$new_args = array_merge($args, [
+			'id' => $args['label_for'],
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['value_key']),
 			'value' => $this->get_array_option($args['option_name'], $args['value_key']),
 			'class' => 'regular-text'

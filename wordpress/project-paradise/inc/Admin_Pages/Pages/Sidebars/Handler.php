@@ -3,6 +3,7 @@
 namespace Inc\Admin_Pages\Pages\Sidebars;
 
 use Inc\Templates\General_Inputs;
+use Inc\Templates\General_Parts;
 use Inc\Helper_Trait;
 
 class Handler
@@ -22,10 +23,7 @@ class Handler
 	 */
 	public function get_sidebars_options()
 	{
-		$this->sidebars_options[] = [
-			'value' => '',
-			'label' => __('— Select —', 'project-paradise')
-		];
+		$this->sidebars_options[] = General_Parts::get_empty_option();
 
 		foreach ($GLOBALS['wp_registered_sidebars'] as $sidebar) {
 			$this->sidebars_options[] = [
@@ -41,6 +39,7 @@ class Handler
 	public function default_sidebar_select($args)
 	{
 		$new_args = array_merge($args, [
+			'id' => $args['label_for'],
 			'options' => $this->sidebars_options,
 			'option_name' => sprintf('%s[%s]', $args['option_name'], $args['label_for']),
 			'value' => $this->get_array_option(Options::OPTION_NAME, $args['label_for']),
