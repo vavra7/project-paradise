@@ -1,8 +1,8 @@
 import { PluginSidebarMoreMenuItem, PluginSidebar } from '@wordpress/edit-post';
-import { select } from '@wordpress/data';
 import OverrideSidebar from './components/override-sidebar';
 import WidgetList from './components/widget-list';
 import { __ } from '@wordpress/i18n';
+import { isAvailable } from './availability';
 
 const NAME = 'sidebar-panel';
 
@@ -20,10 +20,7 @@ const settings = {
 };
 
 export function render() {
-	const postType = select('core/editor').getCurrentPostType();
-	if (!['post'].includes(postType)) {
-		return null;
-	}
+	if (!isAvailable()) return null;
 
 	return (
 		<>

@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import MediaImgSelect from './MediaImgSelect';
-import { SCREEN_IDS } from '../enums';
+import { SCREEN_IDS } from '../../enums';
 
 const options = {
 	title: __('Select Image', 'project-paradise'),
