@@ -11,7 +11,7 @@ function OverrideSidebar(props) {
 	const { value, setValue } = props;
 
 	const options = [
-		{ value: '', label: '-- Select --', disabled: true },
+		{ value: '', label: __('— Select —', 'project-paradise'), disabled: true },
 		...props.sidebarList.map(sidebar => ({ value: sidebar.id, label: sidebar.name }))
 	];
 

@@ -3,6 +3,7 @@
 namespace Inc\Sidebars\Widgets;
 
 use \WP_Widget;
+use Inc\Admin_Pages\Pages\Bio\Pages as Bio_Pages;
 use Inc\Admin_Pages\Pages\Bio\Options as Bio_Options;
 use Inc\Templates\General_Parts;
 use Inc\Templates\General_Inputs;
@@ -81,14 +82,21 @@ class Bio_Widget extends WP_Widget
 			'value' => $instance[self::PARAMS['DEFAULT_BIO']] ?? ''
 		]
 
-		?>
-				<p>
-					<label for="<?php echo $args['id'] ?>">
-						<?php _e('Default Bio', 'project-paradise') ?>:
-					</label>
-					<?php General_Inputs::render_select($args); ?>
-				</p>
-		<?php
+?>
+		<p>
+			<label for="<?php echo $args['id'] ?>">
+				<?php _e('Default Bio', 'project-paradise') ?>:
+			</label>
+
+			<?php General_Inputs::render_select($args); ?>
+
+			<span class="description" id="<?php printf('%s-description', $args['id']); ?>">
+				<?php _e('Edit bio on', 'project-paradise'); ?> <a href="<?php printf('%sthemes.php?page=%s', get_admin_url(), Bio_Pages::PAGE); ?>">
+					<?php _e('Bio page', 'project-paradise'); ?>
+				</a>
+			</span>
+		</p>
+<?php
 	}
 
 	/**
