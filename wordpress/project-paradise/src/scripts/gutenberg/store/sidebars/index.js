@@ -2,7 +2,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 const NAME = 'sidebars';
 
-function reducer(state = { sidebarList: [], defaultSidebars: {} }, action) {
+function reducer(state = { sidebarList: [], defaultSidebars: [] }, action) {
 	switch (action.type) {
 		case 'SET_SIDEBARS_DATA':
 			return {
@@ -50,10 +50,10 @@ const selectors = {
 
 		return getWidgetList;
 	},
-	getDefaultSidebar(state, location) {
+	getDefaultSidebars(state) {
 		const { defaultSidebars } = state;
 
-		return defaultSidebars[location];
+		return defaultSidebars;
 	}
 };
 
@@ -74,7 +74,7 @@ const resolvers = {
 
 		return actions.setSidebarsData(data);
 	},
-	*getDefaultSidebar() {
+	*getDefaultSidebars() {
 		const data = yield actions.fetchSidebarData('/project-paradise/v1/sidebars/');
 
 		return actions.setSidebarsData(data);

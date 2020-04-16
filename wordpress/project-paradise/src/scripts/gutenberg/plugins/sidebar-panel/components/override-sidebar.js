@@ -4,8 +4,7 @@ import { withSelect, withDispatch } from '@wordpress/data';
 import { NAMESPACE } from '../../../config';
 import { NAME as sidebarStoreName } from '../../../store/sidebars';
 import { __ } from '@wordpress/i18n';
-
-const META_NAME = '_sidebar_override';
+import { SIDEBARS_META } from '../../../../enums'
 
 function OverrideSidebar(props) {
 	const { value, setValue } = props;
@@ -41,13 +40,13 @@ function OverrideSidebar(props) {
 
 const mapSelectToProps = withSelect(select => ({
 	sidebarList: select(`${NAMESPACE}/${sidebarStoreName}`).getSidebarList(),
-	value: select('core/editor').getEditedPostAttribute('meta')[META_NAME]
+	value: select('core/editor').getEditedPostAttribute('meta')[SIDEBARS_META.SIDEBAR_OVERRIDE]
 }));
 
 const mapDispatchToProps = withDispatch(dispatch => ({
 	setValue: newVal =>
 		dispatch('core/editor').editPost({
-			meta: { [META_NAME]: newVal }
+			meta: { [SIDEBARS_META.SIDEBAR_OVERRIDE]: newVal }
 		})
 }));
 
