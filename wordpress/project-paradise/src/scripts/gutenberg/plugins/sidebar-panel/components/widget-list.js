@@ -1,16 +1,30 @@
 import { PanelBody, PanelRow } from '@wordpress/components';
+import { useEffect, useState } from '@wordpress/element';
 import { withSelect } from '@wordpress/data';
 import { compose } from '@wordpress/compose';
 import { NAMESPACE } from '../../../config';
-import { WP_ROUTES } from '../../../../enums';
-import { NAME as sidebarStoreName } from '../../../store/sidebars';
-import { NAME as settingsStoreName } from '../../../store/settings';
+import { getActiveSidebar } from '../sidebarsRouter';
+import { WP_ROUTES, SIDEBARS_META } from '../../../../enums';
+import { NAME as sidebarStoreName } from '../../../store/modules/sidebarsStore';
+import { NAME as settingsStoreName } from '../../../store/modules/settingsStore';
 import { __ } from '@wordpress/i18n';
 
-const META_NAME = '_sidebar_override';
-
 function WidgetList(props) {
-	const { widgetList, siteUrl } = props;
+	const { siteUrl } = props;
+	const [activeSidebar, setActiveSidebar] = useState(
+		getActiveSidebar({
+			...props
+		})
+	);
+	const widgetList = activeSidebar && activeSidebar.widgets ? activeSidebar.widgets : [];
+
+	useEffect(() => {
+		setActiveSidebar(
+			getActiveSidebar({
+				...props
+			})
+		);
+	}, [props]);
 
 	return (
 		<PanelBody title={__('Widget List', 'project-paradise')}>
@@ -28,16 +42,12 @@ function WidgetList(props) {
 	);
 }
 
-const mapSelectToProps = withSelect(select => {
-	const sidebarOverride = select('core/editor').getEditedPostAttribute('meta')[META_NAME];
-	// const defaultSidebars = select(`${NAMESPACE}/${sidebarStoreName}`).getDefaultSidebars();
-	const sidebarId = sidebarOverride ? sidebarOverride : '';
-
-	return {
-		widgetList: select(`${NAMESPACE}/${sidebarStoreName}`).getWidgetList(sidebarId),
-		siteUrl: select(`${NAMESPACE}/${settingsStoreName}`).getSiteUrl(),
-		sidebarOverride
-	};
-});
+const mapSelectToProps = withSelect(select => ({
+	postType: select('core/editor').getCurrentPostType(),
+	sidebarOverride: select('core/editor').getEditedPostAttribute('meta')[SIDEBARS_META.SIDEBAR_OVERRIDE],
+	defaultSidebars: select(`${NAMESPACE}/${sidebarStoreName}`).getDefaultSidebars(),
+	sidebarList: select(`${NAMESPACE}/${sidebarStoreName}`).getSidebarList(),
+	siteUrl: select(`${NAMESPACE}/${settingsStoreName}`).getSiteUrl()
+}));
 
 export default compose(mapSelectToProps)(WidgetList);

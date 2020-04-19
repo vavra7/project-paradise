@@ -2,16 +2,16 @@ import { PanelBody, ToggleControl, SelectControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withSelect, withDispatch } from '@wordpress/data';
 import { NAMESPACE } from '../../../config';
-import { NAME as sidebarStoreName } from '../../../store/modules/sidebarsStore';
+import { NAME as bioStoreName } from '../../../store/modules/bioStore';
 import { __ } from '@wordpress/i18n';
-import { SIDEBARS_META } from '../../../../enums'
+import { SIDEBARS_META } from '../../../../enums';
 
-function OverrideSidebar(props) {
+function OverrideBioWidget(props) {
 	const { value, setValue } = props;
 
 	const options = [
 		{ value: '', label: __('— Select —', 'project-paradise'), disabled: true },
-		...props.sidebarList.map(sidebar => ({ value: sidebar.id, label: sidebar.name }))
+		...props.bioList.map(bio => ({ value: bio.id, label: bio.label }))
 	];
 
 	const onChange = newVal => {
@@ -25,10 +25,10 @@ function OverrideSidebar(props) {
 	};
 
 	return (
-		<PanelBody title={__('Override Default Sidebar', 'project-paradise')}>
+		<PanelBody title={__('Override Default Bio Widget', 'project-paradise')}>
 			<ToggleControl label={__('Allow Overriding', 'project-paradise')} checked={value} onChange={onChange} />
 			<SelectControl
-				label={__('Select Sidebar', 'project-paradise')}
+				label={__('Select Bio', 'project-paradise')}
 				value={value}
 				options={options}
 				onChange={onChange}
@@ -39,15 +39,15 @@ function OverrideSidebar(props) {
 }
 
 const mapSelectToProps = withSelect(select => ({
-	sidebarList: select(`${NAMESPACE}/${sidebarStoreName}`).getSidebarList(),
-	value: select('core/editor').getEditedPostAttribute('meta')[SIDEBARS_META.SIDEBAR_OVERRIDE]
+	bioList: select(`${NAMESPACE}/${bioStoreName}`).getBio(),
+	value: select('core/editor').getEditedPostAttribute('meta')[SIDEBARS_META.BIO_WIDGET_OVERRIDE]
 }));
 
 const mapDispatchToProps = withDispatch(dispatch => ({
 	setValue: newVal =>
 		dispatch('core/editor').editPost({
-			meta: { [SIDEBARS_META.SIDEBAR_OVERRIDE]: newVal }
+			meta: { [SIDEBARS_META.BIO_WIDGET_OVERRIDE]: newVal }
 		})
 }));
 
-export default compose(mapSelectToProps, mapDispatchToProps)(OverrideSidebar);
+export default compose(mapSelectToProps, mapDispatchToProps)(OverrideBioWidget);

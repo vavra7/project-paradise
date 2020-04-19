@@ -32,13 +32,7 @@ const actions = {
 
 const selectors = {
 	getSidebarList(state) {
-		const sidebarList = state.sidebarList.map(sidebar => ({
-			id: sidebar.id,
-			name: sidebar.name,
-			description: sidebar.description
-		}));
-
-		return sidebarList;
+		return state.sidebarList;
 	},
 	getWidgetList(state, sidebarId) {
 		let getWidgetList = [];

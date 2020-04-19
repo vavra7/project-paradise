@@ -48,7 +48,6 @@ class Post_Meta
 					}
 				]
 			],
-
 			[
 				'name' => '_og_description',
 				'args' => [
@@ -91,6 +90,17 @@ class Post_Meta
 		$meta_fields = [
 			[
 				'name' => '_sidebar_override',
+				'args' => [
+					'show_in_rest' => true,
+					'single' => true,
+					'type' => 'string',
+					'auth_callback' => function () {
+						return current_user_can('edit_posts');
+					}
+				]
+			],
+			[
+				'name' => '_bio_widget_override',
 				'args' => [
 					'show_in_rest' => true,
 					'single' => true,

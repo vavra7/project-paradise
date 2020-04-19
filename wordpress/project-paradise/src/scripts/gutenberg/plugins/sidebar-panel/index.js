@@ -2,6 +2,7 @@ import { PluginSidebarMoreMenuItem, PluginSidebar } from '@wordpress/edit-post';
 import icon from './icon';
 import ActiveSidebar from './components/active-sidebar';
 import OverrideSidebar from './components/override-sidebar';
+import OverrideBioWidget from './components/override-bio-widget';
 import WidgetList from './components/widget-list';
 import { __ } from '@wordpress/i18n';
 import { isAvailable } from './availability';
@@ -25,6 +26,7 @@ export function render() {
 			<PluginSidebar name={NAME} title={title}>
 				<ActiveSidebar />
 				<OverrideSidebar />
+				<OverrideBioWidget />
 				<WidgetList />
 			</PluginSidebar>
 		</>
