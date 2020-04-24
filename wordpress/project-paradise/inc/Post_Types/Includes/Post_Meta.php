@@ -118,4 +118,43 @@ class Post_Meta
 			}
 		}
 	}
+
+	/**
+	 * Define and register all meta needed by translation link
+	 */
+	public function register_meta_for_translation_link($post_types): void
+	{
+		if (!is_array($post_types)) $post_types = [$post_types];
+
+		$meta_fields = [
+			[
+				'name' => '_translation_link_en',
+				'args' => [
+					'show_in_rest' => true,
+					'single' => true,
+					'type' => 'number',
+					'auth_callback' => function () {
+						return current_user_can('edit_posts');
+					}
+				]
+			],
+			[
+				'name' => '_translation_link_cs',
+				'args' => [
+					'show_in_rest' => true,
+					'single' => true,
+					'type' => 'number',
+					'auth_callback' => function () {
+						return current_user_can('edit_posts');
+					}
+				]
+			]
+		];
+
+		foreach ($post_types as $post_type) {
+			foreach ($meta_fields as $meta_field) {
+				register_post_meta($post_type, $meta_field['name'], $meta_field['args']);
+			}
+		}
+	}
 }

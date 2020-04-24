@@ -52,5 +52,12 @@ class Post_Types
 			self::POST_TYPES['POST'],
 			self::POST_TYPES['POST_EN']
 		]);
+
+		$this->post_meta->register_meta_for_translation_link([
+			self::POST_TYPES['POST'],
+			self::POST_TYPES['POST_EN'],
+			self::POST_TYPES['PAGE'],
+			self::POST_TYPES['PAGE_EN']
+		]);
 	}
 }
